@@ -35,30 +35,29 @@ The structure of this folder is as follows:
     ├── README.md                      # overview of the project
     ├── scripts/                       # scripts for exploring, extractinf and referencing datasets 
    	    ├── theme 1: administrative-boundaries        
-	        └── explore.py             # data exploration scripts
-		    └── extract.py             # data extraction and integration scripts
+	        ├──  explore.py             # data exploration scripts
+		├──  extract.py             # data extraction and integration scripts
 	        └── catalog.py             # metadata referencing scripts
 	    ├── theme 2: population 
-			└── explore.py             # data exploration scripts
-		    └── extract.py             # data extraction and integration scripts
-	        └── catalog.py             # metadata referencing scripts
-		├── ...
+		├──  explore.py             # data exploration scripts
+		├──  extract.py             # data extraction and integration scripts
+	        ├──  catalog.py             # metadata referencing scripts
+		└── ...
 	    └── theme n
-	├── data/                                                  # data used for the project organised by stage
+    ├── data/                                                  # data used for the project organised by stage
    	    ├── raw                                                # sample of raw data
 	        ├── theme 1: administrative-boundaries             # identifies administrative boundaries datasets 
 			    └── geoBoundaries.geojson
-		    ├── theme 2: population                            # identifies population datasets 
-			    └── worldPop.geojson
-			├── ...                       
-			└── theme n
-	    ├── mapped
+		├── theme 2: population                            # identifies population datasets 
+			    └── worldPop.geojson                      
+		└──...
+	    └── mapped
 	        ├── urbanshift-administrative-boundaries.geojson   # extracted administrative boundaries datasets for UrbanShift cities
-			├── urbanshift-population.geojson                  # extracted administrative boundaries datasets for UrbanShift cities                
-			└── ...
-	├── data-catalog/                                          # metadata description of used datasets
+		├── urbanshift-population.geojson                  # extracted administrative boundaries datasets for UrbanShift cities                
+		└── ...
+    └── data-catalog/                                          # metadata description of used datasets
    	    ├── dc-urbanshift-dataset-desc.csv                     # description of datasets properties                     
-		└── dc-urbanshift-dataset-field-desc.csv               # description of datasets fileds
+	    └── dc-urbanshift-dataset-field-desc.csv               # description of datasets fileds
 
 ## baseline-indicators
 
