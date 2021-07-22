@@ -46,6 +46,7 @@ UrbanShift_cities <- st_read("https://raw.githubusercontent.com/wri/cities-urban
                              quiet = TRUE)
 
 UrbanShift_cities %>%
+  top_n(10) %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13) %>%
   scroll_box(width = "100%", height = "400px")
