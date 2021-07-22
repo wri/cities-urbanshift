@@ -33,6 +33,10 @@ write.csv(datacatalog_datasets_desc, "cities-urbanshift/geospatial-layers/data-c
 
 ################### Fill dataset fileds description
 
+# get function
+source("https://raw.githubusercontent.com/wri/cities-urbanshift/main/geospatial-layers/data-catalog/fill_datacatalog_datasets_fields_desc.R")
+
+
 # read tables
 datacatalog_datasets_desc = read.csv("https://raw.githubusercontent.com/wri/cities-urbanshift/main/geospatial-layers/data-catalog/datacatalog_datasets_desc.csv")
 
@@ -106,3 +110,7 @@ datacatalog_datasets_attributes_desc = datacatalog.fill.datasetsAttributesDesc(d
                                                                                attributeName = "geometry",
                                                                                attributeType = "geometry",
                                                                                attributeDesc = "")
+
+# writes results
+write.csv(datacatalog_datasets_attributes_desc, "cities-urbanshift/geospatial-layers/data-catalog/datacatalog_datasets_attributes_desc.csv",
+          row.names = FALSE)

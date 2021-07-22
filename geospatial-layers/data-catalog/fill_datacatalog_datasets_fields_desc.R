@@ -9,10 +9,7 @@ datacatalog.fill.datasetsAttributesDesc = function(datacatalog_datasets_attribut
                                                    attributeDesc){
   
   # verify if the field exist
-  k_field = datacatalog_datasets_attributes_desc %>% 
-    filter(datasetName == datasetName & attributeName == attributeName) %>% 
-    count() %>% 
-    as.numeric
+  k_field = nrow(datacatalog_datasets_attributes_desc[datacatalog_datasets_attributes_desc$datasetName == datasetName & datacatalog_datasets_attributes_desc$attributeName == attributeName, ])
   
   
   if(k_field == 0){
@@ -37,3 +34,15 @@ datacatalog.fill.datasetsAttributesDesc = function(datacatalog_datasets_attribut
   return(datacatalog_datasets_attributes_desc)
   
 }
+
+
+# test
+
+# datacatalog_datasets_attributes_desc = datacatalog.fill.datasetsAttributesDesc(datacatalog_datasets_attributes_desc = datacatalog_datasets_attributes_desc,
+#                                                                                datasetId = "administrative-boundaries-UrbanShift",
+#                                                                                datasetName = "Administrative Boundaries",
+#                                                                                attributeName = "name",
+#                                                                                attributeType = "string",
+#                                                                                attributeDesc = "Name of the city")
+
+
