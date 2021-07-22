@@ -1547,7 +1547,7 @@ ggplot(data = world) +
 
 ``` r
 # get function
-source("helper_functions/datacatalog_fill_datasetsDesc.R")
+source("https://raw.githubusercontent.com/wri/cities-urbanshift/main/geospatial-layers/scripts/administrative-boundaries/helper_functions/datacatalog_fill_datasetsDesc.R")
 
 # Initialize table
 
