@@ -36,43 +36,45 @@ library(maps)
 
 
 ```{r warning=FALSE, message=FALSE, echo = TRUE, , fig.width=14, fig.height=12}
+# get world map
+world <- ne_countries(scale = "medium", returnclass = "sf")
 
 # load data Urbanshift cities geojson
 
 
-# UrbanShift_cities <- st_read("cities-urbanshift/geospatial-layers/data/raw/administrative-boundaries/urbanshift-cities/UrbanShift_cities.geojson",
-#                              quiet = TRUE)
-# 
-# UrbanShift_cities %>% 
-#   kable() %>%
-#   kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13) %>% 
-#   scroll_box(width = "100%", height = "400px")
-# 
-# # load data Urbanshift secondary cities geojson
-# 
-# UrbanShift_cities <- st_read("cities-urbanshift/geospatial-layers/data/raw/administrative-boundaries/urbanshift-cities/UrbanShift_secondarycities.geojson",
-#                              quiet = TRUE)
-# 
-# UrbanShift_secondarycities %>% 
-#   kable() %>%
-#   kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13) %>% 
-#   scroll_box(width = "100%", height = "400px")
-# 
-# 
-# 
-# UrbanShift_cities = UrbanShift_cities %>% 
-#   # add geoType column
-#   mutate(geomType = st_geometry_type(UrbanShift_cities, by_geometry = TRUE)) %>% 
-#   # filter on geomType
-#   filter(geomType %in% c("POLYGON", "MULTIPOLYGON")) %>% 
-#   # Compute centroid
-#   mutate(geomCentroid = st_centroid(geometry)) %>% 
-#   # add x,y column
-#   mutate(geomCentroidToSplit = as.character(geomCentroid)) %>% 
-#   mutate(geomCentroidToSplit = str_remove(geomCentroidToSplit, "c\\(")) %>% 
-#   mutate(geomCentroidToSplit = str_remove(geomCentroidToSplit, "\\)")) %>% 
-#   separate(geomCentroidToSplit, c("long", "lat"), sep = ", ") %>% 
-#   mutate_at(c("long","lat"), as.numeric)
+UrbanShift_cities <- st_read("https://raw.githubusercontent.com/wri/cities-urbanshift/main/geospatial-layers/data/raw/administrative-boundaries/urbanshift-cities/UrbanShift_cities.geojson",
+                             quiet = TRUE)
+
+UrbanShift_cities %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13) %>%
+  scroll_box(width = "100%", height = "400px")
+
+# load data Urbanshift secondary cities geojson
+
+UrbanShift_secondarycities <- st_read("https://raw.githubusercontent.com/wri/cities-urbanshift/main/geospatial-layers/data/raw/administrative-boundaries/urbanshift-cities/UrbanShift_secondarycities.geojson",
+                             quiet = TRUE)
+
+UrbanShift_secondarycities %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13) %>%
+  scroll_box(width = "100%", height = "400px")
+
+# get centroids of UrbanShfit cities
+
+UrbanShift_cities = UrbanShift_cities %>%
+  # add geoType column
+  mutate(geomType = st_geometry_type(UrbanShift_cities, by_geometry = TRUE)) %>%
+  # filter on geomType
+  filter(geomType %in% c("POLYGON", "MULTIPOLYGON")) %>%
+  # Compute centroid
+  mutate(geomCentroid = st_centroid(geometry)) %>%
+  # add x,y column
+  mutate(geomCentroidToSplit = as.character(geomCentroid)) %>%
+  mutate(geomCentroidToSplit = str_remove(geomCentroidToSplit, "c\\(")) %>%
+  mutate(geomCentroidToSplit = str_remove(geomCentroidToSplit, "\\)")) %>%
+  separate(geomCentroidToSplit, c("long", "lat"), sep = ", ") %>%
+  mutate_at(c("long","lat"), as.numeric)
 
   
 # plot 1
@@ -90,14 +92,30 @@ library(maps)
 
 # plot 2
 
-# ggplot(data = world) +
-#   geom_sf() +
-#   geom_sf(data = UrbanShift_cities$geomCentroid, 
-#           fill = col_BoldBrickOrange, color = col_BoldRiverBlue,pch = 21, size = 3) +
-#   # geom_sf_text(data = UrbanShift_cities, aes(label = name),size=2,color = col_BoldGrassGreen,
-#   #               hjust=1, vjust=1,
-#   #               nudge_x = 5,nudge_y = 5) +
-#   theme_minimal()
+# colors specification
+
+col_BoldRiverBlue = "#242456"
+col_BoldSunYellow = "#FFD450"
+col_BoldGrassGreen = "#2A553E"
+col_BoldEarthGrey = "#7B7A66"
+col_BoldBrickOrange = "#F26640"
+col_LightRiverBlue = "#E3E6FF"
+col_LightSunYellow = "#FFEDBA"
+col_LightGrassGreen = "#C4F4D5"
+col_LightEarthGrey = "#ECE2D6"
+col_LightBrickOrange = "#FED3CF"
+col_White = "#FFFFFF"
+col_Black = "#000000"
+
+
+ggplot(data = world) +
+  geom_sf() +
+  geom_sf(data = UrbanShift_cities$geomCentroid,
+          fill = col_BoldBrickOrange, color = col_BoldRiverBlue,pch = 21, size = 3) +
+  # geom_sf_text(data = UrbanShift_cities, aes(label = name),size=2,color = col_BoldGrassGreen,
+  #               hjust=1, vjust=1,
+  #               nudge_x = 5,nudge_y = 5) +
+  theme_minimal()
 
 # plot 3
 
@@ -109,5 +127,49 @@ library(maps)
 #             color = col_BoldRiverBlue, check_overlap = F, size = 2,hjust=1, vjust=1.5) +
 #   theme_minimal()
 ```
+
+# Data Catalog declaration
+
+```{r warning=FALSE, message=FALSE, echo = TRUE, , fig.width=14, fig.height=12}
+
+# get function
+source("helper_functions/datacatalog_fill_datasetsDesc.R")
+
+# Initialize table
+
+datacatalog_datasets_desc = data.frame("datasetName" = as.character(),
+                                       "datasetId" = as.character(),
+                                       "dataSources" = as.character(),
+                                       "objectType" = as.character(),
+                                       "projectName" = as.character(),
+                                       "tags" = as.character(),
+                                       "creationDate" = as.character(),
+                                       "storagePath" = as.character(),
+                                       "storageArea" = as.character(),
+                                       "storageStage" = as.character(),
+                                       "datasetFormat" = as.character(),
+                                       "datasetDesc" = as.character(),
+                                       "contacts" = as.character())
+
+# fill table
+
+datacatalog_datasets_desc = datacatalog.fill.datasetsDesc(datacatalog_datasets_desc = datacatalog_datasets_desc,
+                                                          datasetName = "Administrative Boundaries",
+                                                          dataSources = "geoBoundaries",
+                                                          objectType = "administrative-boundaries",
+                                                          projectName = "UrbanShift",
+                                                          storageArea = "Github",
+                                                          storageStage = "raw",
+                                                          storagePath = "https://raw.githubusercontent.com/wri/cities-urbanshift/main/geospatial-layers/data/raw/administrative-boundaries/urbanshift-cities/UrbanShift_cities.geojson",
+                                                          datasetFormat = "geojson",
+                                                          datasetDesc = "This datasets contains the geographical boundaries of UrbanShift cities at diffrent administrative levels",
+                                                          contacts = "Logan.Byers@wri.org")
+
+# print table
+
+print(datacatalog_datasets_desc)
+
+```
+
 
 
