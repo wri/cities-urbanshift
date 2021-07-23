@@ -2,6 +2,10 @@
 
 Welcome to tue UrbanSHift project repository.
 
+**This is a work in progress repository! It is not yet an official WRI repository. 
+For more information about the project status, please contact Eric.Mackres@wri.org.**
+
+
 UrbanShift is a global program transforming cities for people and planet through sustainable, integrated and inclusive approaches to urban development.
 
 UrbanShift is a GEF-funded program within [Urban Development](https://www.wri.org/cities/urban-development) and the [WRI Ross Center for Sustainable Cities](https://www.wri.org/cities). It is co-managed with UNEP, C40 Cities and ICLEI.
