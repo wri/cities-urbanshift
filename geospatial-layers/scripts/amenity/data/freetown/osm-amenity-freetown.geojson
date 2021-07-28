@@ -1,0 +1,15 @@
+{
+"type": "FeatureCollection",
+"name": "osm-amenity-freetown",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "osm_id": "625129322", "feature_name": null, "feature_type": "parking", "feature_category": "amenity" }, "geometry": { "type": "Point", "coordinates": [ -13.268889, 8.398346 ] } },
+{ "type": "Feature", "properties": { "osm_id": "3345922939", "feature_name": "Melian Tours", "feature_type": "bus_station", "feature_category": "amenity" }, "geometry": { "type": "Point", "coordinates": [ -13.2684383, 8.4950067 ] } },
+{ "type": "Feature", "properties": { "osm_id": "3589576296", "feature_name": null, "feature_type": "parking", "feature_category": "amenity" }, "geometry": { "type": "Point", "coordinates": [ -13.2043508, 8.3349341 ] } },
+{ "type": "Feature", "properties": { "osm_id": "4526166389", "feature_name": "Shared Taxi to Guinea Station", "feature_type": "bus_station", "feature_category": "amenity" }, "geometry": { "type": "Point", "coordinates": [ -13.2073274, 8.4806426 ] } },
+{ "type": "Feature", "properties": { "osm_id": "4526412290", "feature_name": "Mini Bus Terminal Shell", "feature_type": "bus_station", "feature_category": "amenity" }, "geometry": { "type": "Point", "coordinates": [ -13.191146, 8.474416 ] } },
+{ "type": "Feature", "properties": { "osm_id": "4751127021", "feature_name": "buses to kanema", "feature_type": "bus_station", "feature_category": "amenity" }, "geometry": { "type": "Point", "coordinates": [ -13.2351044, 8.4910111 ] } },
+{ "type": "Feature", "properties": { "osm_id": "3858956178", "feature_name": "Swiss Spirit Hotel & Suites Freetown", "feature_type": "hotel", "feature_category": "building" }, "geometry": { "type": "Point", "coordinates": [ -13.2692388, 8.4617873 ] } },
+{ "type": "Feature", "properties": { "osm_id": "5448098036", "feature_name": null, "feature_type": "residential", "feature_category": "building" }, "geometry": { "type": "Point", "coordinates": [ -13.2633613, 8.4750498 ] } }
+]
+}
