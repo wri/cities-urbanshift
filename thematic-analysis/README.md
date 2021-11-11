@@ -6,7 +6,7 @@ These analyses aim at providing more specific indicators and reports by combinin
 
 | City | Thematic analysis scope | Report |
 | --- |--- |--- |
-| Freetown | Developing a supervised land classification model (urban vs non-urban area) for Freetown region | [Linkg to the analysis](https://storage.googleapis.com/urbanshift/freetown/reports/UrbanShift-Freetown.html) |
+| Freetown | Developing a supervised land classification model (urban vs non-urban area) for Freetown region | [Link to the analysis](https://storage.googleapis.com/urbanshift/freetown/reports/UrbanShift-Freetown.html) |
 
 # Freetown case study
 
