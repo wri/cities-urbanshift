@@ -1,0 +1,611 @@
+---
+title: "UrbanShift - Freetown (World Resources Institute)"
+author: "Saif Shabou (saif.shabou@wri.org)"
+date: "`r format (Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    theme: spacelab
+    highlight: tango
+    number_sections: yes
+    code_folding: hide
+---
+
+```{r warning=FALSE, message=FALSE, echo = FALSE}
+library(shiny)
+library(plotly)
+library(leaflet)
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(rgdal)
+library(shinyWidgets)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(tidyverse)
+library(sf)
+library(rgeos)
+library(httr)
+library(jsonlite)
+library(raster)
+library(data.table)
+library(leaflet.providers)
+library(knitr)
+library(kableExtra)
+
+
+col_BoldRiverBlue = "#242456"
+col_BoldSunYellow = "#FFD450"
+col_BoldGrassGreen = "#2A553E"
+col_BoldEarthGrey = "#7B7A66"
+col_BoldBrickOrange = "#F26640"
+col_LightRiverBlue = "#E3E6FF"
+col_LightSunYellow = "#FFEDBA"
+col_LightGrassGreen = "#C4F4D5"
+col_LightEarthGrey = "#ECE2D6"
+col_LightBrickOrange = "#FED3CF"
+col_White = "#FFFFFF"
+col_Black = "#000000"
+```
+
+# Introduction
+
+## Context
+
+- **UrbanShift initiative**
+
+UrbanShift is a global program that supports cities to adopt integrated approaches to urban development, shaping low-carbon, climate-resilient communities where people and planet both can thrive. The program is funded by the Global Environment Facility (GEF) and jointly managed by a global team consisting of the United Nations Environment Program (UNEP), World Resources Institute (WRI), C40 Cities and ICLEI Local Governments for Sustainability. The initiative supports 23 cities across nine countries, providing the knowledge, tools and training they need to transform their urban fabric and shift towards a more sustainable, equitable future.
+
+As one of the key activities to support development of a knowledge-base for the UrbanShift initiative and all participant cities, the WRI data team will work with UrbanShift cities to identify and provide all cities with a common set of critical spatial data layers. using open source, global data. World Resources Institute is providing several types of data-related assistance to participating cities: 
+
+- A suite of key geo-spatial layers
+- Baseline measurements of core UrbanShift indicators
+- Geo-spatial analysis on selected thematic areas
+- Capacity building and technical assistance on data governance and geospatial data as part of the City Academy and Labs modules of UrbanShift. 
+
+Outputs will include datasets, indicators and replicable analysis methods relevant to all cities. Additionally, analyses customized to the specific themes of interest for each city will be provided. Finally, an UrbanShift Lab will be delivered for which these data and analyses may act as one input.
+
+- **Freetown thematic analyses**
+
+Freetown City Council (FCC) identified several potential areas of WRI assistance based on ongoing 
+activities and needs associated with the Freetown Structure Plan and the Mayor’s Transform Freetown 
+plan. Assistance on the **Analysis of urban expansion and infill trends* has been identified as a key thematic of analysis in order provide a replicable method using global open data for assessing urbanization trends in the selected cities.
+
+## Objectives
+
+WRI proposes to provide FCC with a supervised classification framework to develop simple models for 
+classifying urbanized land in multiple time periods. The framework provide a starting classification 
+model that can be customized with additional user inputssuch as additional local datasets and land classes labeling based on local knowledge. In addition to urban vs non-urban classification, WRI may be able to provide a model framework for classifying multiple types of urban expansion (e.g., infill, sprawl, leapfrogging, etc.). 
+
+# Methdology
+
+## Data
+
+In order to build a land classification model in the Freetown region, thre main datasets are needed: administrative boundaries of Freetown, high resolution earth observation imagery (Sentinel-2 product), and labeled data providing samples of urban and non urban boundary areas. The table below gives detailed information about these datasets: 
+
+| Dataset | source | Description | Temporal extent |Doc |Download |Format |
+|---------------|--- |------------------------------------------------------------------------------------------------------| --- |--- |--- |--- |
+| Administative boundaries | geoBoundaries database | Open data of boundaries for every country in the world at multiple administrative levels provided by geoLab. | From 2017 to present (yearly updates) | [Link to doc](https://www.geoboundaries.org/)  | [Link to download Freetown boundaries](https://storage.googleapis.com/urbanshift/freetown/boundaries/SLE-Freetown_region.geojson)| Geojson |
+| Sentinel-2 satellite imagery | European Union/ESA/Copernicus | Sentinel-2 is a wide-swath, high-resolution, multi-spectral imaging mission supporting Copernicus Land Monitoring studies, including the monitoring of vegetation, soil and water cover, as well as observation of inland waterways and coastal areas. The Sentinel-2 data contain 13 UINT16 spectral bands: four bands at 10 m, six bands at 20 m and three bands at 60 m spatial resolution. | From  2015-06-23 to present | [Link to doc](https://sentinel.esa.int/web/sentinel/user-guides/sentinel-2-msi) |  [Link to download Sentinel-2 data](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2) | Geotiff |
+| Labeled training data | Manual | Manual definition of Urban and Non urban polygons within Freetown region. | | | [Non urban resgions](https://storage.googleapis.com/urbanshift/freetown/labeled_data/non_urban.geojson), [Urban regions](https://storage.googleapis.com/urbanshift/freetown/labeled_data/urban.geojson)| Geojson |  
+
+
+## Workflow
+
+### Data collection
+
+The first step consists of collecting raw input data that will be used for building the land classification machine learning model.
+
+**The administrative boundaries** data are obtained from the geoBoundaries database. Two administrative levels have been used for this analysis: 
+
+- Freetown region administrative boundaries that are used for extracting satellite imagery data corresponding to the regional area and building the classification model.
+- Freetown sub-division boundaries that are used for aggregating urban expansion indicators.
+
+**Sentinel-2 satellite imagery** data are obtained from [Google Earth Engine Data Catalog](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2). The images can be extracted by filtering based on the area of interest (Freetown region) and time period of analysis. Since Sentinel-2 data are provided from `2015-06-23` to present, six years data have been extracted corresponding to the years: 2016, 2017, 2018, 2019, 2020, 2021. Hence, we can train the model on 2016 Sentinel-2 data and apply it to the other selected years in order to assess urban expansion during the last six years.
+
+**A supervised classification is based on the idea that a user can select sample pixels in an image that are representative of specific land classes and use these training sites as references for the classification of all other pixels in the image.** These training sets are often selected based on the knowledge of the user or extracted from ground truth data. For this analysis, we selected 53 regions (polygons) within the Freetown area and classified them into `urban` and `non urban` classes. These polygons are used as training set and the objective of the machine learning model consists of learning a function that maps the pixels' characteristics of these regions with the two classes. While this method enables us to build a first version of the land classification model, increasing manually labeled data and ensuring an accurate definition of urban land classes is needed to improve the model robustness.
+
+
+### Data processing
+
+The Copernicus Sentinel-2 TOA imagery is organised as an `ImageCollection` object, which is a container for a collection of individual images. The collected images are filtered in order to restrict selected image tiles to Freetown administrative boundaries and within the specified date range. In addition, clouds are masked from each image using their corresponding [cloud probability](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_CLOUD_PROBABILITY) layer. Two functions are used to achieve cloud masking: a function to join the cloud probability layer to the relevant image and one to apply the mask where cloud probability is greater than 50 percent. Finally, a medoid composite is generated from the set of overlapping pixels by selecting the pixel nearest to the multi-dimensional median of overlapping pixels [(Flood, 2013)](https://www.mdpi.com/2072-4292/5/12/6481/htm). The result minimizes image contamination from residual clouds and cloud shadows. ([source](https://developers.google.com/earth-engine/tutorials/community/classify-maizeland-ng))
+
+The labeled data is randomly split (70% / 30%) into training and validation datasets. The training set is used for training the machine learning model and the validation set is used for evaluating the trained model and comparing the model results with ground truth.
+
+
+### Model building
+
+We selected a Random Forest (RF) classifier for implementing binary land classification. This classifier is suitable for this kind of analysis and default parameters have been used for proposed model. The output images include values 0 for non-urban areas and 1 for urban areas.
+
+Once the model is trained, we use the validation sample in order to evaluate the reliability of the classification outputs. Accuracy is one metric for evaluating classification models. It corresponds to the percentage of right predictions produced by the model. Formally, it can be considered as the percentage of correct predictions:
+
+$$Accuracy = \frac{NbCorresctPrediction}{TotalPrediction}$$
+Where: 
+
+- *NbCorresctPrediction = TP (True Positive)+ TN (True Negative)*
+
+- *NbCorresctPrediction = TP (True Positive)+ TN (True Negative) + FP (False Positive) + FN (False Negative)*
+
+The obtained trained model can be applied on different years of Sentinel-2 imagery data in order to track the urban area expansion during a time period of interest. 
+
+
+# Results
+
+## Land classification
+
+The map below shows the results of the classification model for the years 2016 and 2021. The results highlighted an increase of urban area from 22.18% in 2016 to 29.86% in 2021. The most important part of this urban expansion is situated at the limits of the Western Area Forest Reserve.
+
+```{r warning=FALSE, message=FALSE, echo = FALSE, eval = TRUE}
+# define path
+city_boundary_path = paste("https://storage.googleapis.com/urbanshift/freetown/boundaries/SLE-Freetown_region.geojson")
+
+# read the data#
+city_boundary <- st_read(city_boundary_path,
+                         quiet = TRUE)
+
+# Function to collect NDVI by year
+
+collect.land.class.by.year = function(year){
+  
+  # define path
+  classified_map_path = paste("https://storage.googleapis.com/urbanshift/freetown/classified_maps/classified_map_",year,".tif",
+                              sep = "")
+  
+  # collect raster data
+  classified_map = raster(classified_map_path)
+  
+  # mask raster based on administrative boundaries
+  classified_map_mask = raster::mask(classified_map,
+                                     city_boundary)
+  
+  return(classified_map_mask)
+  
+}
+
+# collect NDVI for year 2020
+
+classified_map_2016 = collect.land.class.by.year(year ="2016")
+# classified_map_2017 = collect.land.class.by.year(year ="2017")
+# classified_map_2018 = collect.land.class.by.year(year ="2018")
+# classified_map_2019 = collect.land.class.by.year(year ="2019")
+# classified_map_2020 = collect.land.class.by.year(year ="2020")
+classified_map_2021 = collect.land.class.by.year(year ="2021")
+
+
+
+## color map
+# define color vector
+classified_map_col = c("green","blue")
+
+# define a color palette
+pal_classified_map <- colorFactor(classified_map_col, 
+                                  values(classified_map_2016),
+                                  na.color = "transparent")
+# define labels
+labels_classified_map = c('Non Urban','Urban')
+
+
+# create the map
+map_city_classification = leaflet(classified_map_2016, height = 500, width = "100%")  %>%
+  addTiles() %>%
+  addProviderTiles(providers$OpenStreetMap, group = "OSM") %>%
+  addProviderTiles(providers$CartoDB.DarkMatter, group = "CartoDB") %>%
+  addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite") %>%
+  addPolygons(data = city_boundary,
+              group = "Administrative boundaries",
+              stroke = TRUE, color = "gray", weight = 2,dashArray = "3",
+              smoothFactor = 0.3, fill = FALSE, fillOpacity = 0.5,
+              highlight = highlightOptions(
+                weight = 5,
+                color = "#666",
+                dashArray = "",
+                fillOpacity = 0.3,
+                bringToFront = TRUE),
+              label = city_boundary$name,
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 8px"),
+                textsize = "15px",
+                direction = "auto")) %>%
+  addRasterImage(classified_map_2016, 
+                 colors = pal_classified_map, 
+                 opacity = 0.7,
+                 group = "Land classification 2016") %>%
+  addRasterImage(classified_map_2021, 
+                 colors = pal_classified_map, 
+                 opacity = 0.7,
+                 group = "Land classification 2021") %>%
+  addLegend(colors = classified_map_col,
+            labels = labels_classified_map,
+            title = "Land Cover") %>% 
+  addLayersControl(
+    baseGroups = c( "OSM","CartoDB", "Toner Lite"),
+    overlayGroups = c("Land classification 2016",
+                      "Land classification 2021",
+                      "Administrative boundaries"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+
+# plot the map
+map_city_classification
+
+```
+
+
+
+```{r warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+# function for computing land cover statistics
+CityLandClassStat = function(raster, year){
+  city_landcover_stat_df = as.data.frame(raster) %>%
+    rename_at(1, ~"class" ) %>% 
+    drop_na(class) %>% 
+    group_by(class) %>%
+    tally() %>%
+    mutate(area = n * res(raster)[1] * res(raster)[2]) %>% 
+    dplyr::select(land_use_classes = class,
+                  nb_cells = n) %>% 
+    mutate(land_use_percent = round(nb_cells/sum(nb_cells) * 100,2))%>% 
+    add_column(year = year) %>% 
+    arrange(desc(land_use_percent)) %>%
+    mutate_at("land_use_classes", as.character) %>%
+    mutate(land_use_classes = recode(land_use_classes,
+                                     "0" =  "Non Urban",
+                                     "1" = "Urban" ))
+  
+  return(city_landcover_stat_df)
+  
+}
+
+# compute land cover statistics for every year
+
+city_landclass_stat_2016 = CityLandClassStat(raster = classified_map_2016, year = "2016")
+# city_landclass_stat_2017 = CityLandClassStat(raster = classified_map_2017, year = "2017")
+# city_landclass_stat_2018 = CityLandClassStat(raster = classified_map_2018, year = "2018")
+# city_landclass_stat_2019 = CityLandClassStat(raster = classified_map_2019, year = "2019")
+# city_landclass_stat_2020 = CityLandClassStat(raster = classified_map_2020, year = "2020")
+city_landclass_stat_2021 = CityLandClassStat(raster = classified_map_2021, year = "2021")
+
+city_landclass_stat = bind_rows(list(city_landclass_stat_2016,
+                                     # city_landclass_stat_2017,
+                                     # city_landclass_stat_2018,
+                                     # city_landclass_stat_2019,
+                                     # city_landclass_stat_2020,
+                                     city_landclass_stat_2021))
+
+# plot table
+# city_landclass_stat %>% 
+#   dplyr::select(year,land_use_classes,land_use_percent) %>% 
+#   pivot_wider(names_from = land_use_classes, 
+#               values_from = land_use_percent) %>% 
+#   kable() %>%
+#   kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13)%>% 
+#   scroll_box(width = "100%", height = "300px")
+
+# plot results
+city_landclass_stat %>% 
+  plot_ly() %>% 
+  add_trace(x = ~year, 
+            y = ~land_use_percent, 
+            color = ~factor(land_use_classes),
+            colors = c("green","blue"),
+            type = "bar",
+            text = ~paste("Land use: ", land_use_classes, '<br>Percent:', land_use_percent))  %>% 
+  layout(yaxis = list(title = 'Percent of Urban/non urban area'), 
+         xaxis = list(title = ''),
+         barmode = 'stack',
+         legend = list(orientation = 'h', x = 0.2, y = -0.5),
+         height = 500, width = "100%")
+
+```
+
+## Urban expansion hotspots
+
+In order to localize the increase of urban area, we calculated the difference in urban area pixels between 2016 and 2021. The red pixels highlight urban expansion hotspots: 
+
+```{r warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+
+#################### Urban expansions Spatial
+
+# compute raster difference
+landcalss_diff = classified_map_2021 - classified_map_2016
+
+# get urban expansion raster diff
+landcalss_diff_urban = landcalss_diff
+landcalss_diff_urban[landcalss_diff_urban < 0,] <- NA 
+
+
+## color diff
+
+# define color vector
+class_diff_map_col = c("gray","red")
+
+# define a color palette
+pal_class_diff_map <- colorFactor(class_diff_map_col, 
+                                  values(landcalss_diff_urban),
+                                  na.color = "transparent")
+# define labels
+labels_class_diff_map = c('No Urban Expoansion','Urban Expansion')
+
+# create the map
+map_city_classification = leaflet(classified_map_2016, height = 500, width = "100%")  %>%
+  addTiles() %>%
+  addProviderTiles(providers$OpenStreetMap, group = "OSM") %>%
+  addProviderTiles(providers$CartoDB.DarkMatter, group = "CartoDB") %>%
+  addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite") %>%
+  addPolygons(data = city_boundary,
+              group = "Administrative boundaries",
+              stroke = TRUE, color = "gray", weight = 2,dashArray = "3",
+              smoothFactor = 0.3, fill = FALSE, fillOpacity = 0.5,
+              highlight = highlightOptions(
+                weight = 5,
+                color = "#666",
+                dashArray = "",
+                fillOpacity = 0.3,
+                bringToFront = TRUE),
+              label = city_boundary$name,
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 8px"),
+                textsize = "15px",
+                direction = "auto")) %>%
+  addRasterImage(classified_map_2016, 
+                 colors = pal_classified_map, 
+                 opacity = 0.7,
+                 group = "Land classification 2016") %>%
+  addRasterImage(classified_map_2021, 
+                 colors = pal_classified_map, 
+                 opacity = 0.7,
+                 group = "Land classification 2021") %>%
+  addRasterImage(landcalss_diff_urban,
+                 colors = pal_class_diff_map,
+                 opacity = 0.9,
+                 group = "Urban Expansion 2016-2021") %>%
+  addLegend(colors = classified_map_col,
+            labels = labels_classified_map,
+            title = "Land Cover") %>% 
+  addLegend(colors = class_diff_map_col,
+            labels = labels_class_diff_map,
+            title = "Urban expansion",
+            position = "bottomright") %>% 
+  addLayersControl(
+    baseGroups = c( "OSM","CartoDB", "Toner Lite"),
+    overlayGroups = c("Land classification 2016",
+                      "Land classification 2021",
+                      "Urban Expansion 2016-2021",
+                      "Administrative boundaries"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+
+# plot the map
+map_city_classification
+
+```
+
+## Urban expansion by city
+
+The following analysis providesan  urban expansion indicator computed at sub-regional level in order to identify localities presenting the highest increase in urban areas. 
+
+Localities with higher urban expansion during the six last years are: `Gloucester`, `Mamba Ridge II`, and `Thunderhill` with urban an expansion ratio of respectively `41.75%`, `26%`, and  `24.65%`.
+
+We observe a cluster of localities in the north-east of Freetown with a high urban expansion regrouping `Gloucester`, `Mamba Ridge II`, `Thunderhill`, `Bathurst`, and `Leicester`.
+
+```{r warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+
+# collect sub-boundries date
+
+# define path
+city_sub_boundary_path = paste("https://storage.googleapis.com/urbanshift/freetown/boundaries/SLE-Freetown_sub_region.geojson")
+
+# read the data#
+city_sub_boundary <- st_read(city_sub_boundary_path,
+                         quiet = TRUE)
+
+# create empty dataframe
+city_subregion_landclass_stat = data.frame(name = as.character(),
+                                                year = as.character(),
+                                                Urban = as.numeric(),
+                                                'Non Urban' = as.numeric())
+
+
+
+# function for computing land cover statistics
+CityLandClassStatSubBoundary = function(city_sub_boundary, classified_map, year){
+  # get name
+  name = city_sub_boundary$name
+  # mask raster based on administrative boundaries
+  classified_map_mask_i = raster::mask(classified_map,
+                                       city_sub_boundary)
+  city_landcover_stat_df = as.data.frame(classified_map_mask_i) %>%
+    rename_at(1, ~"class" ) %>% 
+    drop_na(class) %>% 
+    group_by(class) %>%
+    tally() %>%
+    mutate(area = n * res(classified_map)[1] * res(classified_map)[2]) %>% 
+    dplyr::select(land_use_classes = class,
+                  nb_cells = n) %>% 
+    mutate(land_use_percent = round(nb_cells/sum(nb_cells) * 100,2))%>% 
+    add_column(year = year) %>% 
+    add_column(name = name) %>%
+    arrange(desc(land_use_percent)) %>%
+    mutate_at("land_use_classes", as.character) %>%
+    mutate(land_use_classes = recode(land_use_classes,
+                                     "0" =  "Non Urban",
+                                     "1" = "Urban" )) %>% 
+    dplyr::select(name, year,land_use_classes,land_use_percent) %>% 
+    pivot_wider(names_from = land_use_classes, 
+                values_from = land_use_percent)
+  
+  return(city_landcover_stat_df)
+  
+}
+
+# compute urban area by city
+
+for(i in 1:nrow(city_sub_boundary)){
+
+  city_sub_boundary_i = city_sub_boundary[i,]
+  
+  city_i_landclass_stat_2016 = CityLandClassStatSubBoundary(city_sub_boundary = city_sub_boundary_i,
+                                                            classified_map = classified_map_2016, 
+                                                            year = "2016")
+  
+  city_i_landclass_stat_2021 = CityLandClassStatSubBoundary(city_sub_boundary = city_sub_boundary_i,
+                                                            classified_map = classified_map_2021, 
+                                                            year = "2021")
+  
+  city_i_landclass_stat_2016_2021 = rbind(city_i_landclass_stat_2016,
+                                          city_i_landclass_stat_2021)
+  
+  city_subregion_landclass_stat = rbind(city_subregion_landclass_stat,
+                                        city_i_landclass_stat_2016_2021)
+}
+
+# compute urban expansion
+city_subregion_urban_expansion = city_subregion_landclass_stat %>% group_by(name) %>% 
+  mutate(
+    urban_expansion = Urban - lag(Urban)
+  ) %>% 
+  drop_na(urban_expansion) %>% 
+  dplyr::select(name, urban_expansion)
+
+# merge with geo
+city_subregion_urban_expansion_map = city_sub_boundary %>% 
+  left_join(city_subregion_urban_expansion,
+            by = "name")
+
+# define color palette for urban expansion levels
+pal_subRegion_urbanExpansion <- colorNumeric(palette = "Reds", 
+                              domain = city_subregion_urban_expansion_map$urban_expansion,
+                              na.color = "transparent",
+                              revers = FALSE)
+# define map labels
+labels <- sprintf("<strong>%s</strong><br/>%s: %s %s",
+                  city_subregion_urban_expansion_map$name, 
+                  "Urban expansion %",
+                  round(city_subregion_urban_expansion_map$urban_expansion, 2), "") %>% 
+  lapply(htmltools::HTML)
+
+# plot map
+leaflet(height = 500, width = "100%") %>%
+  addTiles() %>%
+  addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
+  addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>%
+  # Add boundaries
+  # addPolygons(data = test,
+  #             group = "Administrative boundaries",
+  #             fillColor = ~pal_subRegion(Urban),
+  #             stroke = TRUE, 
+  #             color = col_BoldEarthGrey, 
+  #             weight = 3,
+  #             dashArray = "3",
+  #             smoothFactor = 0.3, 
+  #             fillOpacity = 1,
+  #             highlight = highlightOptions(
+  #               weight = 5,
+  #               color = "#666",
+  #               dashArray = "",
+  #               fillOpacity = 0.3,
+  #               bringToFront = TRUE),
+  #             label = city_sub_boundary$name,
+  #             labelOptions = labelOptions(
+  #               style = list("font-weight" = "normal", padding = "3px 8px"),
+  #               textsize = "15px",
+  #               direction = "auto")) %>%
+  # addLegend(pal = pal_subRegion, 
+  #           values = test$Urban, 
+  #           opacity = 0.9, 
+  #           title = "Urban area",
+  #           position = "bottomright",
+  #           labFormat = labelFormat(suffix = "")) %>% 
+  addPolygons(data = city_subregion_urban_expansion_map,
+              group = "Urban expansion",
+              fillColor = ~pal_subRegion_urbanExpansion(urban_expansion),
+              weight = 1,
+              opacity = 1,
+              color = "grey",
+              fillOpacity = 0.7,
+              label = labels,
+              highlightOptions = highlightOptions(color = "black", weight = 2,
+                                        bringToFront = TRUE),
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 6px"),
+                textsize = "15px",
+                direction = "auto")) %>% 
+  addLegend(pal = pal_subRegion_urbanExpansion, 
+            values = city_subregion_urban_expansion_map$urban_expansion, 
+            opacity = 0.9, 
+            title = "Urban expansion (%)",
+            position = "topright",
+            labFormat = labelFormat(suffix = "")) %>%
+  # Layers control
+  addLayersControl(
+    baseGroups = c("OSM","CartoDB"),
+    overlayGroups = c("Urban expansion"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+
+# plot table
+city_subregion_urban_expansion %>% 
+  arrange(desc(urban_expansion)) %>% 
+  dplyr::select('City name' = name, 
+                'Urban expansion 2016-2020 (%)' = urban_expansion) %>% 
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13)%>% 
+  scroll_box(width = "100%", height = "300px")
+
+# plot chart
+city_subregion_urban_expansion %>% 
+  arrange(desc(urban_expansion)) %>% 
+  filter(urban_expansion > 10) %>% 
+  arrange(desc(urban_expansion)) %>%
+  plot_ly() %>% 
+  add_trace(x = ~factor(name), 
+            y = ~urban_expansion, 
+            marker = list(color = "red"),
+            type = "bar",
+            orientation = "v")  %>% 
+  layout(title = "Top cities with highest urban expansion",
+         xaxis = list(title = '', categoryorder = "array",categoryarray = ~urban_expansion),
+         yaxis = list(title = 'Percent of urban expansion')
+  )
+```
+
+# Conclusions
+
+These analyses provide a proof of concept of using global remote sensing open data to provide insights on urban expansion in the Freetown region. We proposed a classification machine learning model trained on labeled data for classifying land into `urban` and `non urban` areas. We used Random Forest classifier built based on 2016 Sentinel-2 imagery and we applied it on 2021 data in order to assess urban expansion.
+
+The trained model presents a high accuracy (95%) based on the validation set extracted from the labeled data. The application of this model enabled us to explore the spatial distribution of `urban` and `non urban` areas in the whole Freetown region at different periods. The outputs show an increase in urban expansion encroaching on the Western Area Forest Reserve. 
+
+We proposed an urban expansion indicator based on the percentage of urban area between between 2016 and 2021. Aggregated at the locality level, the proposed indicator highlighted the cities that present the highest urban expansion, such as `Gloucester` (more than 40% of urban areas in the last 6 years).
+
+The results of this analysis may be used to better plan prevent urban expansion in the identified areas and localities as part of the development of Freetown master plan.
+
+
+# Perspectives 
+
+While the results of the proposed classification model provide insights on urban expansion within Freetown region, we have identified potential ways to improve the model: :
+
+- **Data labeling methodology**: As discussed in the methodology section, the classification model is based on training labeled data to map the dependencies between remote sensing images and the defined classes. For this prototype, only 53 polygons have been used as training set (26 urban vs 27 non-urban). These training data have been defined based on visual/manual identification of urban classes in Freetown. More accurate ground truth data could be collected (from potential existing data sources or local territory knowledge) to improve the model accuracy when applied in new satellite imagery. 
+
+- **More land classes**: We use a binary classification model for determining urban vs non-urban area. However, it is possible to include other land classes depending on the availability of labeled data for those additional classes.
+
+# Resources links
+
+## Tutorial
+
+- [Training video presenting the tool used for building Freetown land classification model](https://www.loom.com/share/a9e538ea9fe043809dc32ab468396c55)
+- [Google Earth Engine script used for this analysis](https://code.earthengine.google.com/?scriptPath=users%2Fsaifshabou%2Furbanshift%3Afreetown%2Fmain)
+- [Google Earth Engine tutorial](https://developers.google.com/earth-engine/tutorials/community/explore)
+
+## Download Data
+
+- **Administrative boundaries**:
+  - [Freetown region, geojson file](https://storage.googleapis.com/urbanshift/freetown/boundaries/SLE-Freetown_region.geojson)
+  - [Freetown cities, geojson file](https://storage.googleapis.com/urbanshift/freetown/boundaries/SLE-Freetown_sub_region.geojson)
+  
+- **Labeled training data**:
+  - [Labeled urban areas, geojson file](https://storage.googleapis.com/urbanshift/freetown/labeled_data/urban.geojson)
+  - [Labeled non-urban areas, geojson file](https://storage.googleapis.com/urbanshift/freetown/labeled_data/non_urban.geojson)
+
+- **Classification maps**:
+  - [Freetown classification map 2016, GoeTiff file](https://storage.googleapis.com/urbanshift/freetown/classified_maps/classified_map_2016.tif)
+  - [Freetown classification map 2021,  GoeTiff file](https://storage.googleapis.com/urbanshift/freetown/classified_maps/classified_map_2021.tif)
