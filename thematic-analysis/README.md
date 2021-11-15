@@ -1,4 +1,4 @@
-# Objective
+# Objectives
 
 The objective of these thematic analysis consists of providing in depth analysis for a selection of cities by focusing on specific areas of interest based on the most important challenges they are facing.
 
@@ -6,7 +6,7 @@ These analyses aim at providing more specific indicators and reports by combinin
 
 | City | Thematic analysis scope | Report |
 | --- |--- |--- |
-| Freetown | Developing a supervised land classification model (urban vs non-urban area) for Freetown region | [Link to the analysis](https://storage.googleapis.com/urbanshift/freetown/reports/UrbanShift-Freetown.html) |
+| Freetown | Developing a supervised land classification model (urban vs non-urban area) for Freetown region | [Link to the analysis](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/thematic-analysis/freetown/Freetown-thematic-analysis.html) |
 
 # Freetown case study
 
