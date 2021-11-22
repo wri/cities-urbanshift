@@ -1,0 +1,134 @@
+---
+title: "UrbanShift Greenspace Indicators"
+author: "Saif Shabou"
+date: "`r format (Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4
+    theme: spacelab
+    highlight: tango
+    number_sections: yes
+    code_folding: hide
+---
+
+```{r Libraries, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+
+# library(shiny)
+library(plotly)
+library(leaflet)
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(rgdal)
+library(tidyverse)
+library(sf)
+library(rgeos)
+library(httr)
+library(jsonlite)
+library(raster)
+library(data.table)
+library(leaflet.providers)
+library(knitr)
+library(kableExtra)
+
+col_BoldRiverBlue = "#242456"
+col_BoldSunYellow = "#FFD450"
+col_BoldGrassGreen = "#2A553E"
+col_BoldEarthGrey = "#7B7A66"
+col_BoldBrickOrange = "#F26640"
+col_LightRiverBlue = "#E3E6FF"
+col_LightSunYellow = "#FFEDBA"
+col_LightGrassGreen = "#C4F4D5"
+col_LightEarthGrey = "#ECE2D6"
+col_LightBrickOrange = "#FED3CF"
+col_White = "#FFFFFF"
+col_Black = "#000000"
+
+
+
+```
+
+# The UrbanShift project
+
+## Objectives
+
+UrbanShift is a global program that supports cities to adopt integrated approaches to urban development, shaping low-carbon, climate-resilient communities where people and planet both can thrive. The program is funded by the Global Environment Facility (GEF) and jointly managed by a global team consisting of the United Nations Environment Program (UNEP), World Resources Institute (WRI), C40 Cities and ICLEI Local Governments for Sustainability. The initiative supports 23 cities across nine countries, providing the knowledge, tools and training they need to transform their urban fabric and shift towards a more sustainable, equitable future.
+
+As one of the key activities to support development of a knowledge-base for the UrbanShift initiative and all participant cities, the WRI data team will work with UrbanShift cities to identify and provide all cities with a common set of critical spatial data layers. using open source, global data. World Resources Institute is providing several types of data-related assistance to participating cities:
+
+- A suite of key geo-spatial layers
+- Baseline measurements of core UrbanShift indicators
+- Geo-spatial analysis on selected thematic areas
+- Capacity building and technical assistance on data governance and geospatial data as part of the City Academy and Labs modules of UrbanShift.
+
+Outputs will include datasets, indicators and replicable analysis methods relevant to all cities. Additionally, analyses customized to the specific themes of interest for each city will be provided. Finally, an UrbanShift Lab will be delivered for which these data and analyses may act as one input.
+
+## Baseline indicators
+
+To help understand the current status and identify changes of sustainability in UrbanShift cities, we aim to measure **key baseline indicators** for all cities using comparable approaches. The selected indicators focus on measuring the status and change on the core objectives of the global project, which are aligned with three of Global Environment Facility's [focal areas for its current investment cycle (GEF-7)](https://www.thegef.org/documents/gef-7-programming-directions):**land degradation, biodiversity, and greenhouse gas emissions**. 
+
+These assessments are intended to provide information to evaluate patterns within and between cities and to provide contextual information to cities to help them with problem and solution definition. We will disseminate the results to help local governments, the global project team, implementing agencies and national governments to gain a better understanding of the cities’ current status as it relates to sustainability efforts, capacities, main needs and opportunities, and planned investments.
+
+# Biodiversity
+
+## Context
+
+## Data sources
+
+### Global Biodiversity Information Facility (GBIF)
+
+- **Global Biodiversity Information Facility (GBIF)**: [The Global Biodiversity Information Facility (GBIF)](https://www.gbif.org/en/) is an international network and data infrastructure funded by the world's governments and aimed at providing anyone, anywhere, open access to data about all types of life on Earth. 
+
+- **The World Database on Protected Areas (WDPA)**: [The World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) is the most comprehensive global database of marine and terrestrial protected areas. It is a joint project between UN Environment Programme and the International Union for Conservation of Nature (IUCN), and is managed by UN Environment Programme World Conservation Monitoring Centre (UNEP-WCMC), in collaboration with governments, non-governmental organisations, academia and industry.
+
+- **The Global Invasive Species Database (GISD)**: [The Global Invasive Species Database (GISD)](http://www.iucngisd.org/gisd/) is a free, online searchable source of information about alien and invasive species that negatively impact biodiversity. It focuses on invasive alien species that threaten native biodiversity and natural areas and covers all taxonomic groups from micro-organisms to animals and plants.
+
+## Biodiversity indicators
+
+# Case study: San Jose
+
+## Birds
+
+```{r Birds_map, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+# read Boundary
+boundary = st_read("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/boundaries/CRI-San_Jose-boundary.geojson",
+                    quiet = TRUE)
+
+birds2020 = st_read("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/biodiversity/biodiversity_map_layers_birds2020_sanjose.geojson",
+                    quiet = TRUE)
+
+
+label_birds2020 <- sprintf(
+  "<strong>%s</strong><br/><strong>%s</strong><br/>",
+  paste("Family", birds2020$family, sep=": "), 
+  paste("Genus", birds2020$genus, sep =": ")
+) %>% 
+  lapply(htmltools::HTML)
+
+leaflet(data = boundary, height = 500, width = "100%") %>% 
+  addTiles() %>%
+  addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
+  # addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite") %>%
+  # Add boundaries
+  addPolygons(data = boundary,
+              group = "Administrative boundaries",
+              stroke = TRUE, color = col_Black, weight = 3,dashArray = "3",
+              smoothFactor = 0.3, fill = TRUE, fillOpacity = 0.2,
+              highlight = highlightOptions(
+                weight = 5,
+                color = "#666",
+                dashArray = "",
+                fillOpacity = 0.3,
+                bringToFront = FALSE)) %>%
+  # add birds layer
+  addCircleMarkers(birds2020$lon, birds2020$lat, 
+                   radius = 3,
+                   fillColor = col_BoldBrickOrange,
+                   color  = "black",
+                   stroke = TRUE,
+                   weight = 0.8,
+                   fillOpacity = 0.6,
+                   popup = ~as.character(birds2020$family),
+                   label = label_birds2020) 
+```
