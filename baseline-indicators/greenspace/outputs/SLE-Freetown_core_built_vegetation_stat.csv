@@ -1,0 +1,6 @@
+"city_id","indicator_theme","data_sources","indicator_name","year","value"
+"SLE-Freetown_core","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2020",23.05
+"SLE-Freetown_core","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2019",26.82
+"SLE-Freetown_core","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2018",31.24
+"SLE-Freetown_core","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2017",32.95
+"SLE-Freetown_core","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2016",21.07
