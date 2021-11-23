@@ -1,0 +1,6 @@
+"city_id","indicator_theme","data_sources","indicator_name","year","value"
+"CRI-San_Jose","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2020",14.06
+"CRI-San_Jose","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2019",12.18
+"CRI-San_Jose","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2018",12.25
+"CRI-San_Jose","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2017",11.48
+"CRI-San_Jose","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2016",9.07
