@@ -1,0 +1,6 @@
+"city_id","indicator_theme","data_sources","indicator_name","year","value"
+"RWA-Kigali","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2020",38.87
+"RWA-Kigali","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2019",40.81
+"RWA-Kigali","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2018",40.73
+"RWA-Kigali","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2017",37.06
+"RWA-Kigali","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent","2016",34.17

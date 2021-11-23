@@ -1,0 +1,6 @@
+"city_id","indicator_theme","data_sources","indicator_name","year","value"
+"SLE-Freetown_core","greenspace","COPERNICUS/S2","s2_ndvi_vegetation_land_percent","2020",36.04
+"SLE-Freetown_core","greenspace","COPERNICUS/S2","s2_ndvi_vegetation_land_percent","2019",41.06
+"SLE-Freetown_core","greenspace","COPERNICUS/S2","s2_ndvi_vegetation_land_percent","2018",44.83
+"SLE-Freetown_core","greenspace","COPERNICUS/S2","s2_ndvi_vegetation_land_percent","2017",47.32
+"SLE-Freetown_core","greenspace","COPERNICUS/S2","s2_ndvi_vegetation_land_percent","2016",34.39
