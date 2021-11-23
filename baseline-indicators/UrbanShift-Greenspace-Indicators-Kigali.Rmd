@@ -53,9 +53,9 @@ col_Black = "#000000"
 
 ## Objectives
 
-UrbanShift is a global program that supports cities to adopt integrated approaches to urban development, shaping low-carbon, climate-resilient communities where people and planet both can thrive. The program is funded by the Global Environment Facility (GEF) and jointly managed by a global team consisting of the United Nations Environment Program (UNEP), World Resources Institute (WRI), C40 Cities and ICLEI Local Governments for Sustainability. The initiative supports 23 cities across nine countries, providing the knowledge, tools and training they need to transform their urban fabric and shift towards a more sustainable, equitable future.
+UrbanShift is a global program that supports cities to adopt integrated approaches to urban development, shaping low-carbon, climate-resilient communities where people and planet both can thrive. The global program is funded by the Global Environment Facility (GEF) led by the UN Environment Programme (UNEP), in partnership with the World Resources Institute (WRI), C40 Cities, ICLEI – Local Governments for Sustainability. The initiative supports 23 cities across nine countries, providing the knowledge, tools and training they need to transform their urban fabric and shift towards a more sustainable, equitable future.
 
-As one of the key activities to support development of a knowledge-base for the UrbanShift initiative and all participant cities, the WRI data team will work with UrbanShift cities to identify and provide all cities with a common set of critical spatial data layers. using open source, global data. World Resources Institute is providing several types of data-related assistance to participating cities:
+As one of the key activities to support UrbanShift cities , the WRI data team will work with UrbanShift cities to identify and provide all cities with a common set of critical spatial data layers. using open source, global data. World Resources Institute is providing several types of data-related assistance to participating cities:
 
 - A suite of key geo-spatial layers
 - Baseline measurements of core UrbanShift indicators
@@ -66,17 +66,17 @@ Outputs will include datasets, indicators and replicable analysis methods releva
 
 ## Baseline indicators
 
-To help understand the current status and identify changes of sustainability in UrbanShift cities, we aim to measure **key baseline indicators** for all cities using comparable approaches. The selected indicators focus on measuring the status and change on the core objectives of the global project, which are aligned with three of Global Environment Facility's [focal areas for its current investment cycle (GEF-7)](https://www.thegef.org/documents/gef-7-programming-directions):**land degradation, biodiversity, and greenhouse gas emissions**. 
+To help understand the current status and identify changes of sustainability in UrbanShift cities, we aim to measure **key baseline indicators** for all cities using comparable approaches. The selected indicators focus on measuring the status and change of the core objectives of the global project, which are aligned with three of Global Environment Facility's [focal areas for its current investment cycle (GEF-7)](https://www.thegef.org/documents/gef-7-programming-directions):**land degradation, biodiversity, and greenhouse gas emissions**. 
 
-These assessments are intended to provide information to evaluate patterns within and between cities and to provide contextual information to cities to help them with problem and solution definition. We will disseminate the results to help local governments, the global project team, implementing agencies and national governments to gain a better understanding of the cities’ current status as it relates to sustainability efforts, capacities, main needs and opportunities, and planned investments.
+These assessments are intended to support the evaluation of patterns within and between cities and to provide contextual information to cities to help them in the deision making process. We will disseminate the results to help local governments, the global project team, implementing agencies and national governments to gain a better understanding of the cities’ current status as it relates to sustainability efforts, capacities, needs and opportunities, and planned investments.
 
 
 # Land degradation & green space monitoring
 ## Context
 
-Land degradation is one of the world’s most pressing environmental challenge with direct impacts on climate change adaptation, ecosystem condition, food security and human well-being. Globally, about 25% of the total land area has been degraded and 3.2 billion people are affected by this phenomenon, particularly rural communities, smallholder farmers, and the very poor ([source](https://www.thegef.org/topics/land-degradation)). As a financial mechanism of the United Nations Convention to Combat Desertification (UNCDD), the GEF is highlighting the necessity to invest in programs for encouraging use of sustainable land management practices and land degradation has been selected as one of the strategic focal area in its new four-year investment cycle (known as [GEF-7](https://www.thegef.org/documents/gef-7-programming-directions)).
+Land degradation is one of the world’s most pressing environmental challenge with direct impacts on climate change adaptation, ecosystem condition, food security and human well-being. Globally, about 25% of the total land area has been degraded and 3.2 billion people are affected by this phenomenon, particularly rural communities, smallholder farmers, and the very poor ([source](https://www.thegef.org/topics/land-degradation)). As a financial mechanism of the United Nations Convention to Combat Desertification (UNCDD), the GEF is highlighting the necessity to invest in programs that encourage sustainable land management practices and land degradation has been selected as one of the strategic focal area in its new four-year investment cycle (known as [GEF-7](https://www.thegef.org/documents/gef-7-programming-directions)).
 
-Through the Land Degradation Neutrality (LDN) program, the UNCDD, in collaboration with multiple international partners, is supporting interested countries in setting national baselines, targets and measures to protect their land resources. Land Degradation Neutrality concept is defined as *a state whereby the amount and quality of land resources necessary to support ecosystem function and services and enhance food security remain stable or increase within specified temporal and spatial scales and ecosystems*.
+Through the Land Degradation Neutrality (LDN) program, the UNCDD, in collaboration with multiple international partners, is supporting interested countries in setting national baselines, targets and measures to protect their land resources. The Land Degradation Neutrality concept is defined as *a state whereby the amount and quality of land resources necessary to support ecosystem function and services and enhance food security remain stable or increase within specified temporal and spatial scales and ecosystems*.
 
 These objectives are in accordance with the Sustainable Development Goal (SDG) target 15.3 stating: *By 2030, combat desertification, restore degraded land and soil, including land affected by desertification, drought and floods, and strive to achieve a land degradation neutral world*.
 
@@ -84,19 +84,19 @@ These objectives are in accordance with the Sustainable Development Goal (SDG) t
 
 The [Special Report on Climate Change and Land](https://www.ipcc.ch/srccl/chapter/chapter-4/), defines Land degradation as *negative trend in land condition, caused by direct or indirect human-induced processes including anthropogenic climate change, expressed as long-term reduction or loss of at least one of the following: biological productivity, ecological integrity, or value to humans*.
 
-Multiple factors are increasing the pressure on land resources such as the growing demand for food, urban expansion, decrease in land productivity due to soil degradation and biodiversity decline and extreme weather events impacts.
+Multiple factors are increasing the pressure on land resources such as the growing demand for food, urban expansion, decrease in land productivity due to soil degradation, biodiversity loss and extreme weather events.
 
 ## Data
 
 In order to provide greenspace indicators within UrbanShift cities, we selected global coverage datasets with high spatial resolution.
 
-- **Dynamic world (DW)**: The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: `water`, `trees`,`grass`,`flooded vegetation`,`crops`,`scrub/shrub`, `built area`,`bare ground`, and `snow/ice`. The DW datasets can be used as proxy for estimating land degradation by quantifying the percent of vegetation land area (such as `water`, `trees`,`grass`) within UrbanShift cities boundaries.
+- **Dynamic world (DW)**: The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: `water`, `trees`,`grass`,`flooded vegetation`,`crops`,`scrub/shrub`, `built area`,`bare ground`, and `snow/ice`. The DW datasets can be used as a proxy for estimating land degradation by quantifying the percent of vegetation land area (such as `water`, `trees`,`grass`) within UrbanShift cities boundaries.
 
-- **Sentinel-2**: Sentinel-2 is a wide-swath, high-resolution, multi-spectral imaging mission supporting Copernicus Land Monitoring studies, including the monitoring of vegetation, soil and water cover. Its optical instrument samples in 13 spectral bands: four bands at 10 metres, six bands at 20metres and three bands at 60 metres spatial resolution. Sentinel-2 images can be used for computing the Normalized Difference Vegetation Index (NDVI) considered as an effective index for estimating green vegetation.
+- **Sentinel-2**: Sentinel-2 is a wide-swath, high-resolution, multi-spectral imaging mission supporting Copernicus Land Monitoring studies, including the monitoring of vegetation, soil and water cover. Its optical instrument samples in 13 spectral bands: four bands at 10 meters, six bands at 20 meters and three bands at 60 meters spatial resolution. Sentinel-2 images can be used for computing the Normalized Difference Vegetation Index (NDVI) considered as an effective index for estimating green vegetation.
 
 - **Tree Outside of Forests (TOF)**: The TOF project provides tree extent data at 10m scale based on trained Convolutional Neural Network using satellite imagery (Sentinel-1 and Sentinel-2). It enables accurate reporting of tree cover outside of dense, closed-canopy forests and urban areas. For more details about the data, see [the github repository](https://github.com/wri/sentinel-tree-cover) and [this article](https://arxiv.org/abs/2005.08702). The TOF data is used for estimating tree cover within the selected UrbanShift cities.
 
-- **Intra-Urban Land Use (ULU)**: The ULU data provides land use and land cover information of urban areas based on the application of supervised classification model trained on high resolution Sentinel-2 stallite imagery data. Urban land classes include: `open space`,`non residential area`,`residential atomistic`,`residential informal`,`residential forma`,`housing project`, and `roads``.  ([detailed documentation of this dataset](https://www.wri.org/research/spatial-characterization-urban-land-use-through-machine-learning). This dataset is used for providing the distribution of different urban land use classes within UrbanShift cities' boundaries and statistics on vegetation and tree cover levels by land use classes
+- **Intra-Urban Land Use (ULU)**: The ULU data provides land use and land cover information of urban areas based on the application of supervised classification model trained on high resolution Sentinel-2 satellite imagery data. Urban land classes include: `open space`,`non residential area`,`residential atomistic`,`residential informal`,`residential forma`,`housing project`, and `roads``.  ([detailed documentation of this dataset](https://www.wri.org/research/spatial-characterization-urban-land-use-through-machine-learning). This dataset provides the distribution of different urban land use classes within UrbanShift cities' boundaries and statistics on vegetation and tree cover levels by land use classes
 
 
 ## Greenspace indicators
@@ -427,7 +427,7 @@ baseline_indicators %>%
 
 ```{r Read-baseline-dw-vegetation, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 # read table
-dw_landcover_stat = read.csv(paste("C:/Users/saifs/Documents/urbanshift/data/indicators/",selected_city,"_dw_landcover_stat.csv", sep =""))
+dw_landcover_stat = read.csv(paste("./greenspace/outputs/",selected_city,"_dw_landcover_stat.csv", sep =""))
 
 # plot table
 dw_landcover_stat %>% 
@@ -492,7 +492,7 @@ aws.get.ndvi.by.year = function(year, city_id, ndvi_threshold, data_source){
 
 # collect NDVI by year
 
-city_ndvi_2020 = aws.get.ndvi.by.year(year ="2020", city_id = selected_city, ndvi_threshold = 0.4, data_source = "local")
+city_ndvi_2020 = aws.get.ndvi.by.year(year ="2020", city_id = selected_city, ndvi_threshold = 0.4, data_source = "aws")
 # city_ndvi_2019 = aws.get.ndvi.by.year(year ="2019", city_id = "CRI-San_Jose", ndvi_threshold = 0.4, data_source = "local")
 # city_ndvi_2018 = aws.get.ndvi.by.year(year ="2018", city_id = "CRI-San_Jose", ndvi_threshold = 0.4, data_source = "local")
 # city_ndvi_2017 = aws.get.ndvi.by.year(year ="2017", city_id = "CRI-San_Jose", ndvi_threshold = 0.4, data_source = "local")
@@ -676,7 +676,7 @@ baseline_indicators %>%
 
 ```{r Read-baseline-ndvi-vegetation, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 # read table
-ndvi_vegetation_stat = read.csv(paste("C:/Users/saifs/Documents/urbanshift/data/indicators/",selected_city,"_ndvi_vegetation_stat.csv", sep =""))
+ndvi_vegetation_stat = read.csv(paste("./greenspace/outputs/",selected_city,"_ndvi_vegetation_stat.csv", sep =""))
 
 # plot table
 ndvi_vegetation_stat %>% 
@@ -833,7 +833,7 @@ baseline_indicators %>%
 
 ```{r Read-indicator-tof-treecover, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 # read table
-tof_treecover_stat = read.csv(paste("C:/Users/saifs/Documents/urbanshift/data/indicators/",selected_city,"_tof_treecover_stat.csv", sep =""))
+tof_treecover_stat = read.csv(paste("./greenspace/outputs/",selected_city,"_tof_treecover_stat.csv", sep =""))
 
 # plot table
 tof_treecover_stat %>% 
@@ -844,7 +844,8 @@ tof_treecover_stat %>%
 
 ## Percent of built area with vegetation (Dynamic World + Sentinel2)
 
-This indicator measures the vegetation percent in only built areas by combining the Dynamic World land classses for extracting built areas and Sentinel-2 imagery for estimating vegeation index based on the NDVI.
+This indicator measures the percentage of vegetation in built areas by combining the Dynamic World land classes to extract built areas and Sentinel-2 imagery to estimate vegetation index based on the NDVI metric.
+
 
 ```{r Compute-stat-built-vegetation, warning=FALSE, message=FALSE, echo = FALSE,  eval = FALSE}
 ########################### compute built area with vegetation stat
@@ -957,7 +958,7 @@ baseline_indicators %>%
 
 ```{r Read-indicator-built-vegetation, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 # read table
-built_vegetation_stat = read.csv(paste("C:/Users/saifs/Documents/urbanshift/data/indicators/",selected_city,"_built_vegetation_stat.csv", sep =""))
+built_vegetation_stat = read.csv(paste("./greenspace/outputs/",selected_city,"_built_vegetation_stat.csv", sep =""))
 
 # plot table
 built_vegetation_stat %>% 
@@ -967,9 +968,9 @@ built_vegetation_stat %>%
 ```
 
 
-## Percent of built area with treer cover (Dynamic World + TOF)
+## Percent of built area with tree cover (Dynamic World + TOF)
 
-This indicator measures the tree cover of only built areas by combining the Dynamic World land classses for extracting built areas and TOF data for tree cover levels.
+This indicator measures the tree cover of built areas by combining the Dynamic World land classesto extract built areas and TOF data for tree cover levels.
 
 ```{r Compute-stat-built-treecover, warning=FALSE, message=FALSE, echo = FALSE,  eval = FALSE}
 compute.built.treecover = function(city_landcover_dw,city_tof,city_id, year){
@@ -1029,7 +1030,7 @@ baseline_indicators %>%
 
 ```{r Read-stat-built-treecover, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 # read table
-built_treecover_stat = read.csv(paste("C:/Users/saifs/Documents/urbanshift/data/indicators/",selected_city,"_built_treecover_stat.csv", sep =""))
+built_treecover_stat = read.csv(paste("./greenspace/outputs/",selected_city,"_built_treecover_stat.csv", sep =""))
 
 # plot table
 built_treecover_stat %>% 
@@ -1041,9 +1042,9 @@ built_treecover_stat %>%
 
 ## Percent of urban land classes (Intra Urban Land Use)
 
-The ULU data provides land use and land cover information of urban areas based on the application of supervised classification model trained on high resolution Sentinel-2 satellite imagery data. Urban land classes include:
+The ULU data provides land use and land cover information of urban areas based on the application of a supervised classification model trained on high resolution Sentinel-2 satellite imagery data. Urban land classes include:
 
-- **Open space**: It refers to any lot of previous land cover, including farmland.
+- **Open space**: It refers to any lot of pervious land cover, including farmland.
 - **Non residential**: This category include commercial and industrial usage,like warehouses, stores, factories, and air- or seaports.
 - **Residential**: This category include various levels of residential subcategories (atomistic, informal/formal subdivisions and housing projects).
 
@@ -1372,7 +1373,7 @@ tree_cover_ulu_stat %>%
 
 ```{r Read-Stat-ULU-Tree-Cover-vegetation, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 # read table
-ulu_stat_treecover = read.csv(paste("C:/Users/saifs/Documents/urbanshift/data/indicators/",selected_city,"_ulu_stat_treecover.csv", sep =""))
+ulu_stat_treecover = read.csv(paste("./greenspace/outputs/",selected_city,"_ulu_stat_treecover.csv", sep =""))
 
 # plot table
 ulu_stat_treecover %>% 
