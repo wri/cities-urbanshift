@@ -77,6 +77,12 @@ write.csv(city_subregion_urban_expansion,
 ###########################################################################################################
 # Plot the map  -----
 
+# read outputs
+city_subregion_urban_expansion = read.csv("./github/cities-urbanshift/thematic-analysis/Freetown/output/planning_area_urban_expansion.csv")
+
+city_subregion_urban_expansion = city_subregion_urban_expansion %>% 
+  mutate_at("name", as.character)
+
 # merge with geo
 city_subregion_urban_expansion_map = city_sub_boundary %>% 
   left_join(city_subregion_urban_expansion,

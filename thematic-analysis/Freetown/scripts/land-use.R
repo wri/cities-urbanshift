@@ -19,6 +19,11 @@ library(kableExtra)
 library(reactable)
 library(sparkline)
 
+# Read planning area data ----
+
+# read processed data
+planning_area <- st_read("./github/cities-urbanshift/thematic-analysis/Freetown/data/processed/planning_area.geojson",
+                         quiet = TRUE)
 
 
 # Read land use data ----
@@ -66,11 +71,14 @@ leaflet(city_land_use) %>%
   addTiles() %>%
   addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
   addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>%
-  # Add boundaries
-  # addPolygons(data = city_land_use,
-  #             group = "Land use",
-  #             stroke = TRUE, color = "gray", weight = 1,dashArray = "3",
-  #             smoothFactor = 0.3, fill = TRUE, fillOpacity = 0.5) %>%
+  # Add planning areas layer
+  addPolygons(data = planning_area,
+              group = "Planning areas",
+              stroke = TRUE, color = "black", weight = 2,dashArray = "3",
+              smoothFactor = 0.3, fill = FALSE, fillOpacity = 0.9,
+              highlightOptions = highlightOptions(color = "black", weight = 3,
+                                                  bringToFront = TRUE)) %>%
+  # add land use layer
   addPolygons(data = city_land_use,
               group = "Land Use",
               fillColor = ~pal_land_use(LegendLabe),
@@ -94,7 +102,7 @@ leaflet(city_land_use) %>%
   # Layers control
   addLayersControl(
     baseGroups = c("OSM","CartoDB"),
-    overlayGroups = c("Land Use"),
+    overlayGroups = c("Land Use","Planning areas" ),
     options = layersControlOptions(collapsed = FALSE)
   )
 
@@ -257,6 +265,14 @@ leaflet(landuse_urban_expansion_map, height = 500, width = "100%") %>%
   addTiles() %>%
   addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
   addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>%
+  # Add planning areas layer
+  addPolygons(data = planning_area,
+              group = "Planning areas",
+              stroke = TRUE, color = "white", weight = 2,dashArray = "3",
+              smoothFactor = 0.3, fill = FALSE, fillOpacity = 0.9,
+              highlightOptions = highlightOptions(color = "gray", weight = 3,
+                                                  bringToFront = TRUE)) %>%
+  # Add land use layer
   addPolygons(data = landuse_urban_expansion_map,
               group = "Urban expansion",
               fillColor = ~pal_landuse_urban_expansion_class(urban_expansion_class),
@@ -282,7 +298,7 @@ leaflet(landuse_urban_expansion_map, height = 500, width = "100%") %>%
   # Layers control
   addLayersControl(
     baseGroups = c("CartoDB","OSM"),
-    overlayGroups = c("Urban expansion"),
+    overlayGroups = c("Urban expansion", "planning areas"),
     options = layersControlOptions(collapsed = FALSE)
   ) 
 
