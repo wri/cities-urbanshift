@@ -825,11 +825,14 @@ leaflet(city_land_use, height = 500, width = "100%") %>%
   addTiles() %>%
   addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
   addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>%
-  # Add boundaries
-  # addPolygons(data = city_land_use,
-  #             group = "Land use",
-  #             stroke = TRUE, color = "gray", weight = 1,dashArray = "3",
-  #             smoothFactor = 0.3, fill = TRUE, fillOpacity = 0.5) %>%
+  # Add planning areas layer
+  addPolygons(data = planning_area,
+              group = "Planning areas",
+              stroke = TRUE, color = "black", weight = 2,dashArray = "3",
+              smoothFactor = 0.3, fill = FALSE, fillOpacity = 0.9,
+              highlightOptions = highlightOptions(color = "black", weight = 3,
+                                                  bringToFront = TRUE)) %>%
+  # add land use layer
   addPolygons(data = city_land_use,
               group = "Land Use",
               fillColor = ~pal_land_use(LegendLabe),
@@ -853,10 +856,9 @@ leaflet(city_land_use, height = 500, width = "100%") %>%
   # Layers control
   addLayersControl(
     baseGroups = c("OSM","CartoDB"),
-    overlayGroups = c("Land Use"),
+    overlayGroups = c("Land Use","Planning areas" ),
     options = layersControlOptions(collapsed = FALSE)
   )
-
 ```
 
 The aggregation of urban expansion indicator by land use class shows that the areas with highest urban sprawl are the `waterbody and river`, `woodland and forest`, and `urban agriculture`.
@@ -900,12 +902,19 @@ labels <- sprintf("<strong>%s</strong><br/>%s: %s %s",
                   round(landuse_urban_expansion_map$urban_expansion, 2), "") %>%
   lapply(htmltools::HTML)
 
-
 # plot map
 leaflet(landuse_urban_expansion_map, height = 500, width = "100%") %>%
   addTiles() %>%
   addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
   addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>%
+  # Add planning areas layer
+  addPolygons(data = planning_area,
+              group = "Planning areas",
+              stroke = TRUE, color = "white", weight = 2,dashArray = "3",
+              smoothFactor = 0.3, fill = FALSE, fillOpacity = 0.9,
+              highlightOptions = highlightOptions(color = "gray", weight = 3,
+                                                  bringToFront = TRUE)) %>%
+  # Add land use layer
   addPolygons(data = landuse_urban_expansion_map,
               group = "Urban expansion",
               fillColor = ~pal_landuse_urban_expansion_class(urban_expansion_class),
@@ -919,21 +928,21 @@ leaflet(landuse_urban_expansion_map, height = 500, width = "100%") %>%
               labelOptions = labelOptions(
                 style = list("font-weight" = "normal", padding = "3px 6px"),
                 textsize = "15px",
-                direction = "auto")) %>%
+                direction = "auto")) %>% 
   addLegend(colors = pal_landuse_urban_expansion_colors,
             labels = c("No urban expansion", "< 5 %","< 10 %","< 20 %","< 50 %","> 50 %"),
-            # pal = pal_landuse_urban_expansion,
-            # values = landuse_urban_expansion_map$urban_expansion,
-            opacity = 0.9,
+            # pal = pal_landuse_urban_expansion, 
+            # values = landuse_urban_expansion_map$urban_expansion, 
+            opacity = 0.9, 
             title = "Urban expansion (%)",
             position = "topright",
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
     baseGroups = c("CartoDB","OSM"),
-    overlayGroups = c("Urban expansion"),
+    overlayGroups = c("Urban expansion", "planning areas"),
     options = layersControlOptions(collapsed = FALSE)
-  )
+  ) 
 
 # aggregate urban expansion by land use class ----
 

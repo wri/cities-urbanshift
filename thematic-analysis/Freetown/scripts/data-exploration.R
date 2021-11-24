@@ -514,6 +514,14 @@ for(i in 1:nrow(city_sub_boundary)){
                                         city_i_landclass_stat_2016_2021)
 }
 
+# compute urban expansion
+city_subregion_urban_expansion = city_subregion_landclass_stat %>% group_by(name) %>% 
+  mutate(
+    urban_expansion = Urban - lag(Urban)
+  ) %>% 
+  drop_na(urban_expansion) %>% 
+  dplyr::select(name, urban_expansion)
+
 
 # municipality boundaries ----
 
