@@ -464,6 +464,57 @@ city_subregion_urban_expansion %>%
          yaxis = list(title = 'Percent of urban expansion')
   )
 
+# Planning area ----
+
+# read raw data
+planning_area = readOGR("./github/cities-urbanshift/thematic-analysis/Freetown/data/raw",
+                        "Planning Area 12")
+
+# write processed data: convert to geojson
+writeOGR(planning_area,
+         dsn = "./github/cities-urbanshift/thematic-analysis/Freetown/data/processed/planning_area.geojson",
+         layer = "planning_area",
+         driver = "GeoJSON",
+         overwrite_layer=TRUE)
+
+# read processed data
+planning_area <- st_read("./github/cities-urbanshift/thematic-analysis/Freetown/data/processed/planning_area.geojson",
+                         quiet = TRUE)
+
+
+#rename field
+city_sub_boundary = planning_area %>% 
+  rename(name = P.Area)
+
+# create empty dataframe
+city_subregion_landclass_stat = data.frame(name = as.character(),
+                                           year = as.character(),
+                                           Urban = as.numeric(),
+                                           'Non Urban' = as.numeric())
+
+# compute urban area by planning area
+
+for(i in 1:nrow(city_sub_boundary)){
+  print(i)
+  
+  city_sub_boundary_i = city_sub_boundary[i,]
+  
+  city_i_landclass_stat_2016 = CityLandClassStatSubBoundary(city_sub_boundary = city_sub_boundary_i,
+                                                            classified_map = classified_map_2016, 
+                                                            year = "2016")
+  
+  city_i_landclass_stat_2021 = CityLandClassStatSubBoundary(city_sub_boundary = city_sub_boundary_i,
+                                                            classified_map = classified_map_2021, 
+                                                            year = "2021")
+  
+  city_i_landclass_stat_2016_2021 = rbind(city_i_landclass_stat_2016,
+                                          city_i_landclass_stat_2021)
+  
+  city_subregion_landclass_stat = rbind(city_subregion_landclass_stat,
+                                        city_i_landclass_stat_2016_2021)
+}
+
+
 # municipality boundaries ----
 
 
