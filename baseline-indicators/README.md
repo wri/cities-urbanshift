@@ -19,6 +19,14 @@ The baseline indicators attempt to provide insightful metrics at the city scale 
 
 ## Biodiversity
 
+| Indicator name | Description |Used datasets | Years |
+| ------- | ------- | ------- | ------- | 
+| Number of reported birds | Number of reported birds within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
+| Number of reported birds by order | Number of reported birds broken down by orders within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
+| Number of reported birds by family | Number of reported birds broken down by family within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
+| Number of reported birds by genus | Number of reported birds broken down by genus within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
+| Percent of protected area | For each municipality, percent of land protected as a protected area as defined by IUCN or CBD. | `WDPA`, `geBoundaries` | 2020 |
+
 ## GHG emissions
 
 
@@ -26,6 +34,7 @@ The baseline indicators attempt to provide insightful metrics at the city scale 
 
 | Theme | City | Report |
 | --- | --- |--- |
-| Green space | San-Jose | [Link to the report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators.html) |
-| Green space | Kigali | [Link to the report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators-Kigali.html) |
-| Green space | Freetown | [Link to the report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators-Freetown.html) |
+| Green space | San-Jose | [San-Jose Greenspace basline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators.html) |
+| Green space | Kigali | [Kigali Greenspace basline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators-Kigali.html) |
+| Green space | Freetown | [Freetown Greenspace basline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators-Freetown.html) |
+| Biodiversity | San-Jose | [San-Jose Biodiversity basline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-SanJose.html) |
