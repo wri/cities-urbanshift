@@ -1,0 +1,13 @@
+"city_id","indicator_theme","data_sources","indicator_name","year","value"
+"CRI-San_Jose","greenspace","Dynamic World / Tree Outside Forests","built_land_with_tree_cover_percent",2020,22.4867380513242
+"CRI-San_Jose","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2020,14.06
+"CRI-San_Jose","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2019,12.18
+"CRI-San_Jose","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2018,12.25
+"CRI-San_Jose","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2017,11.48
+"CRI-San_Jose","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2016,9.07
+"CRI-San_Jose","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2016,81.43
+"CRI-San_Jose","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2017,78.3
+"CRI-San_Jose","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2018,78.01
+"CRI-San_Jose","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2019,76.44
+"CRI-San_Jose","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2020,76.96
+"CRI-San_Jose","greenspace","Tree Outside Forests","tof_avg_tree_cover",2020,47.4466043663967
