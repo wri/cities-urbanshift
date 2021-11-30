@@ -47,4 +47,8 @@ The table below lists the different datasets we are considering to process for t
 | Climate | Flooding | Aqueduct Floods  (WRI) |  |
 | Climate | Water risk | Aqueduct Water Risk Atlas  (WRI) |  |
 
+# Data Hub
+
+You can visit the working version of the data hub through this link: https://urbanshift-data-hub-worldresources.hub.arcgis.com/
+
 

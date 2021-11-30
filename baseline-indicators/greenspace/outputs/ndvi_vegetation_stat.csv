@@ -1,6 +1,0 @@
-"city_id","indicator_theme","data_sources","indicator_name","year","value"
-"CRI-San_Jose","greenspace","COPERNICUS/S2","s2_ndvi_vegetation_land_percent","2020",94.73
-"CRI-San_Jose","greenspace","COPERNICUS/S2","s2_ndvi_vegetation_land_percent","2019",92.75
-"CRI-San_Jose","greenspace","COPERNICUS/S2","s2_ndvi_vegetation_land_percent","2018",93.55
-"CRI-San_Jose","greenspace","COPERNICUS/S2","s2_ndvi_vegetation_land_percent","2017",93.15
-"CRI-San_Jose","greenspace","COPERNICUS/S2","s2_ndvi_vegetation_land_percent","2016",89.63
