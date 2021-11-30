@@ -1,0 +1,13 @@
+"city_id","indicator_theme","data_sources","indicator_name","year","value"
+"SLE-Freetown_core","greenspace","Dynamic World / Tree Outside Forests","built_land_with_tree_cover_percent",2020,6.103824513382
+"SLE-Freetown_core","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2020,23.05
+"SLE-Freetown_core","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2019,26.82
+"SLE-Freetown_core","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2018,31.24
+"SLE-Freetown_core","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2017,32.95
+"SLE-Freetown_core","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2016,21.07
+"SLE-Freetown_core","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2016,18.37
+"SLE-Freetown_core","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2017,18.35
+"SLE-Freetown_core","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2018,17.36
+"SLE-Freetown_core","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2019,18.05
+"SLE-Freetown_core","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2020,17.46
+"SLE-Freetown_core","greenspace","Tree Outside Forests","tof_avg_tree_cover",2020,24.34
