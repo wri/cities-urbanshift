@@ -970,7 +970,11 @@ These analyses provide a proof of concept of using global remote sensing open da
 
 The trained model presents a high accuracy (95%) based on the validation set extracted from the labeled data. The application of this model enabled us to explore the spatial distribution of `urban` and `non urban` areas in the whole Freetown region at different periods. The outputs show an increase in urban expansion encroaching on the Western Area Forest Reserve. 
 
-We proposed an urban expansion indicator based on the percentage of urban area between between 2016 and 2021. Aggregated at the ward level, the proposed indicator highlighted the cities that present the highest urban expansion, such as `Thnderhill` and `Mamba Ridge II` (more than 20% increase of urban areas in the last 6 years).
+- **Wards level:**  We proposed an urban expansion indicator based on the percentage of urban area between between 2016 and 2021. Aggregated at the ward level, the proposed indicator highlighted the cities that present the highest urban expansion, such as `Thnderhill` and `Mamba Ridge II` (more than 20% increase of urban areas in the last 6 years).
+
+- **Planning areas**: FCC provided us with the boundaries of planning areas used for urban planning policies. The aggregation of urban expansion indicator at the planning areas level highlighted the importance of urban expansion in two planning areas: `zone 8` and `zone 9` with respectively `19.3%` and `12.9%` increase in urban area.
+
+- **Urban expansion by land use class:** FCC provided us with the land use shapefile dividing Freetown municipality into 13 distinct land classes. The aggregation of urban expansion indicator by land use class shows that the urban expansion is mainly located in `waterbody`, `woodland` and `urban agriculture` areas.
 
 The results of this analysis may be used to better plan prevent urban expansion in the identified areas and localities as part of the development of Freetown master plan.
 
@@ -1001,6 +1005,23 @@ While the results of the proposed classification model provide insights on urban
   - [Labeled urban areas, geojson file](https://storage.googleapis.com/urbanshift/freetown/labeled_data/urban.geojson)
   - [Labeled non-urban areas, geojson file](https://storage.googleapis.com/urbanshift/freetown/labeled_data/non_urban.geojson)
 
-- **Classification maps**:
+- **Classification maps (rasters)**:
   - [Freetown classification map 2016, GoeTiff file](https://storage.googleapis.com/urbanshift/freetown/classified_maps/classified_map_2016.tif)
   - [Freetown classification map 2021,  GoeTiff file](https://storage.googleapis.com/urbanshift/freetown/classified_maps/classified_map_2021.tif)
+
+## Download output maps
+
+
+- [Land classification 2016, png file](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/thematic-analysis/freetown/maps/land-classification-2016.png)
+
+- [Land classification 2021, png file](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/thematic-analysis/freetown/maps/land-classification-2021.png)
+
+- [Urban expansion - 2016-2021 - region, png file](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/thematic-analysis/freetown/maps/urban-expansion-2016-2021.png)
+
+- [Urban expansion - 2016-2021 - wards, png file](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/thematic-analysis/freetown/maps/urban-expansion-2016-2021-wards.png)
+
+- [Urban expansion - 2016-2021 - planning areas, png file](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/thematic-analysis/freetown/maps/urban-expansion-2016-2021-planning-areas.png)
+
+- [Land use map, png file](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/thematic-analysis/freetown/maps/land-use-map.png)
+
+- [Urban expansion - 2016-2021 - land use class, png file](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/thematic-analysis/freetown/maps/urban-expansion-2016-2021-by-land-use-classes.png)

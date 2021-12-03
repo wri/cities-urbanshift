@@ -21,7 +21,7 @@ path = paste(getwd(),"github/cities-urbanshift/baseline-indicators/greenspace",s
 
 # Define city
 
-selected_city = "RWA-Kigali"
+selected_city = "CRI-San_Jose" # "SLE-Freetown_core" #"RWA-Kigali"
 
 
 # read outputs indicators
