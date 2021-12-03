@@ -318,13 +318,16 @@ birds_in_geo_adm2_stat %>%
          yaxis = list(title = 'Number of observations in 2020'))
 
 
-# protected areas -----
+# protected areas map -----
 
 protected_areas_sanjose = st_read("./data/biodiversity/data/biodiversity_map_layers_protected_areas_sanjose.geojson",
                                 quiet = TRUE)
 
 protected_areas_costarica = st_read("./data/biodiversity/data/biodiversity_map_layers_protected_areas_costarica.geojson",
                                   quiet = TRUE)
+
+protected_areas_costarica = st_read("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/biodiversity_map_layers_protected_areas_sanjose.geojson",
+                                    quiet = TRUE)
 
 leaflet(data = boundary, height = 500, width = "100%") %>% 
   addTiles() %>%
@@ -335,7 +338,7 @@ leaflet(data = boundary, height = 500, width = "100%") %>%
   addPolygons(data = boundary,
               group = "Administrative boundaries",
               stroke = TRUE, color = col_Black, weight = 3,dashArray = "3",
-              smoothFactor = 0.3, fill = TRUE, fillOpacity = 0.2,
+              smoothFactor = 0.3, fill = FALSE, fillOpacity = 0.2,
               highlight = highlightOptions(
                 weight = 5,
                 color = "#666",
@@ -372,6 +375,27 @@ leaflet(data = boundary, height = 500, width = "100%") %>%
   ) %>% 
   hideGroup("Municipality boundaries")
 
-# percent of protected areas by municipality
+# percent of protected areas by municipality ----
 
+protectedarea_percent_by_municipality = read.csv("./data/biodiversity/data/protectedarea_percent_by_municipality.csv")
 
+protectedarea_percent_by_municipality = read.csv("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/protectedarea_percent_by_municipality.csv")
+
+# rename columns
+protectedarea_percent_by_municipality = protectedarea_percent_by_municipality %>% 
+  rename_with(.cols = 1, ~'municpality_name') %>% 
+  rename_with(.cols = 2, ~'percent_protected_area')
+
+# plot chart
+protectedarea_percent_by_municipality %>% 
+  arrange(desc(percent_protected_area)) %>%
+  plot_ly(height = 500, width = 900) %>% 
+  add_trace(x = ~factor(municpality_name), 
+            y = ~percent_protected_area, 
+            marker = list(color = col_BoldRiverBlue),
+            type = "bar",
+            orientation = "v")  %>% 
+  layout(title = "Percent of protected area by municipality (2020)",
+         xaxis = list(title = '', categoryorder = "array",categoryarray = ~percent_protected_area),
+         yaxis = list(title = 'Percent of protected area (%)'))
+  
