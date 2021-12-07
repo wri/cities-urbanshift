@@ -31,7 +31,8 @@ library(data.table)
 library(leaflet.providers)
 library(knitr)
 library(kableExtra)
-
+library(reactable)
+library(readxl)
 col_BoldRiverBlue = "#242456"
 col_BoldSunYellow = "#FFD450"
 col_BoldGrassGreen = "#2A553E"
@@ -72,7 +73,88 @@ These assessments are intended to provide information to evaluate patterns withi
 
 # Biodiversity
 
-## Context
+## The Singapore Index on cities' Biodiversity 
+
+The City Biodiversity Index was launched by Singapore in 2008 at the eight Conference of the Parties to the convention on Biological Diversity (DBD). It serves as a self-assessment tool for cities to monitor the progress of their biodiversity conservation efforts.
+
+The Singapore Index framework is constituted of two parts:
+
+- *The profile of the City*: It provides background information on the city: location, size, population, economic parameters, physical features, biodiversity features, administration....
+- *Biodiversity indicators*: It includes 28 indicators that measure native biodiversity, ecosystem services and management of biodiversity in the city. Each indicator is assigned a scoring range between zero and four points. 
+
+
+```{r sangapore-biodiversity-index, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+
+
+singapore_biodiversity_index = data.frame(core_components = c(rep("Native Biodivesity in the City",9),
+                                                              rep("Ecosystem Services provided by Biodiversity",5),
+                                                              rep("Governance and Management of Biodiversity",14)),
+                                          indicators = c("1. Proportion of Natural Areas in the City",
+                                                         "2. Connectivity Measures or Ecological Networks to Counter Fragmentation",
+                                                         "3. Native Biodiversity in Built Up Areas (Bird Species",
+                                                         "4. Change in Number of Vascular Plant Species",
+                                                         "5. Change in Number of Native Bird Species",
+                                                         "6. Change in Number of Native Arthropod Species",
+                                                         "7. Habitat Restoration",
+                                                         "8. Proportion of Protected Natural Areas",
+                                                         "9. Proportion of Invasive Alien Species",
+                                                         "10. Regulation of Quantity of Water",
+                                                         "11. Climate Regulation – Benefits of Trees and Greenery",
+                                                         "12. Recreational Services",
+                                                         "13. Health and Wellbeing – Proximity/Accessibility to Parks",
+                                                         "14. Food Security Resilience – Urban Agriculture",
+                                                         "15. Institutional Capacity",
+                                                         "16. Budget Allocated to Biodiversity",
+                                                         "17. Policies, Rules and Regulations – Existence of Local Biodiversity Strategy and Action Plan",
+                                                         "18. Status of Natural Capital Assessment in the City",
+                                                         "19. State of Green and Blue Space Management Plans in the City",
+                                                         "20. Biodiversity Related Responses to Climate Change",
+                                                         "21. Policy and/or Incentives for Green Infrastructure as Nature-based Solutions",
+                                                         "22. Cross-sectoral and Inter-agency Collaborations",
+                                                         "23. Participation and Partnership: Existence of Formal or Informal Public Consultation Process Pertaining to Biodiversity Related Matter",
+                                                         "24. Participation and Partnership: Number of Agencies/Private Companies/NGOs/Academic Institutions/International Organisations with which the City is Partnering in Biodiversity Activities, Projects and Programmes",
+                                                         "25. Number of Biodiversity Projects Implemented by the City Annually",
+                                                         "26. Education",
+                                                         "27. Awareness",
+                                                         "28. Community Science")
+)
+
+reactable(
+  singapore_biodiversity_index,
+  columns = list(
+    core_components = colDef(name = "Core components"),
+    indicators = colDef(name = "Indicators")
+  ),
+  groupBy = "core_components",
+  onClick = "expand",
+  # Give rows a pointer cursor to indicate that they're clickable
+  rowStyle = list(cursor = "pointer")
+)
+```
+
+The complete methodology for computing Singapore Biodiversity Index is provide in [this publication](https://www.cbd.int/doc/publications/cbd-ts-98-en.pdf).
+
+
+## UrbanShift Biodiversity indicators
+
+| Indicator name | Definition | Data sources |
+| ------- | ------- | ------- | 
+| I-1. Proportion of natural areas | (Total area of natural, restored and naturalised areas) ÷ (Area of city) × 100% | `ESA WorldCover (natural areas as all values except crop, built-up, bare)` | 
+| I-2. Connectivity measures or ecological networks to counter fragmentation |  |` ESA WorldCover (natural areas as all values except crop, built-up, bare)` | 
+| I-3. Native biodiversity in built-up areas (birds) | (Number of native bird species found in built-up areas) ÷ (Total number of native bird species in the city) × 100% | `ESA WorldCover`, `iNaturalist 2020 research-grade observations` | 
+| I-3. Native biodiversity in built-up areas (birds) | (Number of native bird species found in built-up areas) ÷ (Total number of native bird species in the city) × 100% | `ESA WorldCover`, `iNaturalist 2020 research-grade observations` | 
+| I-4. Change in number of native species (vascular plants) | Total increase in number of vascular plant species (as a result of re-introduction, rediscovery, new species found due to more intensive and comprehensive surveys, etc.) | `iNaturalist 2020 research-grade observations` | 
+|I-5. Change in number of native species (birds) | Total increase in number of native bird species (as a result of re-introduction, rediscovery, new species found due to more intensive and comprehensive surveys, etc.) | `iNaturalist 2020 research-grade observations` | 
+|I-6. Change in number of native species (arthropods)| Total increase in number of native arthropod species (as a result of re-introduction, rediscovery, new species found due to more intensive and comprehensive surveys, etc.) | `iNaturalist 2020 research-grade observations` | 
+|I-7. Habitat restoration| (Area of habitat restored*) ÷ (Area of original habitat that 
+is degraded**) × 100% |  | 
+|I-8. Proportion of protected natural areas | (Area of protected or secured natural areas) ÷ (Total area of the city) × 100% |   `World Database of Protected Areas`| 
+|I-9. Proportion of invasive alien species | To ensure that the comparison of invasive alien specie with that of native species is meaningful, it would have to be a comparison of identical taxonomic groups.(Number of invasive alien species in a taxonomic group) ÷ (Total number of native species of the same taxonomic group + number of invasive alien species) × 100% | `Global Invasive Species Database`| 
+|I-10. Regulation of quantity of water | (Total permeable area) ÷ (Total terrestrial area of the city) × 100% | `GAIA 2018 30m impervious area`| 
+|I-11. Climate regulation: carbon storage and cooling effect of vegetation | (Tree canopy cover) ÷ (Total terrestrial area of the city) × 100% | | 
+|I-12. Recreational services | (Area of parks, nature conservation areas and other green spaces with natural areas and protected or secured accessible natural areas) /1000 persons | `OpenStreetMap`, `WorldPop` | |
+|I-13 Proximity to parks | (Population of city living within 400m from a park/green space) ÷ (Total population of city) × 100% | `OpenStreetMap`, `WorldPop` | 
+
 
 ## Data sources
 
@@ -83,28 +165,174 @@ These assessments are intended to provide information to evaluate patterns withi
 
 - **The Global Invasive Species Database (GISD)**: [The Global Invasive Species Database (GISD)](http://www.iucngisd.org/gisd/) is a free, online searchable source of information about alien and invasive species that negatively impact biodiversity. It focuses on invasive alien species that threaten native biodiversity and natural areas and covers all taxonomic groups from micro-organisms to animals and plants.
 
-## Biodiversity indicators
-
-| Indicator name | Description |Used datasets | Years |
-| ------- | ------- | ------- | ------- | 
-| Number of reported birds | Number of reported birds within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
-| Number of reported birds by order | Number of reported birds broken down by orders within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
-| Number of reported birds by family | Number of reported birds broken down by family within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
-| Number of reported birds by genus | Number of reported birds broken down by genus within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
-| Percent of protected area | For each municipality, percent of land protected as a protected area as defined by IUCN or CBD. | `WDPA`, `geBoundaries` | 2020 |
+- **ESA World Cover**: [The European Space Agency (ESA) WorldCover 10 m 2020 product](https://esa-worldcover.org/en) provides a global land cover map for 2020 at 10 m resolution based on Sentinel-1 and Sentinel-2 data. The WorldCover product comes with 11 land cover classes, aligned with UN-FAO's Land Cover Classification System, and has been generated in the framework of the ESA WorldCover project.
 
 # Case study: San Jose
 
-## Birds
+## Data sources exploration
 
-### Metropolitan level
+### ESA World Cover
+
+The European Space Agency (ESA) WorldCover 10 m 2020 product provides a global land cover map for 2020 at 10 m resolution based on Sentinel-1 and Sentinel-2 data. The WorldCover project, part of the 5th Earth Observation Envelope Programme (EOEP-5), had the objective to produce, deliver and validate, as fast as possible, a global 10 meter resolution land cover (LC) map of the world within 3 months of the last data acquisition with a minimum of 10 land cover classes and a minimum overall accuracy of 75%. 
+
+The WorldCover product comes with 11 land cover classes:
+
+- *Tree cover*: This class includes any geographic area dominated by trees with a cover of 10% or more. Areas planted with trees for afforestation purposes and plantations (e.g. oil palm, olive trees) are included in this class. This class also includes tree covered areas seasonally or permanently flooded with fresh water except for mangroves.
+- *Shrubland*: This class includes any geographic area dominated by natural shrubs having a cover of 10% or more. Shrubs are defined as woody perennial plants with persistent and woody stems and without any defined main stem being less than 5 m tall. 
+- *Grassland*: This class includes any geographic area dominated by natural herbaceous plants (Plants without persistent stem or shoots above ground and lacking definite firm structure): (grasslands, prairies, steppes, savannahs, pastures) with a cover of 10% or more, irrespective of different human and/or animal activities.
+- *Cropland*: Land covered with annual cropland that is sowed/planted and harvestable at least once within the 12 months after the sowing/planting date.
+- *Built-up*: Land covered by buildings, roads and other man-made structures such as railroads. Buildings include both residential and industrial building.
+- *Bare / sparse vegetation*: Lands with exposed soil, sand, or rocks and never has more than 10% vegetated cover during any time of the year.
+- *Snow and ice*: This class includes any geographic area covered by snow or glaciers persistently.
+- *Open water*: This class includes any geographic area covered for most of the year (more than 9 months) by water bodies: lakes, reservoirs, and rivers. 
+- *Herbaceous wetland*: Land dominated by natural herbaceous vegetation (cover of 10% or more) that is permanently or regularly flooded by fresh, brackish or salt water. 
+- *Mangroves*: Taxonomically diverse, salt-tolerant tree and other plant species which thrive in intertidal zones of sheltered tropical shores, "overwash" islands, and estuaries.
+- *Moss and lichen*: Land covered with lichens and/or mosses. Lichens are composite organisms formed from the symbiotic association of fungi and algae. Mosses contain photo-autotrophic land plants without true leaves, stems, roots but with leaf-and stemlike organs.
+
+```{r boundary, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+# read Boundary
+boundary = st_read("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/boundaries/CRI-San_Jose-boundary.geojson", quiet = TRUE)
+
+boundary_municipality = st_read("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/boundaries-CRI-San_Jose-ADM2.geojson",
+                                quiet = TRUE)
+
+```
+
+```{r worldcover_map, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+
+# read worldcover raster
+worldcoverc_data_path = "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/indicators_biodiversity_CRI-San_Jose-esa-worldcover-2020.tif"
+
+city_worldcover_raster= raster(worldcoverc_data_path)
+
+# read admin boundary of sanjose city
+boundary_municipality_SanJose = boundary_municipality[boundary_municipality$shapeName.1 == "Cantón San José", ]
+
+# crop raster for sanjose city
+municipality_SanJose_worldcover  = raster::crop(city_worldcover_raster,boundary_municipality_SanJose)
+municipality_SanJose_worldcover  = raster::mask(municipality_SanJose_worldcover,boundary_municipality_SanJose)
+
+# define colors for each class
+
+Trees_10_green = "#006400"
+Shrubland_20_orange = "#ffbb22"
+Grassland_30_yellow = "#ffff4c" 
+Cropland_40_mauve = "#f096ff"
+Built_up_50_red = "#fa0000"
+Barren_sparse_vegetation_60_gray = "#b4b4b4"
+Snow_ice_70_white = "#f0f0f0"
+Open_Water_80_blue = "#0064c8"
+Herbaceous_wetland_90_blue2 = "#0096a0"
+Mangroves_95_green2 = "#00cf75"
+Moss_lichen_100_beige = "#fae6a0"
+
+# define color vector
+worldcover_col = c(Trees_10_green,
+                   Shrubland_20_orange,
+                   Grassland_30_yellow,
+                   Cropland_40_mauve,
+                   Built_up_50_red,
+                   Barren_sparse_vegetation_60_gray,
+                   Open_Water_80_blue)
+
+# define a color palette
+pal_worldcover <- colorFactor(worldcover_col, 
+                              values(municipality_SanJose_worldcover),
+                              na.color = "transparent")
+# define labels
+labels_worldcover = c('Trees','Shrubland','Grassland','Cropland','	Built-up',
+                      'Barren / sparse vegetation','Open water')
+
+# create the map
+map = leaflet(municipality_SanJose_worldcover, height = 500, width = "100%")  %>%
+  addTiles() %>%
+  addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite") %>%
+  addProviderTiles(providers$OpenStreetMap, group = "OSM") %>%
+  addProviderTiles(providers$CartoDB.DarkMatter, group = "CartoDB") %>%
+  addPolygons(data = boundary_municipality_SanJose,
+              group = "Administrative boundaries",
+              stroke = TRUE, color = "gray", weight = 3,dashArray = "3",
+              smoothFactor = 0.3, fill = FALSE, fillOpacity = 0.5,
+              highlight = highlightOptions(
+                weight = 5,
+                color = "#666",
+                dashArray = "",
+                fillOpacity = 0.3,
+                bringToFront = TRUE),
+              label = boundary_municipality_SanJose$name,
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 8px"),
+                textsize = "15px",
+                direction = "auto")) %>%
+  addRasterImage(municipality_SanJose_worldcover, 
+                 colors = pal_worldcover, 
+                 opacity = 0.9,
+                 maxBytes = 20 * 1024 * 1024,
+                 group = "World Cover") %>%
+  # addLegend(pal = pal_worldcover,
+  #           values = values(municipality_SanJose_worldcover),
+  #           title = "World Cover") %>% 
+  addLegend(colors = worldcover_col,
+            labels = labels_worldcover,
+            title = "World Cover") %>%
+  addLayersControl(
+    baseGroups = c("Toner Lite", "OSM","CartoDB"),
+    overlayGroups = c("World Cover","Administrative boundaries"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+
+map
+
+```
+
+```{r worldcover_stat, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+year = 2020
+
+city_worldcover_stat = as.data.frame(city_worldcover_raster) %>%
+  rename_at(1, ~"class" ) %>% 
+  drop_na(class) %>% 
+  group_by(class) %>%
+  tally() %>%
+  mutate(area = n * res(city_worldcover_raster)[1] * res(city_worldcover_raster)[2]) %>% 
+  dplyr::select(land_cover_classes = class,
+                nb_cells = n) %>% 
+  mutate(land_cover_percent = round(nb_cells/sum(nb_cells) * 100,2))%>% 
+  add_column(year = year) %>% 
+  arrange(desc(land_cover_percent)) %>%
+  mutate_at("land_cover_classes", as.character) %>%
+  mutate(land_cover_classes = recode(land_cover_classes,
+                                   "10" =  "Trees",
+                                   "20" = "Shrubland" ,
+                                   "30" = "Grassland",
+                                   "40" = "Cropland",
+                                   "50" =  "Built-up",
+                                   "60" = "Barren / sparse vegetation",
+                                   "70" = "Snow and ice",
+                                   "80" = "Open water",
+                                   "90" = "Herbaceous wetland",
+                                   "95" = "Mangroves",
+                                   "100" = "Moss and lichen")) %>% 
+  dplyr::select('land cover class' = land_cover_classes,
+                'land percent' = land_cover_percent,
+                'year' = year)
+
+
+# plot table
+city_worldcover_stat %>% 
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13)%>% 
+  scroll_box(width = "100%", height = "300px")
+
+```
+
+### Global Biodiversity Information Facility (GBIF)
+
+#### Metropolitan level
 
 - **Location of reported birds:**
 
 ```{r Birds_map, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
-# read Boundary
-boundary = st_read("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/boundaries/CRI-San_Jose-boundary.geojson",
-                    quiet = TRUE)
+
 
 birds2020 = st_read("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/biodiversity/biodiversity_map_layers_birds2020_sanjose.geojson",
                     quiet = TRUE)
@@ -236,7 +464,7 @@ birds2020_stats_genus %>%
          
 ```
 
-### Municipality level
+#### Municipality level
 
 ```{r Birds_map_adm2, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 boundary_municipality = st_read("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/boundaries-CRI-San_Jose-ADM2.geojson",
@@ -335,7 +563,7 @@ birds_in_geo_adm2_stat %>%
 ```
 
 
-## Prrtected areas
+### World Database on Protected Areas (WDPA)
 
 ```{r protected_area_map, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 # protected areas map -----
@@ -411,3 +639,89 @@ protectedarea_percent_by_municipality %>%
          xaxis = list(title = '', categoryorder = "array",categoryarray = ~percent_protected_area),
          yaxis = list(title = 'Percent of protected area (%)'))
 ```
+
+## Baseline indicators
+
+### I-1. Porportion of natural areas
+
+```{r percent_natural_areas, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+biodiversity_baseline_indicators <- read_excel("./data/biodiversity/biodiversity baseline indicators.xlsx", sheet = "SCORES")
+
+# I-1. Porportion of natural areas
+
+boundary_municipality$Municipality = str_remove(boundary_municipality$shapeName.1, "Cantón ")
+# change encoding
+boundary_municipality$Municipality = iconv(boundary_municipality$Municipality,from="UTF-8",to="ASCII//TRANSLIT")
+
+# join with geo
+biodiversity_baseline_indicators_geo = boundary_municipality %>% 
+  left_join(biodiversity_baseline_indicators,
+            by = c("Municipality")) %>% 
+  rename(percent_natural_areas = 'I-1 raw')
+
+# prepare map
+
+# define color palette for urban expansion levels
+pal_I1 <- colorNumeric(palette = "Greens", 
+                       domain = biodiversity_baseline_indicators_geo$percent_natural_areas,
+                       na.color = "transparent",
+                       revers = FALSE)
+
+# define map labels
+labels_I1 <- sprintf("<strong>%s</strong><br/>%s: %s %s",
+                     biodiversity_baseline_indicators_geo$shapeName.1,
+                     "Proportion of natural areas: ",
+                     round(biodiversity_baseline_indicators_geo$percent_natural_areas, 2), "") %>% 
+  lapply(htmltools::HTML)
+
+
+# plot map
+leaflet(height = 500, width = "100%") %>%
+  addTiles() %>%
+  addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>%
+  addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
+  addPolygons(data = biodiversity_baseline_indicators_geo,
+              group = "Porportion of natural areas",
+              fillColor = ~pal_I1(percent_natural_areas),
+              weight = 1,
+              opacity = 1,
+              color = "grey",
+              fillOpacity = 0.7,
+              label = labels_I1,
+              highlightOptions = highlightOptions(color = "black", weight = 2,
+                                                  bringToFront = FALSE),
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 6px"),
+                textsize = "15px",
+                direction = "auto")) %>% 
+  addLegend(pal = pal_I1,
+            values = biodiversity_baseline_indicators_geo$percent_natural_areas,
+            opacity = 0.9,
+            title = "% natural areas (2020)",
+            position = "topright",
+            labFormat = labelFormat(suffix = "")) %>%
+  # Layers control
+  addLayersControl(
+    baseGroups = c("CartoDB","OSM"),
+    overlayGroups = c("Porportion of natural areas"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) 
+
+# plot chart
+biodiversity_baseline_indicators_geo %>% 
+  arrange(desc(percent_natural_areas)) %>%
+  plot_ly(height = 500, width = 900) %>% 
+  add_trace(x = ~factor(Municipality), 
+            y = ~percent_natural_areas, 
+            marker = list(color = col_BoldGrassGreen),
+            type = "bar",
+            orientation = "v")  %>% 
+  layout(title = "Percent of natural areas (2020)",
+         xaxis = list(title = '', categoryorder = "array",categoryarray = ~percent_natural_areas),
+         yaxis = list(title = 'Percent of natiral area (%)'))
+```
+
+### I-2. Connectivity measures or ecological networks to counter fragmentation
+
+### I-3 Connectivity measures or ecological networks to counter fragmentation
+
