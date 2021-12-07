@@ -19,13 +19,23 @@ The baseline indicators attempt to provide insightful metrics at the city scale 
 
 ## Biodiversity
 
-| Indicator name | Description |Used datasets | Years |
-| ------- | ------- | ------- | ------- | 
-| Number of reported birds | Number of reported birds within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
-| Number of reported birds by order | Number of reported birds broken down by orders within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
-| Number of reported birds by family | Number of reported birds broken down by family within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
-| Number of reported birds by genus | Number of reported birds broken down by genus within the administrative boundaries of the selected city (both metropolitan and municipality levels) | `GBIF`, `geBoundaries` | 2020 |
-| Percent of protected area | For each municipality, percent of land protected as a protected area as defined by IUCN or CBD. | `WDPA`, `geBoundaries` | 2020 |
+| Indicator name | Definition | Data sources |
+| ------- | ------- | ------- | 
+| I-1. Proportion of natural areas | (Total area of natural, restored and naturalised areas) ÷ (Area of city) × 100% | `ESA WorldCover (natural areas as all values except crop, built-up, bare)` | 
+| I-2. Connectivity measures or ecological networks to counter fragmentation |  |` ESA WorldCover (natural areas as all values except crop, built-up, bare)` | 
+| I-3. Native biodiversity in built-up areas (birds) | (Number of native bird species found in built-up areas) ÷ (Total number of native bird species in the city) × 100% | `ESA WorldCover`, `iNaturalist 2020 research-grade observations` | 
+| I-3. Native biodiversity in built-up areas (birds) | (Number of native bird species found in built-up areas) ÷ (Total number of native bird species in the city) × 100% | `ESA WorldCover`, `iNaturalist 2020 research-grade observations` | 
+| I-4. Change in number of native species (vascular plants) | Total increase in number of vascular plant species (as a result of re-introduction, rediscovery, new species found due to more intensive and comprehensive surveys, etc.) | `iNaturalist 2020 research-grade observations` | 
+|I-5. Change in number of native species (birds) | Total increase in number of native bird species (as a result of re-introduction, rediscovery, new species found due to more intensive and comprehensive surveys, etc.) | `iNaturalist 2020 research-grade observations` | 
+|I-6. Change in number of native species (arthropods)| Total increase in number of native arthropod species (as a result of re-introduction, rediscovery, new species found due to more intensive and comprehensive surveys, etc.) | `iNaturalist 2020 research-grade observations` | 
+|I-7. Habitat restoration| (Area of habitat restored*) ÷ (Area of original habitat that 
+is degraded**) × 100% |  | 
+|I-8. Proportion of protected natural areas | (Area of protected or secured natural areas) ÷ (Total area of the city) × 100% |   `World Database of Protected Areas`| 
+|I-9. Proportion of invasive alien species | To ensure that the comparison of invasive alien specie with that of native species is meaningful, it would have to be a comparison of identical taxonomic groups.(Number of invasive alien species in a taxonomic group) ÷ (Total number of native species of the same taxonomic group + number of invasive alien species) × 100% | `Global Invasive Species Database`| 
+|I-10. Regulation of quantity of water | (Total permeable area) ÷ (Total terrestrial area of the city) × 100% | `GAIA 2018 30m impervious area`| 
+|I-11. Climate regulation: carbon storage and cooling effect of vegetation | (Tree canopy cover) ÷ (Total terrestrial area of the city) × 100% | | 
+|I-12. Recreational services | (Area of parks, nature conservation areas and other green spaces with natural areas and protected or secured accessible natural areas) /1000 persons | `OpenStreetMap`, `WorldPop` | |
+|I-13 Proximity to parks | (Population of city living within 400m from a park/green space) ÷ (Total population of city) × 100% | `OpenStreetMap`, `WorldPop` | 
 
 ## GHG emissions
 
