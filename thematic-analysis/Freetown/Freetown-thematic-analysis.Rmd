@@ -992,7 +992,7 @@ While the results of the proposed classification model provide insights on urban
 ## Tutorial
 
 - [Training video presenting the tool used for building Freetown land classification model](https://www.loom.com/share/a9e538ea9fe043809dc32ab468396c55)
-- [Google Earth Engine script used for this analysis](https://code.earthengine.google.com/?scriptPath=users%2Fsaifshabou%2Furbanshift%3Afreetown%2Fmain)
+- [Google Earth Engine script used for this analysis](https://code.earthengine.google.com/d14d537e1d3e9fed52fb30287a5c19e9)
 - [Google Earth Engine tutorial](https://developers.google.com/earth-engine/tutorials/community/explore)
 
 ## Download Data
