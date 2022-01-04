@@ -1,0 +1,235 @@
+---
+title: "UrbanShift Biodiversity Indicators Pipeline"
+author: "Saif Shabou"
+date: "`r format (Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4
+    theme: spacelab
+    highlight: tango
+    number_sections: yes
+    code_folding: hide
+---
+
+```{r Libraries, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+
+# library(shiny)
+library(plotly)
+library(leaflet)
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(rgdal)
+library(tidyverse)
+library(sf)
+library(rgeos)
+library(httr)
+library(jsonlite)
+library(raster)
+library(data.table)
+library(leaflet.providers)
+library(knitr)
+library(kableExtra)
+library(reactable)
+library(readxl)
+
+```
+
+# Pipline overview
+
+
+
+# Indicator 1
+
+```{r city-boundary, warning=FALSE, message=FALSE, echo = TRUE,  eval = TRUE}
+
+# read all boundaries
+urbanshift_boundaries = st_read("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/boundaries/administrative_boundaries.geojson",
+                                quiet = TRUE)
+
+# select verified boundaries
+urbanshift_boundaries = urbanshift_boundaries[urbanshift_boundaries$boundary_use == TRUE, ]
+
+# cities list
+urbanshift_cities = urbanshift_boundaries$city_name
+
+# extract cities with wrong boundaries
+urbanshift_cities = urbanshift_cities[! urbanshift_cities %in% c("ARG-Mar_del_Plata",
+                                                                 "IDN-Balikpapan",
+                                                                 "CHN-Ningbo")]
+
+```
+
+## Compute world cover statistics by city
+
+```{r city-world-cover-stat, warning=FALSE, message=FALSE, echo = TRUE,  eval = FALSE}
+
+# compute statistics on world cover distribution at the city level
+
+world.cover.city.stat = function(city_worldcover, year,city_id){
+  city_worldcover_stat = as.data.frame(city_worldcover_raster) %>%
+    rename_at(1, ~"class" ) %>% 
+    drop_na(class) %>% 
+    group_by(class) %>%
+    tally() %>%
+    mutate(area = n * res(city_worldcover_raster)[1] * res(city_worldcover_raster)[2]) %>% 
+    dplyr::select(land_cover_classes = class,
+                  nb_cells = n) %>% 
+    mutate(land_cover_percent = round(nb_cells/sum(nb_cells) * 100,2))%>% 
+    add_column(year = year,
+               city_id = city_id) %>% 
+    arrange(desc(land_cover_percent)) %>%
+    mutate_at("land_cover_classes", as.character) %>%
+    mutate(land_cover_classes = recode(land_cover_classes,
+                                       "10" =  "Trees",
+                                       "20" = "Shrubland" ,
+                                       "30" = "Grassland",
+                                       "40" = "Cropland",
+                                       "50" =  "Built-up",
+                                       "60" = "Barren / sparse vegetation",
+                                       "70" = "Snow and ice",
+                                       "80" = "Open water",
+                                       "90" = "Herbaceous wetland",
+                                       "95" = "Mangroves",
+                                       "100" = "Moss and lichen")) %>% 
+    dplyr::select(city_id = city_id,
+                  year = year,
+                  land_cover_class = land_cover_classes,
+                  land_percent = land_cover_percent)
+  
+  return(city_worldcover_stat)
+}
+
+
+# initialize empty dataframe for storing indicators
+cities_worldcover_stat = data.frame(city_id = as.character(),
+                                    land_cover_class = as.character(),
+                                    land_percent = as.numeric(),
+                                    year = as.numeric())
+
+for(i in 1:length(urbanshift_cities)){
+  
+  # print(i)
+  
+  city_id = urbanshift_cities[i]
+  print(city_id)
+  
+  # extract city boundary
+  city_boundary = urbanshift_boundaries[urbanshift_boundaries$city_name == city_id, ]
+  
+  # read world cover by city
+  
+  worldcoverc_data_path = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/world_cover_",
+                                city_id,
+                                ".tif",
+                                sep = "")
+  city_worldcover_raster = raster(worldcoverc_data_path)
+  city_worldcover  = raster::mask(city_worldcover_raster,
+                                  city_boundary)
+  
+  city_worldcover_stat = city_worldcover_stat = world.cover.city.stat(city_worldcover = city_worldcover,
+                                                                      year = 2020,
+                                                                      city_id = city_id)
+  
+  
+  cities_worldcover_stat = rbind(cities_worldcover_stat,
+                                 city_worldcover_stat)
+}
+
+# plot table
+cities_worldcover_stat %>% 
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13)%>% 
+  scroll_box(width = "100%", height = "500px")
+
+# store outputs
+write.csv(cities_worldcover_stat,
+          "./data/cities_worldcover_stat.csv",
+          row.names = FALSE)
+```
+
+## Compute percent of natural area
+
+```{r compute-i1, warning=FALSE, message=FALSE, echo = TRUE,  eval = TRUE}
+
+cities_worldcover_stat = read.csv("./data/cities_worldcover_stat.csv")
+
+# initialize empty dataframe for storing indicators
+biodiversity_indicators = data.frame(city_id = as.character(),
+                                     year =  as.numeric(),
+                                     indicator_name = as.character(),
+                                     indicator_number = as.character(),
+                                     value = as.numeric(),
+                                     score = as.numeric())
+
+
+
+# function to compute I1
+compute.i1 = function(city_id,city_worldcover_stat,year){
+  
+  natural_areas_classes = c('Trees','Shrubland','Grassland','Snow/ice','Open water','Herbaceous wetland',
+                            'Mangroves','Moss/lichen')
+  
+  biodiversity_indicators = city_worldcover_stat %>% 
+    mutate(natural_areas_class =
+             case_when(land_cover_class %in% natural_areas_classes ~ "Natural areas", 
+                       !land_cover_class %in% natural_areas_classes ~ "Non Natural areas")
+    ) %>% 
+    group_by(natural_areas_class) %>% 
+    summarise(natural_areas_percent = sum(land_percent)) %>% 
+    filter(natural_areas_class == "Natural areas") %>% 
+    add_column(city_id = city_id,
+               year = year,
+               indicator_name = "Proportion of natural areas",
+               indicator_number = "I1") %>% 
+    rename(value = natural_areas_percent) %>% 
+    mutate(score =
+             case_when(value <  1 ~ "0", 
+                       value <=  6.9 ~ "1", 
+                       value <=  13.9 ~ "2",
+                       value <=  20 ~ "3",
+                       value >  20 ~ "4")) %>% 
+    dplyr::select(city_id,
+                  year,
+                  indicator_name,
+                  indicator_number,
+                  value,
+                  score)
+  
+  return(biodiversity_indicators)
+}
+
+
+# compute I1 for urbanshift cities
+
+for(i in 1:length(urbanshift_cities)){
+  
+  # print(i)
+  
+  city_id = urbanshift_cities[i]
+  # print(city_id)
+  
+  city_worldcover_stat = cities_worldcover_stat[cities_worldcover_stat$city_id == city_id, ]
+  
+  biodiversity_inidcators_I1 = compute.i1(city_id = city_id,
+                                          city_worldcover_stat = city_worldcover_stat,
+                                          year = 2020)
+  
+  biodiversity_indicators = rbind(biodiversity_indicators,
+                                  biodiversity_inidcators_I1)
+  
+}
+
+# store outputs
+write.csv(biodiversity_indicators,
+          "./data/biodiversity_indicators.csv",
+          row.names = FALSE)
+
+# plot table
+biodiversity_indicators %>% 
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13)%>% 
+  scroll_box(width = "100%", height = "500px")
+```
+# Indicator 2
