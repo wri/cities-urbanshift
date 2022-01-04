@@ -617,9 +617,16 @@ library(readxl)
 
 biodiversity_baseline_indicators <- read_excel("./data/biodiversity/biodiversity baseline indicators.xlsx", sheet = "SCORES")
 
+
+boundary_municipality = st_read("./data/biodiversity/boundaries-CRI-San_Jose-ADM2.geojson",
+                                quiet = TRUE)
+
+
 boundary_municipality$Municipality = str_remove(boundary_municipality$shapeName.1, "Cantón ")
 # change encoding
 boundary_municipality$Municipality = iconv(boundary_municipality$Municipality,from="UTF-8",to="ASCII//TRANSLIT")
+
+
 
 # join with geo
 biodiversity_baseline_indicators_geo = boundary_municipality %>% 
@@ -638,16 +645,34 @@ biodiversity_baseline_indicators_geo = boundary_municipality %>%
          I12_recreational_services_value = 'I-12 raw',
          I12_recreational_services_score = 'I-12 score',
          I13_proximity_parks_value = 'I-13 raw',
-         I13_proximity_parkss_score = 'I-13 score') %>% 
+         I13_proximity_parks_score = 'I-13 score') %>% 
   mutate_at("I1_percent_natural_areas_score", as.character) %>% 
   mutate_at("I2_connectivity_score", as.character) %>% 
   mutate_at("I3_percent_birds_built_area_score", as.character)%>% 
   mutate_at("I8_percent_protected_area_score", as.character) %>% 
   mutate_at("I10_water_score", as.character) %>% 
   mutate_at("I12_recreational_services_score", as.character) %>% 
-  mutate_at("I13_proximity_parkss_score", as.character)
+  mutate_at("I13_proximity_parks_score", as.character)
 
 # I-1. Porportion of natural areas ----
+
+scoring_rules = data.frame("Score" = c("0 POINTS","1 POINTS","2 POINTS","3 POINTS","4 POINTS"),
+                           "Indicator value" = c("< 1.0%",
+                                                 "0% – 6.9%",
+                                                 "7.0% – 13.9%",
+                                                 "14.0% – 20.0%",
+                                                 "> 20.0%"))
+
+scoring_rules %>% 
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13) %>% 
+  row_spec(1, bold = T, color = "black", background = "red") %>% 
+  row_spec(2, bold = T, color = "black", background = "orange") %>% 
+  row_spec(3, bold = T, color = "black", background = "yellow") %>% 
+  row_spec(4, bold = T, color = "black", background = "yellowgreen") %>% 
+  row_spec(5, bold = T, color = "black", background = "green")
+
+
 
 # prepare map
 
@@ -670,7 +695,7 @@ labels_I1 <- sprintf("<strong>%s</strong><br/>%s: %s %s<br/>%s: %s",
                      biodiversity_baseline_indicators_geo$shapeName.1,
                      "Proportion of natural areas",
                      round(biodiversity_baseline_indicators_geo$I1_percent_natural_areas_value, 2), "",
-                     "Scores",biodiversity_baseline_indicators_geo$I1_percent_natural_areas_score) %>% 
+                     "Score",biodiversity_baseline_indicators_geo$I1_percent_natural_areas_score) %>% 
   lapply(htmltools::HTML)
 
 
@@ -680,6 +705,21 @@ leaflet(height = 500, width = "100%") %>%
   addTiles() %>%
   addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>%
   addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
+  addPolygons(data = boundary_municipality,
+              group = "Administrative boundaries",
+              stroke = TRUE, color = "gray", weight = 1,dashArray = "3",
+              smoothFactor = 0.3, fill = FALSE, fillOpacity = 0.5,
+              highlight = highlightOptions(
+                weight = 5,
+                color = "#666",
+                dashArray = "",
+                fillOpacity = 0.3,
+                bringToFront = TRUE),
+              label = boundary_municipality$shapeName.1,
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 8px"),
+                textsize = "15px",
+                direction = "auto")) %>%
   addPolygons(data = biodiversity_baseline_indicators_geo,
               group = "Porportion of natural areas",
               fillColor = ~pal_I1(I1_percent_natural_areas_value),
@@ -703,7 +743,7 @@ leaflet(height = 500, width = "100%") %>%
   # I1 score layer
   addPolygons(data = biodiversity_baseline_indicators_geo,
               group = "Porportion of natural areas Score",
-              fillColor = ~pal_S1(I1_percent_natural_areas_score),
+              fillColor = ~pal_score(I1_percent_natural_areas_score),
               weight = 1,
               opacity = 1,
               color = "grey",
@@ -716,8 +756,12 @@ leaflet(height = 500, width = "100%") %>%
                 textsize = "15px",
                 direction = "auto")) %>% 
   # I1 score legend
-  addLegend(colors = c("green","yellow","orange","red"),
-            labels = c("1","2","3","4"),
+  addLegend(colors =  c("green","yellowgreen","yellow","orange","red"),
+            labels = c("4 (> 20.0%)",
+                       "3 (14.0% – 20.0%)",
+                       "2 (7.0% – 13.9%)",
+                       "1 (0% – 6.9%)",
+                       "0 (< 1.0%)"),
             opacity = 0.9,
             title = "Natural areas scores (2020)",
             position = "bottomleft",
@@ -725,7 +769,9 @@ leaflet(height = 500, width = "100%") %>%
   # Layers control
   addLayersControl(
     baseGroups = c("CartoDB","OSM"),
-    overlayGroups = c("Porportion of natural areas","Porportion of natural areas Score"),
+    overlayGroups = c("Porportion of natural areas",
+                      "Porportion of natural areas Score",
+                      "Administrative boundaries"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup("Porportion of natural areas Score")
@@ -791,7 +837,7 @@ leaflet(height = 500, width = "100%") %>%
   # I2 score layer
   addPolygons(data = biodiversity_baseline_indicators_geo,
               group = "Connectivity Score",
-              fillColor = ~pal_S1(I2_connectivity_score),
+              fillColor = ~pal_score(I2_connectivity_score),
               weight = 1,
               opacity = 1,
               color = "grey",
@@ -805,7 +851,11 @@ leaflet(height = 500, width = "100%") %>%
                 direction = "auto")) %>% 
   # I1 score legend
   addLegend(colors = c("green","yellowgreen","yellow","orange","red"),
-            labels = c("0","1","2","3","4"),
+            labels = c("4 (> 79 %)",
+                       "3 (60% – 79%)",
+                       "2 (40% – 59.9%)",
+                       "1 (20% – 39.9%)",
+                       "0 (< 20%)"),
             opacity = 0.9,
             title = "Connectivity score (2020)",
             position = "bottomleft",
@@ -890,7 +940,11 @@ leaflet(height = 500, width = "100%") %>%
                 direction = "auto")) %>% 
   # I1 score legend
   addLegend(colors = c("green","yellowgreen","yellow","orange","red"),
-            labels = c("0","1","2","3","4"),
+            labels = c("4 (> 20 %)",
+                       "3 (16% – 20%)",
+                       "2 (11% – 15.9%)",
+                       "1 (6% – 10.9%)",
+                       "0 (< 6%)"),
             opacity = 0.9,
             title = "Native biodiversity in buitl-up areas score (2020)",
             position = "bottomleft",
@@ -975,7 +1029,11 @@ leaflet(height = 500, width = "100%") %>%
                 direction = "auto")) %>% 
   # I1 score legend
   addLegend(colors = c("green","yellowgreen","yellow","orange","red"),
-            labels = c("0","1","2","3","4"),
+            labels = c("4 (> 17 %)",
+                       "3 (11.1% – 17%)",
+                       "2 (6.1% – 11%)",
+                       "1 (1% – 6%)",
+                       "0 (< 1%)"),
             opacity = 0.9,
             title = "Protected area score (2020)",
             position = "bottomleft",
@@ -1046,7 +1104,7 @@ leaflet(height = 500, width = "100%") %>%
             title = "% permeable areas (2020)",
             position = "topright",
             labFormat = labelFormat(suffix = "")) %>%
-  # I8 score layer
+  # I10 score layer
   addPolygons(data = biodiversity_baseline_indicators_geo,
               group = "Permeable area score",
               fillColor = ~pal_score(I10_water_score),
@@ -1054,16 +1112,20 @@ leaflet(height = 500, width = "100%") %>%
               opacity = 1,
               color = "grey",
               fillOpacity = 1,
-              label = labels_I8,
+              label = labels_I10,
               highlightOptions = highlightOptions(color = "black", weight = 2,
                                                   bringToFront = FALSE),
               labelOptions = labelOptions(
                 style = list("font-weight" = "normal", padding = "3px 6px"),
                 textsize = "15px",
                 direction = "auto")) %>% 
-  # I1 score legend
+  # I10 score legend
   addLegend(colors = c("green","yellowgreen","yellow","orange","red"),
-            labels = c("0","1","2","3","4"),
+            labels = c("4 (> 60 %)",
+                       "3 (50% – 59.9%)",
+                       "2 (40% – 49.9%)",
+                       "1 (30% – 39.9%)",
+                       "0 (< 30%)"),
             opacity = 0.9,
             title = "Permeable area score (2020)",
             position = "bottomleft",
@@ -1132,7 +1194,7 @@ leaflet(height = 500, width = "100%") %>%
             title = "Recreational services (2020)",
             position = "topright",
             labFormat = labelFormat(suffix = "")) %>%
-  # I8 score layer
+  # I12 score layer
   addPolygons(data = biodiversity_baseline_indicators_geo,
               group = "Recreational services score",
               fillColor = ~pal_score(I12_recreational_services_score),
@@ -1147,9 +1209,13 @@ leaflet(height = 500, width = "100%") %>%
                 style = list("font-weight" = "normal", padding = "3px 6px"),
                 textsize = "15px",
                 direction = "auto")) %>% 
-  # I1 score legend
+  # I12 score legend
   addLegend(colors = c("green","yellowgreen","yellow","orange","red"),
-            labels = c("0","1","2","3","4"),
+            labels = c("4 (> 0.9 ha/1000 persons)",
+                       "3 (0.7 – 0.9 ha/1000 persons)",
+                       "2 (0.4 – 0.6 ha/1000 persons)",
+                       "1 (0.1 – 0.3 ha/1000 persons)",
+                       "0 (< 0.1 ha/1000 persons)"),
             opacity = 0.9,
             title = "Recreational services score (2020)",
             position = "bottomleft",
@@ -1174,3 +1240,92 @@ biodiversity_baseline_indicators_geo %>%
   layout(title = "Recreational services (2020)",
          xaxis = list(title = '', categoryorder = "array",categoryarray = ~I12_recreational_services_value),
          yaxis = list(title = 'Recreational services'))
+
+### I-13 Proximity to parks ----
+
+# define color palette for I1 levels
+pal_I13 <- colorNumeric(palette = "Greens", 
+                        domain = biodiversity_baseline_indicators_geo$I13_proximity_parks_value ,
+                        na.color = "transparent",
+                        revers = FALSE)
+
+# define labels
+
+labels_I13 <- sprintf("<strong>%s</strong><br/>%s: %s %s<br/>%s: %s",
+                      biodiversity_baseline_indicators_geo$shapeName.1,
+                      "Proximity to parks",
+                      round(biodiversity_baseline_indicators_geo$I13_proximity_parks_value, 2), "%",
+                      "Score",biodiversity_baseline_indicators_geo$I13_proximity_parks_score) %>% 
+  lapply(htmltools::HTML)
+
+# plot map
+leaflet(height = 500, width = "100%") %>%
+  addTiles() %>%
+  addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>%
+  addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
+  addPolygons(data = biodiversity_baseline_indicators_geo,
+              group = "Proximity to parks",
+              fillColor = ~pal_I13(I13_proximity_parks_value),
+              weight = 1,
+              opacity = 1,
+              color = "grey",
+              fillOpacity = 0.7,
+              label = labels_I13,
+              highlightOptions = highlightOptions(color = "black", weight = 2,
+                                                  bringToFront = FALSE),
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 6px"),
+                textsize = "15px",
+                direction = "auto")) %>% 
+  addLegend(pal = pal_I13,
+            values = biodiversity_baseline_indicators_geo$I13_proximity_parks_value,
+            opacity = 0.9,
+            title = "Proximity to parks (2020)",
+            position = "topright",
+            labFormat = labelFormat(suffix = "")) %>%
+  # I8 score layer
+  addPolygons(data = biodiversity_baseline_indicators_geo,
+              group = "Proximity to parks score",
+              fillColor = ~pal_score(I13_proximity_parks_score),
+              weight = 1,
+              opacity = 1,
+              color = "grey",
+              fillOpacity = 1,
+              label = labels_I13,
+              highlightOptions = highlightOptions(color = "black", weight = 2,
+                                                  bringToFront = FALSE),
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 6px"),
+                textsize = "15px",
+                direction = "auto")) %>% 
+  # I13 score legend
+  addLegend(colors = c("green","yellowgreen","yellow","orange","red"),
+            labels = c("4 (> 90%)",
+                       "3 (70% – 89.9%)",
+                       "2 (50% – 69.9%)",
+                       "1 (30% – 49.9%)",
+                       "0 (< 30%)"),
+            opacity = 0.9,
+            title = "Proximity to parks score",
+            position = "bottomleft",
+            labFormat = labelFormat(suffix = "")) %>%
+  # Layers control
+  addLayersControl(
+    baseGroups = c("CartoDB","OSM"),
+    overlayGroups = c("Proximity to parks value","Proximity to parks score"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>% 
+  hideGroup("Proximity to parks score")
+
+# plot chart
+biodiversity_baseline_indicators_geo %>% 
+  arrange(desc(I13_proximity_parks_value)) %>%
+  plot_ly(height = 500, width = 900) %>% 
+  add_trace(x = ~factor(Municipality), 
+            y = ~I13_proximity_parks_value, 
+            marker = list(color = col_BoldGrassGreen),
+            type = "bar",
+            orientation = "v")  %>% 
+  layout(title = "Proximity to parks",
+         xaxis = list(title = '', categoryorder = "array",categoryarray = ~I13_proximity_parks_value),
+         yaxis = list(title = 'Proximity to parks'))
