@@ -1,0 +1,175 @@
+"city_id","year","land_cover_class","land_percent"
+"ARG-Mendoza",2020,"Barren / sparse vegetation",59
+"ARG-Mendoza",2020,"Shrubland",18.61
+"ARG-Mendoza",2020,"Grassland",14.73
+"ARG-Mendoza",2020,"Cropland",3.91
+"ARG-Mendoza",2020,"Snow and ice",2.06
+"ARG-Mendoza",2020,"Built-up",1.09
+"ARG-Mendoza",2020,"Trees",0.3
+"ARG-Mendoza",2020,"Open water",0.29
+"ARG-Mendoza",2020,"Moss and lichen",0.01
+"ARG-Mendoza",2020,"Herbaceous wetland",0
+"ARG-Ushuaia",2020,"Open water",47.17
+"ARG-Ushuaia",2020,"Trees",24.28
+"ARG-Ushuaia",2020,"Grassland",22.16
+"ARG-Ushuaia",2020,"Barren / sparse vegetation",5.48
+"ARG-Ushuaia",2020,"Moss and lichen",0.28
+"ARG-Ushuaia",2020,"Snow and ice",0.25
+"ARG-Ushuaia",2020,"Herbaceous wetland",0.19
+"ARG-Ushuaia",2020,"Shrubland",0.1
+"ARG-Ushuaia",2020,"Built-up",0.05
+"ARG-Ushuaia",2020,"Cropland",0.04
+"ARG-Salta",2020,"Barren / sparse vegetation",31.77
+"ARG-Salta",2020,"Trees",31.57
+"ARG-Salta",2020,"Grassland",20.9
+"ARG-Salta",2020,"Cropland",7.82
+"ARG-Salta",2020,"Shrubland",6.38
+"ARG-Salta",2020,"Built-up",1.14
+"ARG-Salta",2020,"Open water",0.41
+"ARG-Salta",2020,"Snow and ice",0
+"ARG-Salta",2020,"Herbaceous wetland",0
+"ARG-Buenos_Aires",2020,"Open water",28.06
+"ARG-Buenos_Aires",2020,"Grassland",22.14
+"ARG-Buenos_Aires",2020,"Trees",17.14
+"ARG-Buenos_Aires",2020,"Built-up",16.29
+"ARG-Buenos_Aires",2020,"Herbaceous wetland",8.05
+"ARG-Buenos_Aires",2020,"Cropland",7.48
+"ARG-Buenos_Aires",2020,"Barren / sparse vegetation",0.77
+"ARG-Buenos_Aires",2020,"Shrubland",0.08
+"RWA-Kigali",2020,"Cropland",37.34
+"RWA-Kigali",2020,"Shrubland",22.49
+"RWA-Kigali",2020,"Grassland",12.09
+"RWA-Kigali",2020,"Built-up",11.63
+"RWA-Kigali",2020,"Trees",9.58
+"RWA-Kigali",2020,"Herbaceous wetland",3.3
+"RWA-Kigali",2020,"Barren / sparse vegetation",2.7
+"RWA-Kigali",2020,"Open water",0.87
+"SLE-Freetown_region",2020,"Open water",44.51
+"SLE-Freetown_region",2020,"Trees",27.23
+"SLE-Freetown_region",2020,"Mangroves",10.02
+"SLE-Freetown_region",2020,"Grassland",8.74
+"SLE-Freetown_region",2020,"Built-up",5.89
+"SLE-Freetown_region",2020,"Barren / sparse vegetation",1.26
+"SLE-Freetown_region",2020,"Herbaceous wetland",1.07
+"SLE-Freetown_region",2020,"Shrubland",0.71
+"SLE-Freetown_region",2020,"Cropland",0.57
+"MAR-Marrakech",2020,"Barren / sparse vegetation",47.23
+"MAR-Marrakech",2020,"Cropland",28.56
+"MAR-Marrakech",2020,"Grassland",15.13
+"MAR-Marrakech",2020,"Trees",3.47
+"MAR-Marrakech",2020,"Built-up",2.91
+"MAR-Marrakech",2020,"Shrubland",2.66
+"MAR-Marrakech",2020,"Open water",0.04
+"IND-Chennai",2020,"Cropland",42.93
+"IND-Chennai",2020,"Trees",18.56
+"IND-Chennai",2020,"Open water",12.66
+"IND-Chennai",2020,"Shrubland",10.71
+"IND-Chennai",2020,"Grassland",6.58
+"IND-Chennai",2020,"Built-up",5.06
+"IND-Chennai",2020,"Barren / sparse vegetation",2.93
+"IND-Chennai",2020,"Herbaceous wetland",0.57
+"IND-Pune",2020,"Cropland",48.87
+"IND-Pune",2020,"Grassland",17.13
+"IND-Pune",2020,"Barren / sparse vegetation",10.09
+"IND-Pune",2020,"Trees",9.84
+"IND-Pune",2020,"Shrubland",8.63
+"IND-Pune",2020,"Built-up",2.97
+"IND-Pune",2020,"Open water",2.47
+"IND-Pune",2020,"Herbaceous wetland",0
+"IND-Surat",2020,"Cropland",48.54
+"IND-Surat",2020,"Trees",22.43
+"IND-Surat",2020,"Open water",12.01
+"IND-Surat",2020,"Barren / sparse vegetation",7.78
+"IND-Surat",2020,"Grassland",4.98
+"IND-Surat",2020,"Built-up",3.25
+"IND-Surat",2020,"Mangroves",0.73
+"IND-Surat",2020,"Shrubland",0.19
+"IND-Surat",2020,"Herbaceous wetland",0.1
+"CHN-Chengdu",2020,"Trees",57.18
+"CHN-Chengdu",2020,"Cropland",26.98
+"CHN-Chengdu",2020,"Barren / sparse vegetation",5.63
+"CHN-Chengdu",2020,"Built-up",4.52
+"CHN-Chengdu",2020,"Grassland",3.77
+"CHN-Chengdu",2020,"Open water",1.15
+"CHN-Chengdu",2020,"Moss and lichen",0.71
+"CHN-Chengdu",2020,"Snow and ice",0.05
+"CHN-Chengdu",2020,"Shrubland",0
+"CHN-Chengdu",2020,"Herbaceous wetland",0
+"CHN-Chongqing",2020,"Trees",80.85
+"CHN-Chongqing",2020,"Cropland",11.47
+"CHN-Chongqing",2020,"Grassland",2.72
+"CHN-Chongqing",2020,"Barren / sparse vegetation",2.25
+"CHN-Chongqing",2020,"Built-up",1.53
+"CHN-Chongqing",2020,"Open water",1.15
+"CHN-Chongqing",2020,"Shrubland",0.02
+"CHN-Chongqing",2020,"Herbaceous wetland",0
+"IDN-Bitung",2020,"Open water",56.28
+"IDN-Bitung",2020,"Trees",39.6
+"IDN-Bitung",2020,"Grassland",1.48
+"IDN-Bitung",2020,"Built-up",0.99
+"IDN-Bitung",2020,"Mangroves",0.72
+"IDN-Bitung",2020,"Cropland",0.69
+"IDN-Bitung",2020,"Barren / sparse vegetation",0.24
+"IDN-Bitung",2020,"Shrubland",0.01
+"IDN-Bitung",2020,"Herbaceous wetland",0.01
+"IDN-Palembang",2020,"Trees",51.93
+"IDN-Palembang",2020,"Open water",20.46
+"IDN-Palembang",2020,"Grassland",9.23
+"IDN-Palembang",2020,"Cropland",7.5
+"IDN-Palembang",2020,"Mangroves",3.85
+"IDN-Palembang",2020,"Barren / sparse vegetation",2.84
+"IDN-Palembang",2020,"Shrubland",2.52
+"IDN-Palembang",2020,"Herbaceous wetland",0.89
+"IDN-Palembang",2020,"Built-up",0.78
+"IDN-Jakarta",2020,"Trees",43.42
+"IDN-Jakarta",2020,"Built-up",20.23
+"IDN-Jakarta",2020,"Open water",15.1
+"IDN-Jakarta",2020,"Cropland",14.54
+"IDN-Jakarta",2020,"Grassland",4.38
+"IDN-Jakarta",2020,"Barren / sparse vegetation",1.8
+"IDN-Jakarta",2020,"Herbaceous wetland",0.43
+"IDN-Jakarta",2020,"Mangroves",0.07
+"IDN-Jakarta",2020,"Shrubland",0.03
+"IDN-Semarang",2020,"Trees",49.24
+"IDN-Semarang",2020,"Cropland",26.52
+"IDN-Semarang",2020,"Open water",13.82
+"IDN-Semarang",2020,"Built-up",6.61
+"IDN-Semarang",2020,"Grassland",2.41
+"IDN-Semarang",2020,"Barren / sparse vegetation",0.6
+"IDN-Semarang",2020,"Herbaceous wetland",0.32
+"IDN-Semarang",2020,"Shrubland",0.28
+"IDN-Semarang",2020,"Mangroves",0.2
+"BRA-Teresina",2020,"Trees",49.03
+"BRA-Teresina",2020,"Shrubland",24.91
+"BRA-Teresina",2020,"Grassland",22.88
+"BRA-Teresina",2020,"Cropland",1.26
+"BRA-Teresina",2020,"Built-up",1.03
+"BRA-Teresina",2020,"Open water",0.49
+"BRA-Teresina",2020,"Barren / sparse vegetation",0.34
+"BRA-Teresina",2020,"Herbaceous wetland",0.05
+"BRA-Belem",2020,"Trees",59.51
+"BRA-Belem",2020,"Grassland",18.65
+"BRA-Belem",2020,"Open water",16.77
+"BRA-Belem",2020,"Built-up",3.21
+"BRA-Belem",2020,"Mangroves",1.08
+"BRA-Belem",2020,"Barren / sparse vegetation",0.51
+"BRA-Belem",2020,"Shrubland",0.12
+"BRA-Belem",2020,"Herbaceous wetland",0.11
+"BRA-Belem",2020,"Cropland",0.03
+"BRA-Florianopolois",2020,"Trees",62.92
+"BRA-Florianopolois",2020,"Open water",20.29
+"BRA-Florianopolois",2020,"Grassland",11.24
+"BRA-Florianopolois",2020,"Cropland",2.32
+"BRA-Florianopolois",2020,"Built-up",1.99
+"BRA-Florianopolois",2020,"Barren / sparse vegetation",0.51
+"BRA-Florianopolois",2020,"Herbaceous wetland",0.45
+"BRA-Florianopolois",2020,"Mangroves",0.27
+"BRA-Florianopolois",2020,"Shrubland",0.01
+"CRI-San_Jose",2020,"Trees",76.02
+"CRI-San_Jose",2020,"Grassland",18.28
+"CRI-San_Jose",2020,"Built-up",4.01
+"CRI-San_Jose",2020,"Cropland",0.87
+"CRI-San_Jose",2020,"Barren / sparse vegetation",0.55
+"CRI-San_Jose",2020,"Open water",0.2
+"CRI-San_Jose",2020,"Shrubland",0.07
+"CRI-San_Jose",2020,"Herbaceous wetland",0.01
