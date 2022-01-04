@@ -1,0 +1,195 @@
+---
+title: "UrbanShift Biodiversity Indicators"
+author: "Saif Shabou"
+date: "`r format (Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4
+    theme: spacelab
+    highlight: tango
+    number_sections: yes
+    code_folding: hide
+---
+
+```{r Libraries, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+
+# library(shiny)
+library(plotly)
+library(leaflet)
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(rgdal)
+library(tidyverse)
+library(sf)
+library(rgeos)
+library(httr)
+library(jsonlite)
+library(raster)
+library(data.table)
+library(leaflet.providers)
+library(knitr)
+library(kableExtra)
+library(reactable)
+library(readxl)
+col_BoldRiverBlue = "#242456"
+col_BoldSunYellow = "#FFD450"
+col_BoldGrassGreen = "#2A553E"
+col_BoldEarthGrey = "#7B7A66"
+col_BoldBrickOrange = "#F26640"
+col_LightRiverBlue = "#E3E6FF"
+col_LightSunYellow = "#FFEDBA"
+col_LightGrassGreen = "#C4F4D5"
+col_LightEarthGrey = "#ECE2D6"
+col_LightBrickOrange = "#FED3CF"
+col_White = "#FFFFFF"
+col_Black = "#000000"
+
+
+```
+
+# Case study: CHN-Chengdu
+
+```{r city, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+# read all boundaries
+urbanshift_boundaries = st_read("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/boundaries/administrative_boundaries.geojson",
+                                quiet = TRUE)
+
+# select verified boundaries
+urbanshift_boundaries = urbanshift_boundaries[urbanshift_boundaries$boundary_use == TRUE, ]
+
+# specify the cityid
+city_id = "CHN-Chengdu" 
+
+# extract city boundary
+
+city_boundary = urbanshift_boundaries[urbanshift_boundaries$city_name == city_id, ]
+```
+
+## Data sources exploration
+
+### ESA World Cover
+
+The European Space Agency (ESA) WorldCover 10 m 2020 product provides a global land cover map for 2020 at 10 m resolution based on Sentinel-1 and Sentinel-2 data. The WorldCover project, part of the 5th Earth Observation Envelope Programme (EOEP-5), had the objective to produce, deliver and validate, as fast as possible, a global 10 meter resolution land cover (LC) map of the world within 3 months of the last data acquisition with a minimum of 10 land cover classes and a minimum overall accuracy of 75%. 
+
+The WorldCover product comes with 11 land cover classes:
+
+- *Tree cover*: This class includes any geographic area dominated by trees with a cover of 10% or more. Areas planted with trees for afforestation purposes and plantations (e.g. oil palm, olive trees) are included in this class. This class also includes tree covered areas seasonally or permanently flooded with fresh water except for mangroves.
+- *Shrubland*: This class includes any geographic area dominated by natural shrubs having a cover of 10% or more. Shrubs are defined as woody perennial plants with persistent and woody stems and without any defined main stem being less than 5 m tall. 
+- *Grassland*: This class includes any geographic area dominated by natural herbaceous plants (Plants without persistent stem or shoots above ground and lacking definite firm structure): (grasslands, prairies, steppes, savannahs, pastures) with a cover of 10% or more, irrespective of different human and/or animal activities.
+- *Cropland*: Land covered with annual cropland that is sowed/planted and harvestable at least once within the 12 months after the sowing/planting date.
+- *Built-up*: Land covered by buildings, roads and other man-made structures such as railroads. Buildings include both residential and industrial building.
+- *Bare / sparse vegetation*: Lands with exposed soil, sand, or rocks and never has more than 10% vegetated cover during any time of the year.
+- *Snow and ice*: This class includes any geographic area covered by snow or glaciers persistently.
+- *Open water*: This class includes any geographic area covered for most of the year (more than 9 months) by water bodies: lakes, reservoirs, and rivers. 
+- *Herbaceous wetland*: Land dominated by natural herbaceous vegetation (cover of 10% or more) that is permanently or regularly flooded by fresh, brackish or salt water. 
+- *Mangroves*: Taxonomically diverse, salt-tolerant tree and other plant species which thrive in intertidal zones of sheltered tropical shores, "overwash" islands, and estuaries.
+- *Moss and lichen*: Land covered with lichens and/or mosses. Lichens are composite organisms formed from the symbiotic association of fungi and algae. Mosses contain photo-autotrophic land plants without true leaves, stems, roots but with leaf-and stemlike organs.
+
+```{r worldcover_map, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+# read world cover by city
+
+worldcoverc_data_path = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/world_cover_",
+                              city_id,
+                              ".tif",
+                              sep = "")
+city_worldcover_raster = raster(worldcoverc_data_path)
+city_worldcover  = raster::mask(city_worldcover_raster,
+                                     city_boundary)
+
+# plot city world cover
+
+# define colors for each class
+
+Trees_10_green = "#006400"
+Shrubland_20_orange = "#ffbb22"
+Grassland_30_yellow = "#ffff4c" 
+Cropland_40_mauve = "#f096ff"
+Built_up_50_red = "#fa0000"
+Barren_sparse_vegetation_60_gray = "#b4b4b4"
+Snow_ice_70_white = "#f0f0f0"
+Open_Water_80_blue = "#0064c8"
+Herbaceous_wetland_90_blue2 = "#0096a0"
+Mangroves_95_green2 = "#00cf75"
+Moss_lichen_100_beige = "#fae6a0"
+
+worldcover_col = c(Trees_10_green,
+                   Shrubland_20_orange,
+                   Grassland_30_yellow,
+                   Cropland_40_mauve,
+                   Built_up_50_red,
+                   Barren_sparse_vegetation_60_gray,
+                   Snow_ice_70_white,
+                   Open_Water_80_blue,
+                   Herbaceous_wetland_90_blue2,
+                   Mangroves_95_green2,
+                   Moss_lichen_100_beige)
+
+worldcover_labels = c('Trees','Shrubland','Grassland','Cropland','	Built-up',
+                      'Barren / sparse vegetation','Snow/ice','Open water','Herbaceous wetland',
+                      'Mangroves','Moss/lichen')
+
+
+# define a color palette
+pal_worldcover <- colorFactor(palette = worldcover_col, 
+                              # domain = values(city_worldcover),
+                              levels = c("10","20","30","40","50","60",
+                                         "70","80","90","95","100"),
+                              na.color = "transparent")
+
+# create the map
+map = leaflet(city_worldcover, height = 500, width = "100%")  %>%
+  addTiles() %>%
+  addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite") %>%
+  addProviderTiles(providers$OpenStreetMap, group = "OSM") %>%
+  addProviderTiles(providers$CartoDB.DarkMatter, group = "CartoDB") %>%
+  addPolygons(data = city_boundary,
+              group = "Administrative boundaries",
+              stroke = TRUE, color = "gray", weight = 3,dashArray = "3",
+              smoothFactor = 0.3, fill = FALSE, fillOpacity = 0.5,
+              highlight = highlightOptions(
+                weight = 5,
+                color = "#666",
+                dashArray = "",
+                fillOpacity = 0.3,
+                bringToFront = TRUE),
+              label = city_boundary$name,
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 8px"),
+                textsize = "15px",
+                direction = "auto")) %>%
+  addRasterImage(city_worldcover, 
+                 colors = pal_worldcover, 
+                 opacity = 0.9,
+                 maxBytes = 20 * 1024 * 1024,
+                 group = "World Cover") %>%
+  addLegend(colors = worldcover_col,
+            labels = worldcover_labels,
+            title = "World Cover") %>%
+  addLayersControl(
+    baseGroups = c("Toner Lite", "OSM","CartoDB"),
+    overlayGroups = c("World Cover","Administrative boundaries"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+
+map
+
+
+```
+
+```{r worldcover_stat, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+# compute world cover stats
+
+source("./functions/world-cover-city-stat.R")
+
+city_worldcover_stat = world.cover.city.stat(city_worldcover = city_worldcover,
+                                             year = 2020)
+
+# plot table
+city_worldcover_stat %>% 
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13)%>% 
+  scroll_box(width = "100%", height = "300px")
+```
+

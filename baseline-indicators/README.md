@@ -42,9 +42,37 @@ is degraded**) × 100% |  |
 
 # Key results
 
-| Theme | City | Report |
-| --- | --- |--- |
-| Green space | San-Jose | [San-Jose Greenspace basline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators.html) |
-| Green space | Kigali | [Kigali Greenspace basline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators-Kigali.html) |
-| Green space | Freetown | [Freetown Greenspace basline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators-Freetown.html) |
-| Biodiversity | San-Jose | [San-Jose Biodiversity basline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-SanJose.html) |
+## Greenspace and land degradation reports
+
+| Theme | City | Report | Status |
+| --- | --- |--- | --- |
+| Green space | San-Jose | [San-Jose Greenspace baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators.html) | `done` |
+| Green space | Kigali | [Kigali Greenspace baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators-Kigali.html) |`done` |
+| Green space | Freetown | [Freetown Greenspace baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/reports/UrbanShift-Greenspace-Indicators-Freetown.html) | `done` |
+
+## Biodiversity reports
+
+| Theme | City | Report | Status |
+| --- | --- |--- | --- |
+| Biodiversity | All cities data pipeline | [Data pipeline Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-Indicators-Pipeline.html) |`in progress` |
+| Biodiversity | San-Jose | [San-Jose Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-SanJose.html) |`done` |
+| Biodiversity | CRI-San_Jose | [San-Jose Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-CRI-San_Jose.html) |`in progress` |
+| Biodiversity | ARG-Buenos_Aires | [San-Jose Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-ARG-Buenos_Aires.html) |`in progress` |
+| Biodiversity | ARG-Mendoza | [ARG-Mendoza Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-ARG-Mendoza.html) |`in progress` |
+| Biodiversity | ARG-Salta| [ARG-Salta Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-ARG-Salta.html) |`in progress` |
+| Biodiversity | ARG-Ushuaia | [ARG-Ushuaia Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-ARG-Ushuaia.html) |`in progress` |
+| Biodiversity | BRA-Belem | [BRA-Belem Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-BRA-Belem.html) |`in progress` |
+| Biodiversity | BRA-Florianopolois | [BRA-Florianopolois Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-BRA-Florianopolois.html) |`in progress` |
+| Biodiversity | BRA-Teresina | [BRA-Teresina Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-BRA-Teresina.html) |`in progress` |
+| Biodiversity | CHN-Chengdu | [CHN-Chengdu Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-CHN-Chengdu.html) |`in progress` |
+| Biodiversity | CHN-Chongqing | [CHN-Chongqing Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-CHN-Chongqing.html) |`in progress` |
+| Biodiversity | IDN-Bitung | [IDN-Bitung Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-IDN-Bitung.html) |`in progress` |
+| Biodiversity | IDN-Jakarta | [IDN-Jakarta Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-IDN-Jakarta.html) |`in progress` |
+| Biodiversity | IDN-Palembang | [IDN-Palembang Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-IDN-Palembang.html) |`in progress` |
+| Biodiversity | IDN-Semarang | [IDN-Semarang Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-IDN-Semarang.html) |`in progress` |
+| Biodiversity | IND-Chennai | [IND-Chennai Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-IND-Chennai.html) |`in progress` |
+| Biodiversity | IND-Pune | [IND-Pune Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-IND-Pune.html) |`in progress` |
+| Biodiversity | IND-Surat | [IND-Surat Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-IND-Surat.html) |`in progress` |
+| Biodiversity | MAR-Marrakech | [MAR-Marrakech Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-MAR-Marrakech.html) |`in progress` |
+| Biodiversity | RWA-Kigali | [RWA-Kigali Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-RWA-Kigali.html) |`in progress` |
+| Biodiversity | SLE-Freetown_region | [SLE-Freetown_region Biodiversity baseline idicators report](https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/reports/UrbanShift-Biodiversity-SLE-Freetown_region.html) |`in progress` |
