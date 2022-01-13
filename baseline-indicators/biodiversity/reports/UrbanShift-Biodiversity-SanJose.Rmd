@@ -33,6 +33,8 @@ library(knitr)
 library(kableExtra)
 library(reactable)
 library(readxl)
+library(downloadthis)
+
 col_BoldRiverBlue = "#242456"
 col_BoldSunYellow = "#FFD450"
 col_BoldGrassGreen = "#2A553E"
@@ -683,7 +685,7 @@ biodiversity_baseline_indicators_geo = boundary_municipality %>%
 
 ```
 
-### I-1. Porportion of natural areas
+### I-1. Proportion of natural areas
 
 Natural ecosystems contain more species than human-altered landscapes, hence, the higher the percentage of natural areas compared to that of the total city area gives an indication of the amount of biodiversity.
 
@@ -794,12 +796,22 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("CartoDB","OSM"),
+    baseGroups = c("OSM","CartoDB"),
     overlayGroups = c("Porportion of natural areas","Porportion of natural areas Score"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup("Porportion of natural areas Score")
 
+
+# prepare chart colors
+
+value_vector = biodiversity_baseline_indicators_geo %>% 
+  drop_na(I1_percent_natural_areas_score) %>% 
+  arrange(desc(I1_percent_natural_areas_score)) %>% 
+  pull(I1_percent_natural_areas_score) %>% 
+  as.numeric()
+
+color_vector = pal_score(value_vector)
 
 # plot chart
 biodiversity_baseline_indicators_geo %>% 
@@ -807,12 +819,13 @@ biodiversity_baseline_indicators_geo %>%
   plot_ly(height = 500, width = 900) %>% 
   add_trace(x = ~factor(Municipality), 
             y = ~I1_percent_natural_areas_value, 
-            marker = list(color = col_BoldGrassGreen),
+            marker = list(color = color_vector),
             type = "bar",
             orientation = "v")  %>% 
   layout(title = "Percent of natural areas (2020)",
-         xaxis = list(title = '', categoryorder = "array",categoryarray = ~I1_percent_natural_areas_value),
-         yaxis = list(title = 'Percent of natural area (%)'))
+         xaxis = list(title = '', categoryorder = "array",categoryarray =
+                        ~I1_percent_natural_areas_value),
+         yaxis = list(title = ''))
 ```
 
 ### I-2. Connectivity measures or ecological networks to counter fragmentation
@@ -907,11 +920,20 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("CartoDB","OSM"),
+    baseGroups = c("OSM","CartoDB"),
     overlayGroups = c("Connectivity Value","Connectivity Score"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup("Connectivity Score")
+
+# prepare chat colors
+value_vector = biodiversity_baseline_indicators_geo %>% 
+  drop_na(I2_connectivity_value) %>% 
+  arrange(desc(I2_connectivity_value)) %>% 
+  pull(I2_connectivity_score) %>% 
+  as.numeric()
+
+color_vector = pal_score(value_vector)
 
 # plot chart
 biodiversity_baseline_indicators_geo %>% 
@@ -919,12 +941,12 @@ biodiversity_baseline_indicators_geo %>%
   plot_ly(height = 500, width = 900) %>% 
   add_trace(x = ~factor(Municipality), 
             y = ~I2_connectivity_value, 
-            marker = list(color = col_BoldGrassGreen),
+            marker = list(color = color_vector),
             type = "bar",
             orientation = "v")  %>% 
   layout(title = "Connectivity measures (2020)",
          xaxis = list(title = '', categoryorder = "array",categoryarray = ~I2_connectivity_value),
-         yaxis = list(title = 'Connectivity value (%)'))
+         yaxis = list(title = ''))
 ```
 
 ### I-3 Native biodiversity in built-up areas (bird species)
@@ -1002,11 +1024,20 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("CartoDB","OSM"),
+    baseGroups = c("OSM","CartoDB"),
     overlayGroups = c("Native biodiversity in buitl-up areas value","Native biodiversity in buitl-up areas score"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup("Native biodiversity in buitl-up areas score")
+
+# prepare chat colors
+value_vector = biodiversity_baseline_indicators_geo %>% 
+  drop_na(I3_percent_birds_built_area_value) %>% 
+  arrange(desc(I3_percent_birds_built_area_value)) %>% 
+  pull(I3_percent_birds_built_area_score) %>% 
+  as.numeric()
+
+color_vector = pal_score(value_vector)
 
 # plot chart
 biodiversity_baseline_indicators_geo %>% 
@@ -1014,19 +1045,20 @@ biodiversity_baseline_indicators_geo %>%
   plot_ly(height = 500, width = 900) %>% 
   add_trace(x = ~factor(Municipality), 
             y = ~I3_percent_birds_built_area_value, 
-            marker = list(color = col_BoldGrassGreen),
+            marker = list(color = color_vector),
             type = "bar",
             orientation = "v")  %>% 
   layout(title = "Native biodiversity in buitl-up areas (2020)",
-         xaxis = list(title = '', categoryorder = "array",categoryarray = ~I3_percent_birds_built_area_value),
-         yaxis = list(title = 'Percent of birds in built-up areas (%)'))
+         xaxis = list(title = '', categoryorder = "array",categoryarray =
+                        ~I3_percent_birds_built_area_value),
+         yaxis = list(title = ''))
 
 ```
 
 
 ### I-4 Change in number of native species (vascular plants)
 ### I-5 Change in number of native species (birds)
-### I-6 Change in number of native species (anthropods)
+### I-6 Change in number of native species (arthropods)
 ### I-7 Habitat restoration
 ### I-8 Proportion of protected natural areas
 
@@ -1104,11 +1136,20 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("CartoDB","OSM"),
+    baseGroups = c("OSM","CartoDB"),
     overlayGroups = c("Protected area value","Protected area score"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup("Protected area score")
+
+# prepare chat colors
+value_vector = biodiversity_baseline_indicators_geo %>% 
+  drop_na(I8_percent_protected_area_value) %>% 
+  arrange(desc(I8_percent_protected_area_value)) %>% 
+  pull(I8_percent_protected_area_score) %>% 
+  as.numeric()
+
+color_vector = pal_score(value_vector)
 
 # plot chart
 biodiversity_baseline_indicators_geo %>% 
@@ -1116,12 +1157,12 @@ biodiversity_baseline_indicators_geo %>%
   plot_ly(height = 500, width = 900) %>% 
   add_trace(x = ~factor(Municipality), 
             y = ~I8_percent_protected_area_value, 
-            marker = list(color = col_BoldGrassGreen),
+            marker = list(color = color_vector),
             type = "bar",
             orientation = "v")  %>% 
   layout(title = "Percent of protected areas (2020)",
          xaxis = list(title = '', categoryorder = "array",categoryarray = ~I8_percent_protected_area_value),
-         yaxis = list(title = 'Percent of protected areas (%)'))
+         yaxis = list(title = ''))
 
 
 
@@ -1206,11 +1247,20 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("CartoDB","OSM"),
+    baseGroups = c("OSM","CartoDB"),
     overlayGroups = c("Permeable area value","Permeable area score"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup("Permeable area score")
+
+# prepare chat colors
+value_vector = biodiversity_baseline_indicators_geo %>% 
+  drop_na(I10_water_value) %>% 
+  arrange(desc(I10_water_value)) %>% 
+  pull(I10_water_score) %>% 
+  as.numeric()
+
+color_vector = pal_score(value_vector)
 
 # plot chart
 biodiversity_baseline_indicators_geo %>% 
@@ -1218,12 +1268,12 @@ biodiversity_baseline_indicators_geo %>%
   plot_ly(height = 500, width = 900) %>% 
   add_trace(x = ~factor(Municipality), 
             y = ~I10_water_value, 
-            marker = list(color = col_BoldGrassGreen),
+            marker = list(color = color_vector),
             type = "bar",
             orientation = "v")  %>% 
   layout(title = "Regulation of quantity of water (2020)",
          xaxis = list(title = '', categoryorder = "array",categoryarray = ~I10_water_value),
-         yaxis = list(title = 'Percent of permeable areas (%)'))
+         yaxis = list(title = ''))
 ```
 
 ### I-11 Climate regulation: carbon storage and cooling effect of vegetation
@@ -1306,11 +1356,20 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("CartoDB","OSM"),
+    baseGroups = c("OSM","CartoDB"),
     overlayGroups = c("Recreational services value","Recreational services score"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup("Recreational services score")
+
+# prepare chat colors
+value_vector = biodiversity_baseline_indicators_geo %>% 
+  drop_na(I12_recreational_services_value) %>% 
+  arrange(desc(I12_recreational_services_value)) %>% 
+  pull(I12_recreational_services_score) %>% 
+  as.numeric()
+
+color_vector = pal_score(value_vector)
 
 # plot chart
 biodiversity_baseline_indicators_geo %>% 
@@ -1318,12 +1377,12 @@ biodiversity_baseline_indicators_geo %>%
   plot_ly(height = 500, width = 900) %>% 
   add_trace(x = ~factor(Municipality), 
             y = ~I12_recreational_services_value, 
-            marker = list(color = col_BoldGrassGreen),
+            marker = list(color = color_vector),
             type = "bar",
             orientation = "v")  %>% 
   layout(title = "Recreational services (2020)",
          xaxis = list(title = '', categoryorder = "array",categoryarray = ~I12_recreational_services_value),
-         yaxis = list(title = 'Recreational services'))
+         yaxis = list(title = ''))
 ```
 
 ### I-13 Proximity to parks
@@ -1401,11 +1460,20 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("CartoDB","OSM"),
+    baseGroups = c("OSM","CartoDB"),
     overlayGroups = c("Proximity to parks value","Proximity to parks score"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup("Proximity to parks score")
+
+# prepare chat colors
+value_vector = biodiversity_baseline_indicators_geo %>% 
+  drop_na(I13_proximity_parks_value) %>% 
+  arrange(desc(I13_proximity_parks_value)) %>% 
+  pull(I13_proximity_parks_score) %>% 
+  as.numeric()
+
+color_vector = pal_score(value_vector)
 
 # plot chart
 biodiversity_baseline_indicators_geo %>%
@@ -1413,12 +1481,143 @@ biodiversity_baseline_indicators_geo %>%
   plot_ly(height = 500, width = 900) %>%
   add_trace(x = ~factor(Municipality),
             y = ~I13_proximity_parks_value,
-            marker = list(color = col_BoldGrassGreen),
+            marker = list(color = color_vector),
             type = "bar",
             orientation = "v")  %>%
   layout(title = "Proximity to parks",
          xaxis = list(title = '', categoryorder = "array",categoryarray = ~I13_proximity_parks_value),
-         yaxis = list(title = 'Proximity to parks'))
+         yaxis = list(title = ''))
+```
+
+## Biodiversity index synthesis
+
+The Singapore biodiversity Index is computed as the sum of the different biodiversity indicators:
+
+$$BiodiversityIndex_{city} = \sum_{i=1}^{nb_{indicators}} (I1_{city},I2_{city},...,In_{city})$$
+
+```{r Sum-score-table, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+biodiversity_baseline_scores = biodiversity_baseline_indicators_geo %>% 
+  as.data.frame() %>% 
+  drop_na(I1_percent_natural_areas_value) %>% 
+  mutate(I1_percent_natural_areas_score = as.numeric(I1_percent_natural_areas_score),
+         I2_connectivity_score = as.numeric(I2_connectivity_score),
+         I3_percent_birds_built_area_score = as.numeric(I3_percent_birds_built_area_score),
+         I8_percent_protected_area_score = as.numeric(I8_percent_protected_area_score),
+         I10_water_score = as.numeric(I10_water_score),
+         I12_recreational_services_score = as.numeric(I12_recreational_services_score),
+         I13_proximity_parks_score = as.numeric(I13_proximity_parks_score)) %>% 
+  dplyr::select(Municipality,
+                "I1 - Percent of natural areas" = I1_percent_natural_areas_score,
+                "I2 - Connectivity" = I2_connectivity_score,
+                "I3 - Birds in built areas" = I3_percent_birds_built_area_score,
+                "I8 - Protected areas" = I8_percent_protected_area_score,
+                "I10 - Water" = I10_water_score,
+                "I12 - Recreational services" = I12_recreational_services_score,
+                "I13 - Proximity to parks" = I13_proximity_parks_score) %>% 
+  mutate("Biodiversity Index" = rowSums(.[2:8])) %>% 
+  mutate_at(vars("I1 - Percent of natural areas":"I13 - Proximity to parks"), ~ cell_spec(
+    ., "html", 
+    background = ifelse(. >= 4, "green", ifelse(. >= 3, "yellowgreen", ifelse(. >= 2, "yellow", ifelse(. >= 1, "orange", "red"))))
+  )) %>% 
+  mutate_at(vars("Biodiversity Index"), ~ cell_spec(
+    ., "html", 
+    font_size = "x-large",
+    background = ifelse(. >= 28, "green", ifelse(. >= 21, "yellowgreen", ifelse(. >= 14, "yellow", ifelse(. >= 7, "orange", "red"))))
+  ))
+
+biodiversity_baseline_scores %>%
+  kable(format = "html", escape = FALSE) %>%
+  kable_styling("striped", full_width = FALSE) %>% 
+  scroll_box(width = "100%", height = "700px")
+
 ```
 
 
+```{r Sum-score-map, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+
+# map
+
+biodiversity_baseline_scores = biodiversity_baseline_indicators_geo %>% 
+  as.data.frame() %>% 
+  drop_na(I1_percent_natural_areas_value) %>% 
+  mutate(I1_percent_natural_areas_score = as.numeric(I1_percent_natural_areas_score),
+         I2_connectivity_score = as.numeric(I2_connectivity_score),
+         I3_percent_birds_built_area_score = as.numeric(I3_percent_birds_built_area_score),
+         I8_percent_protected_area_score = as.numeric(I8_percent_protected_area_score),
+         I10_water_score = as.numeric(I10_water_score),
+         I12_recreational_services_score = as.numeric(I12_recreational_services_score),
+         I13_proximity_parks_score = as.numeric(I13_proximity_parks_score)) %>% 
+  dplyr::select(Municipality,
+                "I1 - Percent of natural areas" = I1_percent_natural_areas_score,
+                "I2 - Connectivity" = I2_connectivity_score,
+                "I3 - Birds in built areas" = I3_percent_birds_built_area_score,
+                "I8 - Protected areas" = I8_percent_protected_area_score,
+                "I10 - Water" = I10_water_score,
+                "I12 - Recreational services" = I12_recreational_services_score,
+                "I13 - Proximity to parks" = I13_proximity_parks_score) %>% 
+  mutate("Biodiversity Index" = rowSums(.[2:8]))
+
+# join with geo
+biodiversity_baseline_scores_geo = boundary_municipality %>% 
+  left_join(biodiversity_baseline_scores,
+            by = c("Municipality"))
+
+
+# define color palette for I1 levels
+pal_Index <- colorNumeric(palette = "RdYlGn", 
+                        domain = biodiversity_baseline_scores_geo$`Biodiversity Index` ,
+                        na.color = "transparent",
+                        revers = FALSE)
+
+# define labels
+
+labels_Index <- sprintf("<strong>%s</strong><br/>%s: %s",
+                      biodiversity_baseline_scores_geo$shapeName.1,
+                      "Biodiversity index",
+                      biodiversity_baseline_scores_geo$`Biodiversity Index`) %>% 
+  lapply(htmltools::HTML)
+
+# plot map
+leaflet(height = 500, width = "100%") %>%
+  addTiles() %>%
+  addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
+  addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>%
+  addPolygons(data = biodiversity_baseline_scores_geo,
+              group = "Biodiversity index",
+              fillColor = ~pal_Index(`Biodiversity Index`),
+              weight = 1,
+              opacity = 1,
+              color = "grey",
+              fillOpacity = 0.7,
+              label = labels_Index,
+              highlightOptions = highlightOptions(color = "black", weight = 2,
+                                                  bringToFront = FALSE),
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 6px"),
+                textsize = "15px",
+                direction = "auto")) %>% 
+  addLegend(pal = pal_Index,
+            values = biodiversity_baseline_scores_geo$`Biodiversity Index`,
+            opacity = 0.9,
+            title = "Biodiversity index (2020)",
+            position = "topright",
+            labFormat = labelFormat(suffix = "")) %>%
+  # Layers control
+  addLayersControl(
+    baseGroups = c("OSM","CartoDB"),
+    overlayGroups = c("Biodiversity index"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) 
+```
+
+```{r Sum-score-table-download, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+biodiversity_baseline_scores %>%
+  download_this(
+    output_name = "Biodiversity Index - San Jose",
+    output_extension = ".csv",
+    button_label = "Download data as csv",
+    button_type = "default",
+    has_icon = TRUE,
+    icon = "fa fa-save"
+  )
+```
