@@ -194,6 +194,64 @@ city_worldcover_stat %>%
   scroll_box(width = "100%", height = "300px")
 ```
 
+
+### Global Biodiversity Information Facility (GBIF)
+
+
+```{r GBIF-map-metropilitan, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+
+city_gbif = read.csv(paste("./data/biodiversity/gbif/GBIF-",city_id,".csv", sep = ""))
+city_boundary = urbanshift_boundaries[urbanshift_boundaries$city_name == city_id, ]
+
+# filter AVES
+city_gbif_Aves = city_gbif %>% 
+  filter(class == "Aves")
+
+# plot map
+leaflet(data = city_boundary, height = 500, width = "100%") %>% 
+  addTiles() %>%
+  addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
+  addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>% 
+  # Add boundaries
+  addPolygons(data = city_boundary,
+              group = "Administrative boundaries",
+              stroke = TRUE, color = "black", weight = 3,dashArray = "3",
+              smoothFactor = 0.3, fill = TRUE, fillOpacity = 0.2,
+              highlight = highlightOptions(
+                weight = 5,
+                color = "#666",
+                dashArray = "",
+                fillOpacity = 0.3,
+                bringToFront = FALSE)) %>%
+  # add cluster markers
+  addMarkers(city_gbif_Aves$lat,
+             city_gbif_Aves$long, 
+             popup = ~as.character(city_gbif_Aves$family),
+             # label = label_birds2020,
+             clusterOptions = markerClusterOptions(),
+             group = "Birds clusters") %>%
+  # add birds layer
+  addCircleMarkers(city_gbif_Aves$lat,
+                   city_gbif_Aves$long, 
+                   radius = 3,
+                   fillColor = "green",
+                   color  = "black",
+                   stroke = TRUE,
+                   weight = 0.8,
+                   fillOpacity = 0.6,
+                   popup = ~as.character(city_gbif_Aves$family),
+                   # label = label_birds2020,
+                   group = "Birds observations") %>% 
+  # Layers control
+  addLayersControl(
+    baseGroups = c("OSM","CartoDB"),
+    overlayGroups = c("Birds observations","Birds clusters"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) 
+```
+
+
+
 ## Baseline indicators
 
 ```{r Initialize_baseline, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
