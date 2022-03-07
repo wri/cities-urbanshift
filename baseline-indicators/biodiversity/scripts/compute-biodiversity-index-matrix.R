@@ -143,7 +143,7 @@ biodiversity_baseline_scores_geo = boundary_municipality %>%
 
 
 # define color palette for I1 levels
-pal_Index <- colorNumeric(palette = "Greens", 
+pal_Index <- colorNumeric(palette = "RdYlGn", 
                         domain = biodiversity_baseline_scores_geo$`Biodiversity Index` ,
                         na.color = "transparent",
                         revers = FALSE)

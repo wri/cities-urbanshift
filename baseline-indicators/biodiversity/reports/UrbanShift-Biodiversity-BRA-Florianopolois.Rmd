@@ -193,3 +193,127 @@ city_worldcover_stat %>%
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13)%>% 
   scroll_box(width = "100%", height = "300px")
 ```
+
+### Global Biodiversity Information Facility (GBIF)
+
+
+```{r GBIF-map-metropilitan, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+
+city_gbif = read.csv(paste("./data/biodiversity/gbif/GBIF-",city_id,".csv", sep = ""))
+city_boundary = urbanshift_boundaries[urbanshift_boundaries$city_name == city_id, ]
+
+# filter AVES
+city_gbif_Aves = city_gbif %>% 
+  filter(class == "Aves")
+
+# plot map
+leaflet(data = city_boundary, height = 500, width = "100%") %>% 
+  addTiles() %>%
+  addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
+  addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>% 
+  # Add boundaries
+  addPolygons(data = city_boundary,
+              group = "Administrative boundaries",
+              stroke = TRUE, color = "black", weight = 3,dashArray = "3",
+              smoothFactor = 0.3, fill = TRUE, fillOpacity = 0.2,
+              highlight = highlightOptions(
+                weight = 5,
+                color = "#666",
+                dashArray = "",
+                fillOpacity = 0.3,
+                bringToFront = FALSE)) %>%
+  # add cluster markers
+  addMarkers(city_gbif_Aves$lat,
+             city_gbif_Aves$long, 
+             popup = ~as.character(city_gbif_Aves$family),
+             # label = label_birds2020,
+             clusterOptions = markerClusterOptions(),
+             group = "Birds clusters") %>%
+  # add birds layer
+  addCircleMarkers(city_gbif_Aves$lat,
+                   city_gbif_Aves$long, 
+                   radius = 3,
+                   fillColor = "green",
+                   color  = "black",
+                   stroke = TRUE,
+                   weight = 0.8,
+                   fillOpacity = 0.6,
+                   popup = ~as.character(city_gbif_Aves$family),
+                   # label = label_birds2020,
+                   group = "Birds observations") %>% 
+  # Layers control
+  addLayersControl(
+    baseGroups = c("OSM","CartoDB"),
+    overlayGroups = c("Birds observations","Birds clusters"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) 
+```
+
+## Baseline indicators
+
+```{r Initialize_baseline, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+# initialize empty dataframe for storing indicators
+biodiversity_indicators = data.frame(city_id = as.character(),
+                                     indicator_name = as.character(),
+                                     indicator_number = as.character(),
+                                     value = as.numeric(),
+                                     score = as.numeric())
+```
+
+### I-1. Porportion of natural areas
+
+Natural ecosystems contain more species than human-altered landscapes, hence, the higher the percentage of natural areas compared to that of the total city area gives an indication of the amount of biodiversity.
+
+Natural ecosystems are defined as all areas that are natural and not highly disturbed or completely human-altered landscapes. Examples of natural ecosystems include forests, mangroves, freshwater swamps, natural grasslands, streams, lakes, etc. Parks, golf courses, roadside plantings are not considered as natural. However, natural ecosystems within parks where native species are dominant can be included in the computation. 
+
+This indicator is calculated as the percent of natural area within the city boundary: *(Total area of natural, restored and naturalised areas) ÷ (Area of city) × 100%*
+
+Based on the assumption that,by definition, a city comprises predominantly human-altered landscapes, the maximum score will be accorded to cities with natural areas occupying more than 20% of the total city area.
+
+```{r I1, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+
+natural_areas_classes = c('Trees','Shrubland','Grassland','Snow/ice','Open water','Herbaceous wetland',
+                      'Mangroves','Moss/lichen')
+
+compute.i1 = function(city_id,city_worldcover_stat){
+  
+  natural_areas_classes = c('Trees','Shrubland','Grassland','Snow/ice','Open water','Herbaceous wetland',
+                            'Mangroves','Moss/lichen')
+  
+  biodiversity_indicators = city_worldcover_stat %>% 
+    mutate(natural_areas_class =
+             case_when(`land cover class` %in% natural_areas_classes ~ "Natural areas", 
+                       !`land cover class` %in% natural_areas_classes ~ "Non Natural areas")
+    ) %>% 
+    group_by(natural_areas_class) %>% 
+    summarise(natural_areas_percent = sum(`land percent`)) %>% 
+    filter(natural_areas_class == "Natural areas") %>% 
+    add_column(city_id = city_id,
+               indicator_name = "Proportion of natural areas",
+               indicator_number = "I1") %>% 
+    rename(value = natural_areas_percent) %>% 
+    mutate(score =
+             case_when(value <  1 ~ "0", 
+                       value <=  6.9 ~ "1", 
+                       value <=  13.9 ~ "2",
+                       value <=  20 ~ "3",
+                       value >  20 ~ "4")) %>% 
+    dplyr::select(city_id,
+                  indicator_name,
+                  indicator_number,
+                  value,
+                  score)
+  
+  return(biodiversity_indicators)
+}
+
+
+biodiversity_indicators = compute.i1(city_id = city_id,
+                                     city_worldcover_stat = city_worldcover_stat)
+
+# plot table
+biodiversity_indicators %>% 
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13)%>% 
+  scroll_box(width = "100%", height = "100px")
+```
