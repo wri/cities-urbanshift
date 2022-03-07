@@ -1,6 +1,6 @@
 ---
 title: "UrbanShift Biodiversity Indicators"
-author: "Saif Shabou"
+author: "Saif Shabou (saif.shabou@wri.org)"
 date: "`r format (Sys.time(), '%d %B %Y')`"
 output: 
   html_document:
@@ -77,7 +77,7 @@ These assessments are intended to provide information to evaluate patterns withi
 
 ## The Singapore Index on cities' Biodiversity 
 
-The City Biodiversity Index was launched by Singapore in 2008 at the eight Conference of the Parties to the convention on Biological Diversity (DBD). It serves as a self-assessment tool for cities to monitor the progress of their biodiversity conservation efforts.
+The [Singapore Index on Cities’ Biodiversity](https://www.cbd.int/doc/publications/cbd-ts-98-en.pdf), also known as the Singapore Index or the City Biodiversity Index, is a comprehensive assessment framework for urban biodiversity. It was developed in 2008 by the Singapore National Parks Department in partnership with ICLEI and the Convention on Biological Diversity (CBD), a UN body. It has been used by cities around the world to assess and monitor biodiversity efforts. Its 2021 version has been published by the CBD and will be used to support cities implementing the [Post-2020 Global Biodiversity Framework](https://www.cbd.int/conferences/post2020).
 
 The Singapore Index framework is constituted of two parts:
 
@@ -164,9 +164,13 @@ The complete methodology for computing Singapore Biodiversity Index is provide i
 
 - **The World Database on Protected Areas (WDPA)**: [The World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) is the most comprehensive global database of marine and terrestrial protected areas. It is a joint project between UN Environment Programme and the International Union for Conservation of Nature (IUCN), and is managed by UN Environment Programme World Conservation Monitoring Centre (UNEP-WCMC), in collaboration with governments, non-governmental organisations, academia and industry.
 
-- **The Global Invasive Species Database (GISD)**: [The Global Invasive Species Database (GISD)](http://www.iucngisd.org/gisd/) is a free, online searchable source of information about alien and invasive species that negatively impact biodiversity. It focuses on invasive alien species that threaten native biodiversity and natural areas and covers all taxonomic groups from micro-organisms to animals and plants.
-
 - **ESA World Cover**: [The European Space Agency (ESA) WorldCover 10 m 2020 product](https://esa-worldcover.org/en) provides a global land cover map for 2020 at 10 m resolution based on Sentinel-1 and Sentinel-2 data. The WorldCover product comes with 11 land cover classes, aligned with UN-FAO's Land Cover Classification System, and has been generated in the framework of the ESA WorldCover project.
+
+- **OpenStreetMap amenities (OSM)**: [OpenStreetMap](https://wiki.openstreetmap.org/wiki/Key:amenity) provides a global open database with the locations and attributes of physical assets and amenities reported by OSM volunteers all around the world. These data sets are used by extracting the locations of parks and green spaces amenities within the selected cities to compute population proximity to these assets as part of health and wellbeing related biodiversity indicators. 
+
+- **WorldPop**: [WorldPop](https://www.worldpop.org/) provides a global open and high-resolution geospatial data on population distributions, demographic and dynamics, with a focus on low and middle income countries. We used the the [population count data](https://developers.google.com/earth-engine/datasets/catalog/WorldPop_GP_100m_pop) providing estimation of residential population per 100*100m grid from 2000 to 2021. This data is used for computing population proximity to green spaces and recreational services as part of health and wellbeing related biodiversity indicators. 
+
+- **The IUCN Red list of threatened species**: Established in 1964, [ the International Union for Conservation of Nature’s Red List of Threatened Specie](https://www.iucnredlist.org/) is most comprehensive information source on the global extinction risk status of animal, fungus and plant species. It provides information about range, population size, habitat and ecology, use and/or trade, threats, and conservation actions that will help inform necessary conservation decisions. We used the 2021-03 version of IUCN Red list data by computing the number of threatened species reported within the cities as part of the indicators related to the change in number of native species.
 
 # Case study: San Jose
 
@@ -649,7 +653,7 @@ protectedarea_percent_by_municipality %>%
 
 ## Baseline indicators
 
-```{r biodiversity_indicators_outputs, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+```{r biodiversity_indicators_outputs, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 biodiversity_baseline_indicators <- read_excel("./data/biodiversity baseline indicators.xlsx", sheet = "SCORES")
 
 boundary_municipality$Municipality = str_remove(boundary_municipality$shapeName.1, "Cantón ")
@@ -698,7 +702,7 @@ Based on the assumption that,by definition, a city comprises predominantly human
 ```{r I1_scores, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 scoring_rules = data.frame("Score" = c("0 POINTS","1 POINTS","2 POINTS","3 POINTS","4 POINTS"),
                            "Indicator value" = c("< 1.0%",
-                                                 "0% – 6.9%",
+                                                 "1% – 6.9%",
                                                  "7.0% – 13.9%",
                                                  "14.0% – 20.0%",
                                                  "> 20.0%"))
@@ -712,6 +716,37 @@ scoring_rules %>%
   row_spec(4, bold = T, color = "black", background = "yellowgreen") %>% 
   row_spec(5, bold = T, color = "black", background = "green")
 ```
+
+- **Metropolitan level:**
+
+```{r I1-metropoilitan, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+biodiversity_baseline_indicators_geo %>% 
+  as.data.frame() %>% 
+  drop_na(I1_percent_natural_areas_value) %>% 
+  mutate(I1_value = round(mean(I1_percent_natural_areas_value)*100,2)) %>% 
+  mutate(I1_score=
+           case_when(I1_value < 1 ~ "0",
+                     I1_value <7 ~ "1",
+                     I1_value <14 ~ "2",
+                     I1_value <20 ~ "3",
+                     I1_value >= 20 ~ "4")) %>% 
+  add_column(City = "San Jose") %>% 
+  dplyr::select(City,
+                I1_value,
+                I1_score) %>% 
+  slice(1) %>% 
+  mutate_at(vars("I1_score"), ~ cell_spec(
+    ., "html", 
+    bold = TRUE,
+    color = "white",
+    background = ifelse(. == "4", "green", ifelse(. ==  "3", "yellowgreen", ifelse(. == "2", "yellow", ifelse(. == "2", "orange", "red"))))
+  )) %>% 
+  kable(format = "html", escape = FALSE) %>%
+  kable_styling("striped", full_width = FALSE) %>% 
+  scroll_box(width = "100%", height = "100px")
+```
+
+- **Municipality level:**
 
 ```{r I1, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 
@@ -749,7 +784,7 @@ leaflet(height = 500, width = "100%") %>%
   addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>%
   addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
   addPolygons(data = biodiversity_baseline_indicators_geo,
-              group = "Porportion of natural areas",
+              group = "Porportion of natural areas - value",
               fillColor = ~pal_I1(I1_percent_natural_areas_value),
               weight = 1,
               opacity = 1,
@@ -770,7 +805,7 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # I1 score layer
   addPolygons(data = biodiversity_baseline_indicators_geo,
-              group = "Porportion of natural areas Score",
+              group = "Porportion of natural areas - score",
               fillColor = ~pal_score(I1_percent_natural_areas_score),
               weight = 1,
               opacity = 1,
@@ -790,17 +825,23 @@ leaflet(height = 500, width = "100%") %>%
                        "2 (7.0% – 13.9%)",
                        "1 (0% – 6.9%)",
                        "0 (< 1.0%)"),
-            opacity = 0.9,
+            opacity = 1,
             title = "Natural areas scores (2020)",
             position = "bottomleft",
             labFormat = labelFormat(suffix = "")) %>%
+  # # I1 score legend
+  addLegend(pal = pal_score,
+            values = biodiversity_baseline_indicators_geo$I1_percent_natural_areas_score,
+            opacity = 1,
+            title = "Natural areas scores (2020)",
+            position = "topleft",
+            labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("OSM","CartoDB"),
-    overlayGroups = c("Porportion of natural areas","Porportion of natural areas Score"),
+    baseGroups = c("Porportion of natural areas - value","Porportion of natural areas - score"),
+    # overlayGroups = c("Porportion of natural areas","Porportion of natural areas Score"),
     options = layersControlOptions(collapsed = FALSE)
-  ) %>% 
-  hideGroup("Porportion of natural areas Score")
+  ) 
 
 
 # prepare chart colors
@@ -834,7 +875,7 @@ Fragmentation of natural areas usually occurs due to development of *grey* or *b
 The fragmentation of natural areas affects different species differently. For example, a road 
 may not be a barrier for birds but it can seriously fragment a population of arboreal primates. While these differences have been considered, a pragmatic approach towards the calculation of a connectivity indicator is applied. It involves a 2 step process: calculating the effective mesh size, followed by coherence that will normalize for the size of the city.
 
-- **Step 1: calculate the effective mesh size (EMS)**:
+- *Step 1: calculate the effective mesh size (EMS)*:
 
 $$EMS = \frac{1}{A_{total}}(A^2_{G1}+A^2_{G1}+A^2_{G1}+...+A^2_{Gn})$$
 Where:
@@ -846,9 +887,41 @@ distinct from each other
 
 $A_{G1}$ to $A_{Gn}$ may consist of areas that are the sum of two or more smaller patches which are connected. In general, patches are considered as connected if they are less than 100m apart. This equation was derived from [Deslauriers et al. (2018)](https://www.sciencedirect.com/science/article/pii/S1470160X17300912).
 
-- **Step 2: calculate the coherence**:
+- *Step 2: calculate the coherence*:
 
 $$Coherence = \frac{EffectiveMeshSize}{A_{total}}$$
+
+- **Metropolitan level:**
+
+```{r I2-metropolitan, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+biodiversity_baseline_indicators_geo %>% 
+  as.data.frame() %>% 
+  drop_na(I2_connectivity_value) %>% 
+  mutate(I2_value = round(mean(I2_connectivity_value)*100,2)) %>% 
+  mutate(I2_score=
+           case_when(I2_value < 20 ~ "0",
+                     I2_value <40 ~ "1",
+                     I2_value <60 ~ "2",
+                     I2_value <80 ~ "3",
+                     I2_value >= 80 ~ "4")) %>% 
+  add_column(City = "San Jose") %>% 
+  dplyr::select(City,
+                I2_value,
+                I2_score) %>% 
+  slice(1) %>% 
+  mutate_at(vars("I2_score"), ~ cell_spec(
+    ., "html", 
+    bold = TRUE,
+    color = "white",
+    background = ifelse(. == "4", "green", ifelse(. ==  "3", "yellowgreen", ifelse(. == "2", "yellow", ifelse(. == "2", "orange", "red"))))
+  )) %>% 
+  kable(format = "html", escape = FALSE) %>%
+  kable_styling("striped", full_width = FALSE) %>% 
+  scroll_box(width = "100%", height = "100px")
+```
+
+- **Municipality level:**
+
 ```{r I2, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 # define color palette for I1 levels
 pal_I2 <- colorNumeric(palette = "Greens", 
@@ -920,11 +993,11 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("OSM","CartoDB"),
-    overlayGroups = c("Connectivity Value","Connectivity Score"),
+    baseGroups = c("Connectivity Value","Connectivity Score"),
+    # overlayGroups = c("Connectivity Value","Connectivity Score"),
     options = layersControlOptions(collapsed = FALSE)
-  ) %>% 
-  hideGroup("Connectivity Score")
+  ) 
+  # hideGroup("Connectivity Score")
 
 # prepare chat colors
 value_vector = biodiversity_baseline_indicators_geo %>% 
@@ -954,6 +1027,37 @@ biodiversity_baseline_indicators_geo %>%
 This indicator corresponds to the percentage of the number of native bird species in built up areas relative to the total number of native bird species. Built up areas include impermeable surfaces like buildings, roads, drainage channels, etc., and anthropogenic green spaces like roof gardens, roadside planting, golf courses, private gardens, cemeteries, lawns, urban parks, etc.
 
 The scoring is based on the reality that the built-up areas of cities have fewer diversity of natural eco-systems and hence, a lesser number of native bird species would be found in them.
+
+- **Metropolitan level:**
+
+```{r I3-metropolitan, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+biodiversity_baseline_indicators_geo %>% 
+  as.data.frame() %>% 
+  drop_na(I2_connectivity_value) %>% 
+  mutate(I2_value = round(mean(I2_connectivity_value)*100,2)) %>% 
+  mutate(I2_score=
+           case_when(I2_value < 20 ~ "0",
+                     I2_value <40 ~ "1",
+                     I2_value <60 ~ "2",
+                     I2_value <80 ~ "3",
+                     I2_value >= 80 ~ "4")) %>% 
+  add_column(City = "San Jose") %>% 
+  dplyr::select(City,
+                I2_value,
+                I2_score) %>% 
+  slice(1) %>% 
+  mutate_at(vars("I2_score"), ~ cell_spec(
+    ., "html", 
+    bold = TRUE,
+    color = "white",
+    background = ifelse(. == "4", "green", ifelse(. ==  "3", "yellowgreen", ifelse(. == "2", "yellow", ifelse(. == "2", "orange", "red"))))
+  )) %>% 
+  kable(format = "html", escape = FALSE) %>%
+  kable_styling("striped", full_width = FALSE) %>% 
+  scroll_box(width = "100%", height = "100px")
+```
+
+- **Municipality level:**
 
 ```{r I3, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 # define color palette for I1 levels
@@ -1024,11 +1128,12 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("OSM","CartoDB"),
-    overlayGroups = c("Native biodiversity in buitl-up areas value","Native biodiversity in buitl-up areas score"),
+    # baseGroups = c("OSM","CartoDB"),
+    baseGroups = c("Native biodiversity in buitl-up areas value","Native biodiversity in buitl-up areas score"),
+    # overlayGroups = c("Native biodiversity in buitl-up areas value","Native biodiversity in buitl-up areas score"),
     options = layersControlOptions(collapsed = FALSE)
-  ) %>% 
-  hideGroup("Native biodiversity in buitl-up areas score")
+  ) 
+  # hideGroup("Native biodiversity in buitl-up areas score")
 
 # prepare chat colors
 value_vector = biodiversity_baseline_indicators_geo %>% 
@@ -1056,14 +1161,141 @@ biodiversity_baseline_indicators_geo %>%
 ```
 
 
-### I-4 Change in number of native species (vascular plants)
-### I-5 Change in number of native species (birds)
-### I-6 Change in number of native species (arthropods)
+### I-4-5-6 Change in number of native species
+
+#### Methodology 
+
+As the Singapore Index is focusing on biodiversity in cities, it is essential that the native flora and fauna diversity be incorporated as indicators. Three taxonomic groups have been selected to be monitored: `native vascular plant species`, `native bird species`, and `native arthropod species`.
+
+To ensure that these three indicators on species are unbiased against any city based on its geographical location, ecological history, size, land use, etc., it was decided that:
+
+- All cities and local authorities are requested to list the number of native species of vascular plants, birds, any taxonomic group belonging to arthropods.
+- The indicators will measure the change in number of species over time rather than the absolute number of
+species as ecosystems in the tropics generally support more species than temperate regions.
+- The first year of application will be taken as the baseline year for the species count. The net change in species numbers (increase in number of species due to re-introduction or restoration efforts minus the number of species that went extinct) will be incorporated in the subsequent calculations of the Singapore Index. 
+
+**Species accumulation curves:**
+
+In ecological studies, the species accumulation curve of a population gives the expected number of observed species or distinct classes as a function of the cumulative effort expended searching for them.
+Plotting the curve gives a way of estimating the number of additional species that will be discovered with further effort. The simplest type of species accumulation curve is the Collector Curve. This plots the cumulative number of species recorded as a function of sampling effort (i.e. number of individuals collected or cumulative number of samples). At the start of a species survey, the total number of species found typically grows quickly with every unit of effort. After some time, however, effort expended yields more and more species that have already been found earlier in the survey—and the total number of species grows more slowly per unit of effort. A plot of species number vs effort will come to a plateau, and this saturation level is a common estimator for the number of species in an area, as shown in the figure below ([source](https://terrestrialecosystems.com/species-accumulation-curves/)).
+
+![](./data/species-accumulation-curve.jpg)
+
+
+We estimated species richness by estimating the saturation level of species-saturation curves using individual observations as our effort unit. The estimated counts are the mean saturation levels of 100 species-saturation curves, each generated by randomizing the order of all 2020 research-grade **iNaturalist** observations of the `Aves`, `Arthropoda` and `Tracheophyta` species. Only species' observations with enough data to generate species-saturation curves are considered for estimating species' richness.
+
+
+#### I-4 Vascular plants 
+
+Vascular plants, also known as Tracheophyta, are plants with vascular tissues, including xylem and phloem responsible for conducting water, minerals, and the products of photosynthesis throughout the plant. As opposed to a non-vascular plant, a vascular plant can grow much larger. The vascular tissue within provides a means of transporting water to great heights, allowing a vascular plant to grow upward to catch the sun.
+
+Vascular plants have been selected as one of the taxonomic groups to monitor as they represent more than 90% of the earth’s vegetation, are ubiquitous and are well researched and documented.
+
+The table below presents the estimated number of vascular plants species in every municipality. Red rows refer to municipalities containing threatened species based the [IUCN Red List](https://www.iucnredlist.org/) database. 
+
+- **Municipality level:**
+
+```{r I-4, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+nb_species_vascular_plants <- read_excel("./data/summary_with_iucn.xlsx", sheet = "Tracheophyta")
+
+muncipalities_selection = nb_species_vascular_plants %>% 
+  filter(Vulnerable >0 | Endangered >0 | `Critically Endagered` > 0) %>% 
+  pull(Municipality)
+
+nb_species_vascular_plants_table = nb_species_vascular_plants %>%
+  kable(format = "html", escape = FALSE) 
+
+row_spec(nb_species_vascular_plants_table, 
+         which(nb_species_vascular_plants$Municipality %in% muncipalities_selection), 
+                     background = "red",
+         bold = TRUE, color = "white") %>% 
+  kable_styling("striped", full_width = FALSE) %>% 
+  scroll_box(width = "100%", height = "500px")
+```
+
+#### I-5 Birds
+
+Birds are one of the most visible species groups in urban areas. They are often considered as a key indicator of environmental quality. Number of birds is selected as part of the Biodiversity Index since they are watched and well-studied by academics as well as amateur naturalists worldwide, they are sensitive to environmental and habitat changes and they are comparatively easy to observe and count.
+
+The table below presents the estimated number of birds observed in every municipality. Red rows refer to municipalities containing threatened species based the [IUCN Red List](https://www.iucnredlist.org/) database.
+
+```{r I-5, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+nb_species_birds <- read_excel("./data/summary_with_iucn.xlsx", sheet = "Aves")
+
+muncipalities_selection = nb_species_birds %>% 
+  filter(Vulnerable >0 | Endangered >0 | `Critically Endagered` > 0) %>% 
+  pull(Municipality)
+
+nb_species_birds_table = nb_species_birds %>%
+  kable(format = "html", escape = FALSE) 
+
+row_spec(nb_species_birds_table, 
+         which(nb_species_birds$Municipality %in% muncipalities_selection), 
+         background = "red",
+         bold = TRUE, color = "white") %>% 
+  kable_styling("striped", full_width = FALSE) %>% 
+  scroll_box(width = "100%", height = "500px")
+```
+
+#### I-6 Arthropods
+
+Arthropods are a dominant component of biodiversity in terrestrial ecosystems, driving important ecosystem processes such as pollination, herbivory or pest-control, and affecting nutrient cycling in direct and indirect ways. 
+
+The table below presents the estimated number of arthropods observed in every municipality. Red rows refer to municipalities containing threatened species based the [IUCN Red List](https://www.iucnredlist.org/) database.
+
+```{r I-6, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+nb_species_arthropods <- read_excel("./data/summary_with_iucn.xlsx", sheet = "Arthropoda")
+
+muncipalities_selection = nb_species_arthropods %>% 
+  filter(Vulnerable >0 | Endangered >0 | `Critically Endagered` > 0) %>% 
+  pull(Municipality)
+
+nb_species_arthropods_table = nb_species_arthropods %>%
+  kable(format = "html", escape = FALSE) 
+
+row_spec(nb_species_arthropods_table, 
+         which(nb_species_arthropods$Municipality %in% muncipalities_selection), 
+         background = "red",
+         bold = TRUE, color = "white") %>% 
+  kable_styling("striped", full_width = FALSE) %>% 
+  scroll_box(width = "100%", height = "500px")
+```
+
 ### I-7 Habitat restoration
 ### I-8 Proportion of protected natural areas
 
 Protected or secured natural areas indicate the city’s commitment to biodiversity conservation. Hence, the proportion of protected or secured natural areas is an important indicator. The indicator using the following formula: *Area of protected or secured natural areas) ÷ (Total area of the city) × 100%*
 
+- **Metropolitan level:**
+
+```{r I8-metropolitan, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+biodiversity_baseline_indicators_geo %>% 
+  as.data.frame() %>% 
+  drop_na(I8_percent_protected_area_value) %>% 
+  mutate(I8_value = round(mean(I8_percent_protected_area_value)*100,2)) %>% 
+  mutate(I8_score=
+           case_when(I8_value < 1 ~ "0",
+                     I8_value <6 ~ "1",
+                     I8_value <11 ~ "2",
+                     I8_value <17 ~ "3",
+                     I8_value >= 17 ~ "4")) %>% 
+  add_column(City = "San Jose") %>% 
+  dplyr::select(City,
+                I8_value,
+                I8_score) %>% 
+  slice(1) %>% 
+  mutate_at(vars("I8_score"), ~ cell_spec(
+    ., "html", 
+    bold = TRUE,
+    color = "white",
+    background = ifelse(. == "4", "green", ifelse(. ==  "3", "yellowgreen", ifelse(. == "2", "yellow", ifelse(. == "2", "orange", "red"))))
+  )) %>% 
+  kable(format = "html", escape = FALSE) %>%
+  kable_styling("striped", full_width = FALSE) %>% 
+  scroll_box(width = "100%", height = "100px")
+```
+
+- **Municipality level:**
 
 ```{r I8, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 ### I-8 Proportion of protected natural areas ----
@@ -1136,11 +1368,12 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("OSM","CartoDB"),
-    overlayGroups = c("Protected area value","Protected area score"),
+    # baseGroups = c("OSM","CartoDB"),
+    baseGroups = c("Protected area value","Protected area score"),
+    # overlayGroups = c("Protected area value","Protected area score"),
     options = layersControlOptions(collapsed = FALSE)
-  ) %>% 
-  hideGroup("Protected area score")
+  ) 
+  # hideGroup("Protected area score")
 
 # prepare chat colors
 value_vector = biodiversity_baseline_indicators_geo %>% 
@@ -1175,6 +1408,38 @@ biodiversity_baseline_indicators_geo %>%
 Impervious areas alter the hydrologic cycle in cities, affecting both water quality and quantity. In addition, climate change is in many places predicted to result in increased variability in precipitation which in urban landscapes may translate into high peaks in water flow and damage to construction, business and transport, as well as lower ecological quality of receiving waters. Vegetation has a significant effect in reducing the rate of flow of water through the urban landscape, e.g., through presence of forest, parks, lawns, roadside greenery, streams, rivers, waterbodies, etc. 
 
 This indicator is calculated by measuring the proportion of all permeable areas to total terrestrial area of city: *Total permeable area) ÷ (Total terrestrial area of the city) × 100%*
+
+- **Metropolitan level:**
+
+```{r I10-metropolitan, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+biodiversity_baseline_indicators_geo %>% 
+  as.data.frame() %>% 
+  drop_na(I10_water_value) %>% 
+  mutate(I10_value = round(mean(I10_water_value)*100,2)) %>% 
+  mutate(I10_score=
+           case_when(I10_value < 30 ~ "0",
+                     I10_value <40 ~ "1",
+                     I10_value <50 ~ "2",
+                     I10_value <60 ~ "3",
+                     I10_value >= 60 ~ "4")) %>% 
+  add_column(City = "San Jose") %>% 
+  dplyr::select(City,
+                I10_value,
+                I10_score) %>% 
+  slice(1) %>% 
+  mutate_at(vars("I10_score"), ~ cell_spec(
+    ., "html", 
+    bold = TRUE,
+    color = "white",
+    background = ifelse(. == "4", "green", ifelse(. ==  "3", "yellowgreen", ifelse(. == "2", "yellow", ifelse(. == "2", "orange", "red"))))
+  )) %>% 
+  kable(format = "html", escape = FALSE) %>%
+  kable_styling("striped", full_width = FALSE) %>% 
+  scroll_box(width = "100%", height = "100px")
+
+```
+
+- **Municipality level:**
 
 ```{r I10, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 ### I-10 Regulation of quantity of water ----
@@ -1247,11 +1512,12 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("OSM","CartoDB"),
-    overlayGroups = c("Permeable area value","Permeable area score"),
+    # baseGroups = c("OSM","CartoDB"),
+    baseGroups = c("Permeable area value","Permeable area score"),
+    # overlayGroups = c("Permeable area value","Permeable area score"),
     options = layersControlOptions(collapsed = FALSE)
-  ) %>% 
-  hideGroup("Permeable area score")
+  ) 
+  # hideGroup("Permeable area score")
 
 # prepare chat colors
 value_vector = biodiversity_baseline_indicators_geo %>% 
@@ -1284,6 +1550,38 @@ It has been increasingly recognized that urban green parks, nature conservation 
 
 The recreational services indicator is calculated as the total areas of parks, nature conservation areas and other green spaces with natural areas and protected or secured accessible natural areas by 1000 persons.
 
+- **Metropolitan level:**
+
+```{r I12-metropolitan, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+biodiversity_baseline_indicators_geo %>% 
+  as.data.frame() %>% 
+  drop_na(I12_recreational_services_value) %>% 
+  mutate(I12_value = round(mean(I12_recreational_services_value)*100,2)) %>% 
+  mutate(I12_score=
+           case_when(I12_value < 0.1 ~ "0",
+                     I12_value <0.4 ~ "1",
+                     I12_value <0.7 ~ "2",
+                     I12_value <0.9 ~ "3",
+                     I12_value >= 0.9 ~ "4")) %>% 
+  add_column(City = "San Jose") %>% 
+  dplyr::select(City,
+                I12_value,
+                I12_score) %>% 
+  slice(1) %>% 
+  mutate_at(vars("I12_score"), ~ cell_spec(
+    ., "html", 
+    bold = TRUE,
+    color = "white",
+    background = ifelse(. == "4", "green", ifelse(. ==  "3", "yellowgreen", ifelse(. == "2", "yellow", ifelse(. == "2", "orange", "red"))))
+  )) %>% 
+  kable(format = "html", escape = FALSE) %>%
+  kable_styling("striped", full_width = FALSE) %>% 
+  scroll_box(width = "100%", height = "100px")
+
+
+```
+
+- **Municipality level:**
 
 ```{r I12, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 ### I-12 Recreational services ----
@@ -1356,11 +1654,12 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("OSM","CartoDB"),
-    overlayGroups = c("Recreational services value","Recreational services score"),
+    # baseGroups = c("OSM","CartoDB"),
+    baseGroups = c("Recreational services value","Recreational services score"),
+    # overlayGroups = c("Recreational services value","Recreational services score"),
     options = layersControlOptions(collapsed = FALSE)
-  ) %>% 
-  hideGroup("Recreational services score")
+  )
+  # hideGroup("Recreational services score")
 
 # prepare chat colors
 value_vector = biodiversity_baseline_indicators_geo %>% 
@@ -1388,6 +1687,40 @@ biodiversity_baseline_indicators_geo %>%
 ### I-13 Proximity to parks
 
 Proximity is measured in terms of the proportion of the households living within 400m from a park or green space. Straight line distances are used to determine whether households fall within 400m from a park or green space. This inidcator is calculated as following: *(Population of city living within 400m from a park/green space) ÷ (Total population of city) × 100%*.
+
+- **Metropolitan level:**
+
+```{r I13-metropolitan, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+biodiversity_baseline_indicators_geo %>% 
+  as.data.frame() %>% 
+  drop_na(I13_proximity_parks_value) %>% 
+  mutate(I13_value = round(mean(I13_proximity_parks_value)*100,2)) %>% 
+  mutate(I13_score=
+           case_when(I13_value < 30 ~ "0",
+                     I13_value <50 ~ "1",
+                     I13_value <70 ~ "2",
+                     I13_value <90 ~ "3",
+                     I13_value >= 90 ~ "4")) %>% 
+  add_column(City = "San Jose") %>% 
+  dplyr::select(City,
+                I13_value,
+                I13_score) %>% 
+  slice(1) %>% 
+  mutate_at(vars("I13_score"), ~ cell_spec(
+    ., "html", 
+    bold = TRUE,
+    color = "black",
+    background = ifelse(. == "4", "green", ifelse(. ==  "3", "yellowgreen", ifelse(. == "2", "yellow", ifelse(. == "2", "orange", "red"))))
+  )) %>% 
+  kable(format = "html", escape = FALSE) %>%
+  kable_styling("striped", full_width = FALSE) %>% 
+  scroll_box(width = "100%", height = "100px")
+
+
+
+```
+
+- **Municipality level:**
 
 ```{r I13, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 ### I-13 Proximity to parks ----
@@ -1460,11 +1793,12 @@ leaflet(height = 500, width = "100%") %>%
             labFormat = labelFormat(suffix = "")) %>%
   # Layers control
   addLayersControl(
-    baseGroups = c("OSM","CartoDB"),
-    overlayGroups = c("Proximity to parks value","Proximity to parks score"),
+    # baseGroups = c("OSM","CartoDB"),
+    baseGroups = c("Proximity to parks value","Proximity to parks score"),
+    # overlayGroups = c("Proximity to parks value","Proximity to parks score"),
     options = layersControlOptions(collapsed = FALSE)
-  ) %>% 
-  hideGroup("Proximity to parks score")
+  ) 
+  # hideGroup("Proximity to parks score")
 
 # prepare chat colors
 value_vector = biodiversity_baseline_indicators_geo %>% 
