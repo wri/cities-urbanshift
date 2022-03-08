@@ -25,13 +25,14 @@ The table below lists the different datasets we are considering to process for t
 | Theme | Layer | Data source | Status | 
 | ---- |---- |---- | ---- |
 | Boundaries | Administrative boundaries | geoBoundaries | `collected` `explored` |
-| Land Use/Land cover | Dynamic World land use | Dynamic World | `collected` `explored` |
+| Land Use/Land cover | Dynamic World land use | Dynamic World | `collected` `explored` `integrated` |
+| Land Use/Land cover | ESA World Cover | European SpatialAgenecy | `collected` `explored` |
 | Land Use/Land cover | NDVI | | `collected` `explored` |
 | Land Use/Land cover | Inra-Urban Land Use | | `collected` `explored` |
 | Land Use/Land cover | Tree cover | Tree Outside of Forst (WRI) | `collected` `explored` |
 | Infrastructure | Physical amenities | Open Street Map | `collected` `explored` |
 | Biodiversity | Protected areas | World Database on Protected Areas | `collected` `explored` |
-| Biodiversity | Species locations and counts | WGlobal Biodiversity Information Facility | `collected` `explored` |
+| Biodiversity | Species locations and counts | Global Biodiversity Information Facility | `collected` `explored` `integrated` |
 | Demographic | Population count | WorldPop |  |
 | Infrastructure | Road network | Open Street Map |  |
 | Land Use/Land cover | Global Human Settlement Layers, Built-up Grid | GHS-BUILT (ESA) |  |
