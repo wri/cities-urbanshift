@@ -168,3 +168,22 @@ leaflet(data = city_boundary, height = 500, width = "100%") %>%
     overlayGroups = c("Birds observations","Birds clusters"),
     options = layersControlOptions(collapsed = FALSE)
   ) 
+
+#########################
+# convert to geojson format
+#########################
+
+city_name = "BRA-Florianopolois"
+city_gbif = read.csv(paste("./data/biodiversity/data/gbif/GBIF-",city_name,".csv", sep = ""))
+
+# convert country gbif data to sf objects
+city_gbif_sf = st_as_sf(city_gbif, 
+                        coords = c("lat", "long"),
+                        crs = st_crs(4326))
+
+# export geojson
+st_write(city_gbif_sf, 
+         paste("./data/biodiversity/data/gbif/GBIF-",city_name,".geojson", sep = ""),
+         append=FALSE)
+
+
