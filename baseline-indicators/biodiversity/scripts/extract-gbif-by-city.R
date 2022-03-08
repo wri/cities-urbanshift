@@ -173,7 +173,7 @@ leaflet(data = city_boundary, height = 500, width = "100%") %>%
 # convert to geojson format
 #########################
 
-city_name = "BRA-Florianopolois"
+city_name = "IDN-Balikpapan"
 city_gbif = read.csv(paste("./data/biodiversity/data/gbif/GBIF-",city_name,".csv", sep = ""))
 
 # convert country gbif data to sf objects
