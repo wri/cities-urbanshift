@@ -72,5 +72,154 @@
     "source": "https://www.wri.org/research/spatial-characterization-urban-land-use-through-machine-learning",
     "provider": "World Resources Institute (WRI)",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/urban_land_use/CRI-San_Jose-urbanlanduse2020.tif"
+  },
+  {
+    "title": "Trees Outside of Forests extract for CRI-San_Jose",
+    "city": "CRI-San_Jose",
+    "description": "The TOF project provides tree extent data at 10m scale based on trained Convolutional Neural Network using satellite imagery (Sentinel-1 and Sentinel-2). It enables accurate reporting of tree cover outside of dense, closed-canopy forests and urban areas.",
+    "tags": ["CRI-San_Jose", "Land Cover", "Greenspace", "Geography:America:Costa_Rica"],
+    "year": 2020,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "10m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "source": "https://arxiv.org/abs/2005.08702",
+    "provider": "World Resources Institute (WRI)",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/trees_outside_forest/CRI-San_Jose-treecover2020.tif"
+  },
+  {
+    "title": "Protected AReas extract for CRI-San_Jose",
+    "city": "CRI-San_Jose",
+    "description": "The World Database on Protected Areas (WDPA) is the most comprehensive global database of marine and terrestrial protected areas. It is a joint project between UN Environment Programme and the International Union for Conservation of Nature (IUCN), and is managed by UN Environment Programme World Conservation Monitoring Centre (UNEP-WCMC), in collaboration with governments, non-governmental organisations, academia and industry.",
+    "tags": ["CRI-San_Jose", "Biodiversity", "Geography:America:Costa_Rica"],
+    "year": 2020,
+    "format": "geojson",
+    "source": "https://www.protectedplanet.net/en",
+    "provider": "protected planet",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/biodiversity/WDPA/WDPA_CRI-San_Jose.geojson"
+  },
+  {
+    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2016",
+    "city": "CRI-San_Jose",
+    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
+    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America:Costa_Rica"],
+    "year": 2016,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "source": "https://www.landcarbonlab.org/data/#global-land-cover-change",
+    "provider": "World Resources Institute (WRI) / University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2016.tif"
+  },
+  {
+    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2017",
+    "city": "CRI-San_Jose",
+    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
+    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America:Costa_Rica"],
+    "year": 2017,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "source": "https://www.landcarbonlab.org/data/#global-land-cover-change",
+    "provider": "World Resources Institute (WRI) / University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2017.tif"
+  },
+  {
+    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2018",
+    "city": "CRI-San_Jose",
+    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
+    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America:Costa_Rica"],
+    "year": 2018,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "source": "https://www.landcarbonlab.org/data/#global-land-cover-change",
+    "provider": "World Resources Institute (WRI) / University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2018.tif"
+  },
+  {
+    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2019",
+    "city": "CRI-San_Jose",
+    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
+    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America:Costa_Rica"],
+    "year": 2019,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "source": "https://www.landcarbonlab.org/data/#global-land-cover-change",
+    "provider": "World Resources Institute (WRI) / University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2019.tif"
+  },
+  {
+    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2020",
+    "city": "CRI-San_Jose",
+    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
+    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America:Costa_Rica"],
+    "year": 2020,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "source": "https://www.landcarbonlab.org/data/#global-land-cover-change",
+    "provider": "World Resources Institute (WRI) / University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2020.tif"
   }
 ]

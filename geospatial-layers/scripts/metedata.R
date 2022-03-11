@@ -49,6 +49,7 @@ provider = "European Space Agency (ESA)"
 
 
 metadata_esa_world_cover = list(title = dataset_name,
+                                city = city_name,
                                 description = description,
                                 tags = tags,
                                 year = year,
@@ -87,6 +88,7 @@ source = "https://www.gbif.org/en/"
 provider = "Global Biodiversity Information Facility"
 
 metadata_gbif = list(title = dataset_name,
+                     city = city_name,
                                 description = description,
                                 tags = tags,
                                 year = year,
@@ -120,6 +122,7 @@ source = "https://wiki.openstreetmap.org/wiki/Elements"
 provider = "OpenStreetMap"
 
 metadata_amenity = list(title = dataset_name,
+                        city = city_name,
                      description = description,
                      tags = tags,
                      year = year,
@@ -136,22 +139,23 @@ metadata_amenity_json =jsonlite::toJSON(metadata_amenity,
 # Boundaries
 #########################
 
-data_url = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/biodiversity/",
+data_url = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/boundaries/",
                  city_name,
                  "-boundary.geojson",
                  sep = "")
 
 dataset_name = paste("Administrative boundaries extract for", city_name, sep = " ")
-description = "OpenStreetMap (OSM) provides a free access to the different geographical features mapped by OSM contributors. Amenity data represents physical features on the ground with their corresponding geographic attributes."
+description = "The geoBoundaries global database is an online, open license resource of boundaries for every country in the world. We currently track approximately 300,000 boundaries across 199 entities, including all 195 UN member states, Greenland, Taiwan, Niue, and Kosovo. All boundaries are available to view or download in common file formats, including shapefiles. It is produced and maintained by the William & Mary geoLab since 2017."
 tags = c(city_name, 
-         "Amenity",
+         "Boundaries",
          "Geography:America:Costa_Rica")
-year = 2022
+year = 2017
 format = "geojson"
-source = "https://wiki.openstreetmap.org/wiki/Elements"
-provider = "OpenStreetMap"
+source = "https://www.geoboundaries.org/"
+provider = "geoBoundaries"
 
-metadata_amenity = list(title = dataset_name,
+metadata_boundary = list(title = dataset_name,
+                         city = city_name,
                         description = description,
                         tags = tags,
                         year = year,
@@ -160,7 +164,7 @@ metadata_amenity = list(title = dataset_name,
                         provider = provider,
                         url = data_url)
 
-metadata_amenity_json =jsonlite::toJSON(metadata_amenity,
+metadata_boundary_json =jsonlite::toJSON(metadata_boundary,
                                         pretty=TRUE,
                                         auto_unbox=TRUE)
 
@@ -189,6 +193,7 @@ provider = "World Resources Institute (WRI)"
 
 
 metadata_ulu = list(title = dataset_name,
+                    city = city_name,
                                 description = description,
                                 tags = tags,
                                 year = year,
@@ -202,18 +207,127 @@ metadata_ulu_json =jsonlite::toJSON(metadata_ulu,
                                                 pretty=TRUE,
                                                 auto_unbox=TRUE)
 
+#########################
+# Tree Outside of Forests
+#########################
+
+
+data_url = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/trees_outside_forest/",
+                 city_name,
+                 "-treecover2020.tif",
+                 sep = "")
+
+data = raster(data_url)
+
+dataset_name = paste("Trees Outside of Forests extract for", city_name, sep = " ")
+description = "The TOF project provides tree extent data at 10m scale based on trained Convolutional Neural Network using satellite imagery (Sentinel-1 and Sentinel-2). It enables accurate reporting of tree cover outside of dense, closed-canopy forests and urban areas."
+tags = c(city_name, 
+         "Land Cover",
+         "Greenspace",
+         "Geography:America:Costa_Rica")
+spatial_resolution = "10m"
+temporal_resolution = "yearly"
+spatial_extent = "Global"
+temporal_extent = "2020"
+year = 2020
+extent = list(list(extent(data)[1], extent(data)[3]),list(extent(data)[2], extent(data)[4]))
+format = "raster"
+source = "https://arxiv.org/abs/2005.08702"
+provider = "World Resources Institute (WRI)"
+
+
+metadata_tof = list(title = dataset_name,
+                    city = city_name,
+                    description = description,
+                    tags = tags,
+                    year = year,
+                    extent = extent,
+                    spatial_resolution = spatial_resolution,
+                    temporal_resolution = temporal_resolution,
+                    format = format,
+                    source = source,
+                    provider = provider,
+                    url = data_url)
+
+metadata_tof_json =jsonlite::toJSON(metadata_tof,
+                                    pretty=TRUE,
+                                    auto_unbox=TRUE)
+
+#########################
+# Dynamic WOrld
+#########################
+
+years = seq(2016,2020)
+
+metadata_dw = list()
+
+for(i in 1:length(years)){ 
+  
+  print(i)
+  
+  year = years[i]
+  
+  data_url = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/",
+                   city_name,
+                   "-landcover",
+                   year,
+                   ".tif",
+                   sep = "")
+  
+  print(data_url)
+  
+  data = raster(data_url)
+  
+  dataset_name = paste("Dynamic World Land Cover extract for", city_name, sep = " ")
+  description = "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. "
+  tags = c(city_name, 
+           "Land Cover",
+           "Geography:America:Costa_Rica")
+  spatial_resolution = "30m"
+  temporal_resolution = "yearly"
+  spatial_extent = "Global"
+  temporal_extent = "2000-2020"
+  year = year
+  extent = list(list(extent(data)[1], extent(data)[3]),list(extent(data)[2], extent(data)[4]))
+  format = "raster"
+  source = "https://www.landcarbonlab.org/data/#global-land-cover-change"
+  provider = "World Resources Institute (WRI) / University of Maryland"
+  
+  metadata_dw_year = list(title = dataset_name,
+                          city = city_name,
+                          description = description,
+                          tags = tags,
+                          year = year,
+                          extent = extent,
+                          spatial_resolution = spatial_resolution,
+                          temporal_resolution = temporal_resolution,
+                          format = format,
+                          source = source,
+                          provider = provider,
+                          url = data_url)
+  
+  metadata_dw[[i]] = metadata_dw_year
+}
+
+metadata_dw_json =jsonlite::toJSON(metadata_dw,
+                                    pretty=TRUE,
+                                    auto_unbox=TRUE)
+
 
 #########################
 # Store output
 #########################
 
-metadata = list(metadata_esa_world_cover,
+metadata = list(metadata_boundary,
+                metadata_esa_world_cover,
                 metadata_gbif,
                 metadata_amenity,
-                metadata_ulu)
+                metadata_ulu,
+                metadata_tof,
+                metadata_dw)
 
 metadata_json =jsonlite::toJSON(metadata,
                                      pretty=TRUE,
                                      auto_unbox=TRUE)
 
-write(metadata_json, "./data/metadata.json")
+write(metadata_json, "./github/cities-urbanshift/geospatial-layers/urbanshif_geolayers_metadata.json")
