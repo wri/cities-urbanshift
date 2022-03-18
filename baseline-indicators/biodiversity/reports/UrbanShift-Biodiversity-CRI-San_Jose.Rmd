@@ -56,8 +56,13 @@ col_Black = "#000000"
 urbanshift_boundaries = st_read("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/boundaries/administrative_boundaries.geojson",
                                 quiet = TRUE)
 
-# select verified boundaries
-urbanshift_boundaries = urbanshift_boundaries[urbanshift_boundaries$boundary_use == TRUE, ]
+# # select verified boundaries
+# urbanshift_boundaries = urbanshift_boundaries[urbanshift_boundaries$boundary_use == TRUE, ]
+
+# change San jose boundary status
+urbanshift_boundaries[urbanshift_boundaries$city_name == "CRI-San_Jose" & urbanshift_boundaries$boundary_data_source == "cities360", "boundary_use"] = TRUE
+urbanshift_boundaries[urbanshift_boundaries$city_name == "CRI-San_Jose" & urbanshift_boundaries$boundary_data_source == "city_specific", "boundary_use"] = FALSE
+
 
 # specify the cityid
 city_id = "CRI-San_Jose"
@@ -136,6 +141,7 @@ pal_worldcover <- colorFactor(palette = worldcover_col,
                               levels = c("10","20","30","40","50","60",
                                          "70","80","90","95","100"),
                               na.color = "transparent")
+
 
 # create the map
 map = leaflet(city_worldcover, height = 500, width = "100%")  %>%
@@ -271,6 +277,24 @@ This indicator is calculated as the percent of natural area within the city boun
 
 Based on the assumption that,by definition, a city comprises predominantly human-altered landscapes, the maximum score will be accorded to cities with natural areas occupying more than 20% of the total city area.
 
+```{r I1_scores, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+scoring_rules = data.frame("Score" = c("0 POINTS","1 POINTS","2 POINTS","3 POINTS","4 POINTS"),
+                           "Indicator value" = c("< 1.0%",
+                                                 "1% – 6.9%",
+                                                 "7.0% – 13.9%",
+                                                 "14.0% – 20.0%",
+                                                 "> 20.0%"))
+
+scoring_rules %>% 
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, font_size = 13) %>% 
+  row_spec(1, bold = T, color = "black", background = "#C0392B") %>% 
+  row_spec(2, bold = T, color = "black", background = "#E67E22") %>% 
+  row_spec(3, bold = T, color = "black", background = "#F4D03F") %>% 
+  row_spec(4, bold = T, color = "black", background = "#2ECC71") %>% 
+  row_spec(5, bold = T, color = "black", background = "#145A32")
+```
+
 -**Metropolitan level**:
 
 ```{r I1, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
@@ -322,3 +346,121 @@ biodiversity_indicators %>%
 ```
 
 -**Municipality level**:
+
+```{r I1-map, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+municipalities_I1 = read.csv("./data/biodiversity_indicators_municipality.csv")
+boundary_municipality = st_read("./data/boundaries/boundaries-CRI-San_Jose-ADM2.geojson",
+                                quiet = TRUE)
+
+municipalities_I1_geo = left_join(boundary_municipality,
+                                         municipalities_I1,
+                                         by = c("shapeName.1" = "city_id"))
+
+
+# define color palette for I1 levels
+pal_value <- colorNumeric(palette = "Greens", 
+                       domain = municipalities_I1_geo$value,
+                       na.color = "transparent",
+                       revers = FALSE)
+
+# define color palette for S1 levels
+pal_score <- colorFactor(palette = c("#145A32","#2ECC71","#F4D03F","#E67E22","#C0392B"), 
+                         levels = c("0","1","2","3","4"),
+                         na.color = "transparent",
+                         revers = TRUE)
+
+# define labels
+
+labels_I1 <- sprintf("<strong>%s</strong><br/>%s: %s %s<br/>%s: %s",
+                     municipalities_I1_geo$shapeName.1,
+                     "Proportion of natural areas",
+                     round(municipalities_I1_geo$value, 2), "",
+                     "Score",municipalities_I1_geo$score) %>% 
+  lapply(htmltools::HTML)
+
+
+
+# plot map
+leaflet(height = 500, width = "100%") %>%
+  addTiles() %>%
+  addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
+  addPolygons(data = municipalities_I1_geo,
+              group = "Porportion of natural areas - value",
+              fillColor = ~pal_value(value),
+              weight = 1,
+              opacity = 1,
+              color = "grey",
+              fillOpacity = 0.7,
+              label = labels_I1,
+              highlightOptions = highlightOptions(color = "black", weight = 2,
+                                                  bringToFront = FALSE),
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 6px"),
+                textsize = "15px",
+                direction = "auto")) %>% 
+  addLegend(pal = pal_value,
+            values = municipalities_I1_geo$value,
+            opacity = 0.9,
+            title = "% natural areas (2020)",
+            position = "topright",
+            labFormat = labelFormat(suffix = "")) %>%
+  # I1 score layer
+  addPolygons(data = municipalities_I1_geo,
+              group = "Porportion of natural areas - score",
+              fillColor = ~pal_score(score),
+              weight = 1,
+              opacity = 1,
+              color = "grey",
+              fillOpacity = 1,
+              label = labels_I1,
+              highlightOptions = highlightOptions(color = "black", weight = 2,
+                                                  bringToFront = FALSE),
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 6px"),
+                textsize = "15px",
+                direction = "auto")) %>% 
+  # I1 score legend
+  addLegend(colors =  c("#145A32","#2ECC71","#F4D03F","#E67E22","#C0392B"),
+            labels = c("4 (> 20.0%)",
+                       "3 (14.0% – 20.0%)",
+                       "2 (7.0% – 13.9%)",
+                       "1 (0% – 6.9%)",
+                       "0 (< 1.0%)"),
+            opacity = 1,
+            title = "Natural areas scores (2020)",
+            position = "bottomright",
+            labFormat = labelFormat(suffix = "")) %>%
+  # Layers control
+  addLayersControl(
+    baseGroups = c("Porportion of natural areas - value","Porportion of natural areas - score"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) 
+```
+
+```{r I1-chart, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
+# plot chart
+# prepare chart colors
+
+value_vector = municipalities_I1_geo %>% 
+  drop_na(score) %>% 
+  arrange(score) %>% 
+  pull(score) %>% 
+  as.numeric()
+
+color_vector = pal_score(value_vector)
+
+# plot chart
+municipalities_I1_geo %>% 
+  arrange(desc(value)) %>%
+  plot_ly(height = 500, width = 900) %>% 
+  add_trace(x = ~factor(shapeName.1), 
+            y = ~value, 
+            marker = list(color = color_vector),
+            type = "bar",
+            orientation = "v")  %>% 
+  layout(title = "Percent of natural areas (2020)",
+         xaxis = list(title = '', categoryorder = "array",categoryarray =
+                        ~value),
+         yaxis = list(title = ''))
+
+```
