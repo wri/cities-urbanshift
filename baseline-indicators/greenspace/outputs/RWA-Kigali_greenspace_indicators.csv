@@ -1,13 +1,13 @@
-"city_id","indicator_theme","data_sources","indicator_name","year","value"
-"RWA-Kigali","greenspace","Dynamic World / Tree Outside Forests","built_land_with_tree_cover_percent",2020,6.94766148251659
-"RWA-Kigali","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2020,38.87
-"RWA-Kigali","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2019,40.81
-"RWA-Kigali","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2018,40.73
-"RWA-Kigali","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2017,37.06
-"RWA-Kigali","greenspace","Dynamic World / Sentinel-2","built_land_cover_with_vegetation_percent",2016,34.17
-"RWA-Kigali","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2016,49.22
-"RWA-Kigali","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2017,44.15
-"RWA-Kigali","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2018,34.9
-"RWA-Kigali","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2019,39.11
-"RWA-Kigali","greenspace","Dynamic WOrld","dynamic_world_vegetation_land_percent",2020,40.17
-"RWA-Kigali","greenspace","Tree Outside Forests","tof_avg_tree_cover",2020,8.59
+city_id,indicator_theme,data_sources,indicator_name,year,value
+RWA-Kigali,greenspace,Dynamic World / Tree Outside Forests,built_land_with_tree_cover_percent,2020,6.947661483
+RWA-Kigali,greenspace,Dynamic World / Sentinel-2,built_land_cover_with_vegetation_percent,2020,38.87
+RWA-Kigali,greenspace,Dynamic World / Sentinel-2,built_land_cover_with_vegetation_percent,2019,40.81
+RWA-Kigali,greenspace,Dynamic World / Sentinel-2,built_land_cover_with_vegetation_percent,2018,40.73
+RWA-Kigali,greenspace,Dynamic World / Sentinel-2,built_land_cover_with_vegetation_percent,2017,37.06
+RWA-Kigali,greenspace,Dynamic World / Sentinel-2,built_land_cover_with_vegetation_percent,2016,34.17
+RWA-Kigali,greenspace,Dynamic WOrld,dynamic_world_vegetation_land_percent,2016,49.22
+RWA-Kigali,greenspace,Dynamic WOrld,dynamic_world_vegetation_land_percent,2017,44.15
+RWA-Kigali,greenspace,Dynamic WOrld,dynamic_world_vegetation_land_percent,2018,34.9
+RWA-Kigali,greenspace,Dynamic WOrld,dynamic_world_vegetation_land_percent,2019,39.11
+RWA-Kigali,greenspace,Dynamic WOrld,dynamic_world_vegetation_land_percent,2020,40.17
+RWA-Kigali,greenspace,Tree Outside Forests,tof_avg_tree_cover,2020,8.59
