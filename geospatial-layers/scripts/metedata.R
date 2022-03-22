@@ -1,15 +1,16 @@
 library(jsonlite)
 
+city_name = "CRI-San_Jose"
+city = "San Jose"
+country = "Costa Rica"
+city_id = city_name
 
+# setwd("C:/Users/Saif.Shabou/OneDrive - World Resources Institute/Documents/UrbanShift/github/cities-urbanshift")
 
 #########################
 # ESA world cover
 #########################
 
-city_name = "CRI-San_Jose"
-city = "San Jose"
-country = "Costa Rica"
-city_id = city_name
 
 data_url = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/world_cover_",
                  city_name,
