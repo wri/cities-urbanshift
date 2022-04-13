@@ -362,7 +362,7 @@
     "city": "San Jose",
     "country": "Costa Rica",
     "city_id": "CRI-San_Jose",
-    "description": "The Global Land Analysis & Discovery (GLAD) lab at University of Maryland has produced Global Land Cover and Land Use Change, which provides a 30 meter resolution map of global land cover change between 2000 and 2030 generated from Landsat Analysis Ready Data. The map derived from this dataset for this study region and year distinguishes ten land cover classes: Bare Ground, Short Vegetation, Forest, Tall Forest (20m+), Wetland - Short Vegetation, Wetland - Forest, Water, Snow/Ice, Cropland, and Built-Up Area.",
+    "description": "The Global Land Analysis & Discovery (GLAD) lab at University of Maryland has produced Global Land Cover and Land Use Change, which provides a 30 meter resolution map of global land cover change between 2000 and 2020 generated from Landsat Analysis Ready Data. The map derived from this dataset for this study region and year distinguishes ten land cover classes: Bare Ground, Short Vegetation, Forest, Tall Forest (20m+), Wetland - Short Vegetation, Wetland - Forest, Water, Snow/Ice, Cropland, and Built-Up Area.",
     "snippet": "Land cover for CRI-San_Jose 2000 (GLAD Global Land Cover and Land Use Change)",
     "tags": ["CRI-San_Jose", "Land Cover", "Land_Use", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2000", "Biodiversity", "Land_Restoration"],
     "year": 2000,
@@ -379,10 +379,68 @@
     "spatial_resolution": "30m",
     "temporal_resolution": "yearly",
     "format": "raster",
-    "data_source": "Dynamic World Land Cover",
-    "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/"]
+    "data_source": "GLAD Global Land Cover and Land Use Change",
+    "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/","https://doi.org/10.3389/frsen.2022.856903","https://iopscience.iop.org/article/10.1088/1748-9326/ac46ec/meta"]
     "provider": "University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/GLCLUC/CRI-San_Jose-GLADlandcover2000.tif",
+    "license": " ",
+    "crs": "ESPG:4326"
+  },
+    {
+    "title": "Land cover for CRI-San_Jose 2020 (GLAD Global Land Cover and Land Use Change)",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "The Global Land Analysis & Discovery (GLAD) lab at University of Maryland has produced Global Land Cover and Land Use Change, which provides a 30 meter resolution map of global land cover change between 2000 and 2020 generated from Landsat Analysis Ready Data. The map derived from this dataset for this study region and year distinguishes ten land cover classes: Bare Ground, Short Vegetation, Forest, Tall Forest (20m+), Wetland - Short Vegetation, Wetland - Forest, Water, Snow/Ice, Cropland, and Built-Up Area.",
+    "snippet": "Land cover for CRI-San_Jose 2020 (GLAD Global Land Cover and Land Use Change)",
+    "tags": ["CRI-San_Jose", "Land Cover", "Land_Use", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020", "Biodiversity", "Land_Restoration"],
+    "year": 2020,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "data_source": "GLAD Global Land Cover and Land Use Change",
+    "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/","https://doi.org/10.3389/frsen.2022.856903","https://iopscience.iop.org/article/10.1088/1748-9326/ac46ec/meta"]
+    "provider": "University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/GLCLUC/CRI-San_Jose-GLADlandcover2020.tif",
+    "license": " ",
+    "crs": "ESPG:4326"
+  },
+    {
+    "title": "Land surface temperature for CRI-San_Jose March-May 2021",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "A map of mean land surface temperature is derived for this study region and period using algorithms from Ermida et al. (https://doi.org/10.3390/rs12091471) applied through Google Earth Engine to imagery collected by the Landsat series of remote sensing satellites. The resulting map provides estimates of mean land surface temperature in degrees Celsius for March through May 2021, in the hottest months in the San Jose region that year. Estimates are unavailable for some areas with persistent cloud cover.",
+    "snippet": "Land surface temperature for CRI-San_Jose March-May 2021",
+    "tags": ["CRI-San_Jose", "Land Cover", "Land_Use", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2021", "Time:2021-03MAR", "Time:2021-04APR", "Time:2021-05MAY" "Biodiversity", "Land_Restoration", "Weather", "Heat", "Climate"],
+    "year": 2021,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "data_source": "Landsat 8",
+    "source_url": ["https://doi.org/10.3390/rs12091471","https://developers.google.com/earth-engine/datasets/catalog/landsat-8"]
+    "provider": "USGS & NASA",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/GLCLUC/CRI-San_Jose-LSTmean2021-0305.tif",
     "license": " ",
     "crs": "ESPG:4326"
   }
