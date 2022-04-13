@@ -21,7 +21,7 @@
     "city": "San Jose",
     "country": "Costa Rica",
     "city_id": "CRI-San_Jose",
-    "description": "The European Space Agency (ESA) WorldCover 10 m 2020 product provides a global land cover map for 2020 at 10 m resolution based on Sentinel-1 and Sentinel-2 data. The WorldCover product comes with 11 land cover classes, aligned with UN-FAO’s Land Cover Classification System, and has been generated in the framework of the ESA WorldCover project. The World Cover product comes with 11 land cover classes: Tree cover, Shrubland, Grassland, Cropland, Built-up, Bare / sparse vegetation, Snow and ice, Open water, Herbaceous wetland, Mangroves, Moss and lichen.",
+    "description": "The European Space Agency (ESA) WorldCover 10 m 2020 product provides a global land cover map for 2020 at 10 m resolution based on Sentinel-1 and Sentinel-2 data. The WorldCover product comes with 11 land cover classes, aligned with UN-FAOâ€™s Land Cover Classification System, and has been generated in the framework of the ESA WorldCover project. The World Cover product comes with 11 land cover classes: Tree cover, Shrubland, Grassland, Cropland, Built-up, Bare / sparse vegetation, Snow and ice, Open water, Herbaceous wetland, Mangroves, Moss and lichen.",
     "snippet": "Land cover data for San Jose, Costa Rica (2020)",
     "tags": ["CRI-San_Jose", "Biodiversity", "Land cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020"],
     "year": 2020,
@@ -110,7 +110,7 @@
     "city": "San Jose",
     "country": "Costa Rica",
     "city_id": "CRI-San_Jose",
-    "description": "The Global Biodiversity Information Facility (GBIF) is an international network and data infrastructure funded by the world’s governments and aimed at providing anyone, anywhere, open access to data about all types of life on Earth..",
+    "description": "The Global Biodiversity Information Facility (GBIF) is an international network and data infrastructure funded by the worldâ€™s governments and aimed at providing anyone, anywhere, open access to data about all types of life on Earth..",
     "snippet": "Global Biodiversity Information Facility data for San Jose, Costa Rica (2020)",
     "tags": ["CRI-San_Jose", "Biodiversity", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020"],
     "year": 2020,
@@ -354,6 +354,35 @@
     "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
     "provider": "World Resources Institute (WRI) / University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2020.tif",
+    "license": " ",
+    "crs": "ESPG:4326"
+  },
+    {
+    "title": "Land cover for CRI-San_Jose 2000 (GLAD Global Land Cover and Land Use Change)",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "The Global Land Analysis & Discovery (GLAD) lab at University of Maryland has produced Global Land Cover and Land Use Change, which provides a 30 meter resolution map of global land cover change between 2000 and 2030 generated from Landsat Analysis Ready Data. The map derived from this dataset for this study region and year distinguishes ten land cover classes: Bare Ground, Short Vegetation, Forest, Tall Forest (20m+), Wetland - Short Vegetation, Wetland - Forest, Water, Snow/Ice, Cropland, and Built-Up Area.",
+    "snippet": "Land cover for CRI-San_Jose 2000 (GLAD Global Land Cover and Land Use Change)",
+    "tags": ["CRI-San_Jose", "Land Cover", "Land_Use", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2000", "Biodiversity", "Land_Restoration"],
+    "year": 2000,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "data_source": "Dynamic World Land Cover",
+    "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/"]
+    "provider": "University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/GLCLUC/CRI-San_Jose-GLADlandcover2000.tif",
     "license": " ",
     "crs": "ESPG:4326"
   }
