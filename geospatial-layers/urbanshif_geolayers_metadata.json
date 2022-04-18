@@ -167,11 +167,11 @@
     "crs": "ESPG:4326"
   },
   {
-    "title": "Trees Outside of Forests extract for CRI-San_Jose",
+    "title": "Trees in Mosaic Landscapes extract for CRI-San_Jose",
     "city": "San Jose",
     "country": "Costa Rica",
     "city_id": "CRI-San_Jose",
-    "description": "The TOF project provides tree extent data at 10m scale based on trained Convolutional Neural Network using satellite imagery (Sentinel-1 and Sentinel-2). It enables accurate reporting of tree cover outside of dense, closed-canopy forests and urban areas.",
+    "description": "The Trees in Mosaic Landscapes dataset provides tree extent data at 10m scale based on trained Convolutional Neural Network using satellite imagery (Sentinel-1 and Sentinel-2). It enables accurate reporting of tree cover outside of dense, closed-canopy forests, including in urban areas.",
     "snippet": "Tree cover data for San Jose, Costa Rica (2020)",
     "tags": ["CRI-San_Jose", "Land Cover", "Greenspace", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020"],
     "year": 2020,
@@ -188,11 +188,11 @@
     "spatial_resolution": "10m",
     "temporal_resolution": "yearly",
     "format": "raster",
-    "data_source": "Trees Outside of Forests",
-    "source_url": "https://arxiv.org/abs/2005.08702",
+    "data_source": "Trees in Mosaic Landscapes",
+    "source_url": ["https://arxiv.org/abs/2005.08702","https://www.landcarbonlab.org/data/#trees-in-mosaic-landscapes"],
     "provider": "World Resources Institute (WRI)",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/trees_outside_forest/CRI-San_Jose-treecover2020.tif",
-    "license": " ",
+    "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
   {
@@ -384,7 +384,64 @@
     "provider": "University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/GLCLUC/CRI-San_Jose-GLADlandcover2000.tif",
     "license": " ",
-    "crs": "ESPG:4326"
+    "crs": "ESPG:4326",
+    "legend": [
+      {
+        "value": 0,
+        "color": "FEFECC",
+        "class": "Bare Ground"
+      },
+      {
+        "value": 1,
+        "color": "B9B91E",
+        "class": "Short Vegetation"
+      },
+      {
+        "value": 2,
+        "color": "347834",
+        "class": "Forest"
+      },
+      {
+        "value": 3,
+        "color": "0D570D",
+        "class": "Tall Forest (20m+)"
+      },
+      {
+        "value": 4,
+        "color": "88CAAD",
+        "class": "Wetland - Short Vegetation"
+      },
+      {
+        "value": 5,
+        "color": "589558",
+        "class": "Wetland - Forest"
+      },
+      {
+        "value": 6,
+        "color": "6BAED6",
+        "class": "Water"
+      },
+      {
+        "value": 7,
+        "color": "ACD1E8",
+        "class": "Snow/Ice"
+      },
+      {
+        "value": 8,
+        "color": "FFF183",
+        "class": "Cropland"
+      },
+      {
+        "value": 9,
+        "color": "E8765D",
+        "class": "Built-up Area"
+      },
+      {
+        "value": 10,
+        "color": "808080",
+        "class": "No data"
+      }
+    ]
   },
     {
     "title": "Land cover for CRI-San_Jose 2020 (GLAD Global Land Cover and Land Use Change)",
@@ -413,7 +470,64 @@
     "provider": "University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/GLCLUC/CRI-San_Jose-GLADlandcover2020.tif",
     "license": " ",
-    "crs": "ESPG:4326"
+    "crs": "ESPG:4326",
+    "legend": [
+      {
+        "value": 0,
+        "color": "FEFECC",
+        "class": "Bare Ground"
+      },
+      {
+        "value": 1,
+        "color": "B9B91E",
+        "class": "Short Vegetation"
+      },
+      {
+        "value": 2,
+        "color": "347834",
+        "class": "Forest"
+      },
+      {
+        "value": 3,
+        "color": "0D570D",
+        "class": "Tall Forest (20m+)"
+      },
+      {
+        "value": 4,
+        "color": "88CAAD",
+        "class": "Wetland - Short Vegetation"
+      },
+      {
+        "value": 5,
+        "color": "589558",
+        "class": "Wetland - Forest"
+      },
+      {
+        "value": 6,
+        "color": "6BAED6",
+        "class": "Water"
+      },
+      {
+        "value": 7,
+        "color": "ACD1E8",
+        "class": "Snow/Ice"
+      },
+      {
+        "value": 8,
+        "color": "FFF183",
+        "class": "Cropland"
+      },
+      {
+        "value": 9,
+        "color": "E8765D",
+        "class": "Built-up Area"
+      },
+      {
+        "value": 10,
+        "color": "808080",
+        "class": "No data"
+      }
+    ]
   },
     {
     "title": "Land surface temperature for CRI-San_Jose March-May 2021",
@@ -435,7 +549,7 @@
       ]
     ],
     "spatial_resolution": "30m",
-    "temporal_resolution": "yearly",
+    "temporal_resolution": "custom",
     "format": "raster",
     "data_source": "Landsat 8",
     "source_url": ["https://doi.org/10.3390/rs12091471","https://developers.google.com/earth-engine/datasets/catalog/landsat-8"]
