@@ -140,33 +140,6 @@
     "crs": "ESPG:4326"
   },
   {
-    "title": "Urban Land Use extract for CRI-San_Jose",
-    "city": "San Jose",
-    "country": "Costa Rica",
-    "city_id": "CRI-San_Jose",
-    "description": "The ULU data provides land use and land cover information of urban areas based on the application of supervised classification model trained on high resolution Sentinel-2 stallite imagery data. Urban land classes include: open space,non residential area,residential atomistic,residential informal,residential forma,housing project, and roads.",
-    "snippet": "Urban Land Use data for San Jose, Costa Rica (2020)",
-    "tags": ["CRI-San_Jose", "Land Use", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020"],
-    "year": 2020,
-    "extent": [
-      [
-        -84.4689,
-        9.5511
-      ],
-      [
-        -83.6465,
-        10.4137
-      ]
-    ],
-    "format": "raster",
-    "data_source": "Urban Land Use",
-    "source_url": "https://www.wri.org/research/spatial-characterization-urban-land-use-through-machine-learning",
-    "provider": "World Resources Institute (WRI)",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/urban_land_use/CRI-San_Jose-urbanlanduse2020.tif",
-    "license": "CC BY 4.0",
-    "crs": "ESPG:4326"
-  },
-  {
     "title": "Trees in Mosaic Landscapes extract for CRI-San_Jose",
     "city": "San Jose",
     "country": "Costa Rica",
@@ -210,151 +183,6 @@
     "provider": "Protected Planet",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/biodiversity/WDPA/WDPA_CRI-San_Jose.geojson",
     "license": "ODbL",
-    "crs": "ESPG:4326"
-  },
-  {
-    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2016",
-    "city": "San Jose",
-    "country": "Costa Rica",
-    "city_id": "CRI-San_Jose",
-    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
-    "snippet": "Dynamic World Land cover data for San Jose, Costa Rica (2016)",
-    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2016"],
-    "year": 2016,
-    "extent": [
-      [
-        -84.4689,
-        9.5511
-      ],
-      [
-        -83.6464,
-        10.4137
-      ]
-    ],
-    "spatial_resolution": "30m",
-    "temporal_resolution": "yearly",
-    "format": "raster",
-    "data_source": "Dynamic World Land Cover",
-    "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
-    "provider": "World Resources Institute (WRI) / University of Maryland",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2016.tif",
-    "license": " ",
-    "crs": "ESPG:4326"
-  },
-  {
-    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2017",
-    "city": "San Jose",
-    "country": "Costa Rica",
-    "city_id": "CRI-San_Jose",
-    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
-    "snippet": "Dynamic World Land cover data for San Jose, Costa Rica (2017)",
-    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2017"],
-    "year": 2017,
-    "extent": [
-      [
-        -84.4689,
-        9.5511
-      ],
-      [
-        -83.6464,
-        10.4137
-      ]
-    ],
-    "spatial_resolution": "30m",
-    "temporal_resolution": "yearly",
-    "format": "raster",
-    "data_source": "Dynamic World Land Cover",
-    "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
-    "provider": "World Resources Institute (WRI) / University of Maryland",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2017.tif",
-    "license": " ",
-    "crs": "ESPG:4326"
-  },
-  {
-    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2018",
-    "city": "San Jose",
-    "country": "Costa Rica",
-    "city_id": "CRI-San_Jose",
-    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
-    "snippet": "Dynamic World Land cover data for San Jose, Costa Rica (2018)",
-    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2018"],
-    "year": 2018,
-    "extent": [
-      [
-        -84.4689,
-        9.5511
-      ],
-      [
-        -83.6464,
-        10.4137
-      ]
-    ],
-    "spatial_resolution": "30m",
-    "temporal_resolution": "yearly",
-    "format": "raster",
-    "data_source": "Dynamic World Land Cover",
-    "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
-    "provider": "World Resources Institute (WRI) / University of Maryland",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2018.tif",
-    "license": " ",
-    "crs": "ESPG:4326"
-  },
-  {
-    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2019",
-    "city": "San Jose",
-    "country": "Costa Rica",
-    "city_id": "CRI-San_Jose",
-    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
-    "snippet": "Dynamic World Land cover data for San Jose, Costa Rica (2019)",
-    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2019"],
-    "year": 2019,
-    "extent": [
-      [
-        -84.4689,
-        9.5511
-      ],
-      [
-        -83.6464,
-        10.4137
-      ]
-    ],
-    "spatial_resolution": "30m",
-    "temporal_resolution": "yearly",
-    "format": "raster",
-    "data_source": "Dynamic World Land Cover",
-    "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
-    "provider": "World Resources Institute (WRI) / University of Maryland",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2019.tif",
-    "license": " ",
-    "crs": "ESPG:4326"
-  },
-  {
-    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2020",
-    "city": "San Jose",
-    "country": "Costa Rica",
-    "city_id": "CRI-San_Jose",
-    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
-    "snippet": "Dynamic World Land cover data for San Jose, Costa Rica (2020)",
-    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020"],
-    "year": 2020,
-    "extent": [
-      [
-        -84.4689,
-        9.5511
-      ],
-      [
-        -83.6464,
-        10.4137
-      ]
-    ],
-    "spatial_resolution": "30m",
-    "temporal_resolution": "yearly",
-    "format": "raster",
-    "data_source": "Dynamic World Land Cover",
-    "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
-    "provider": "World Resources Institute (WRI) / University of Maryland",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2020.tif",
-    "license": " ",
     "crs": "ESPG:4326"
   },
     {
@@ -530,6 +358,45 @@
     ]
   },
     {
+    "title": "Habitat change for CRI-San_Jose between 2000 and 2020",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "This dataset presents change in land use between 2000 and 2020 as aggregated into changes between habitat and non-habitat classes. Land cover classes for each year are derived from GLAD Global Land Cover and Land Use Change. Aquatic or non-cropland vegetated classes are aggregated as habitat classes. Urban, cropland and bare classes are aggregated as nonhabitat.  The resulting map presents changes in land classification from nonhabitat to habitat (habitat gain) and from habitat to nonhabitat (habitat loss).",
+    "snippet": "Change in land cover to and from habitat classes for CRI-San_Jose between 2000 and 2020 (GLAD Global Land Cover and Land Use Change)",
+    "tags": ["CRI-San_Jose", "Land Cover", "Land_Use", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020", "Biodiversity", "Land_Restoration", "Habitat"],
+    "year": 2020,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "custom",
+    "format": "raster",
+    "data_source": "Calculated by WRI from GLAD Global Land Cover and Land Use Change",
+    "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/","https://doi.org/10.3389/frsen.2022.856903","https://iopscience.iop.org/article/10.1088/1748-9326/ac46ec/meta"]
+    "provider": ["World Resources Institute","University of Maryland"],
+    "url": " ",
+    "license": "CC BY 4.0",
+    "crs": "ESPG:4326"
+    "legend": [
+      {
+        "value": 0,
+        "class": "habitat loss"
+      },
+      {
+        "value": 1,
+        "class": "habitat gain"
+      }
+    ]
+  },
+    {
     "title": "Land surface temperature for CRI-San_Jose March-May 2021",
     "city": "San Jose",
     "country": "Costa Rica",
@@ -553,7 +420,7 @@
     "format": "raster",
     "data_source": "Landsat 8",
     "source_url": ["https://doi.org/10.3390/rs12091471","https://developers.google.com/earth-engine/datasets/catalog/landsat-8"]
-    "provider": "USGS & NASA",
+    "provider": ["USGS","NASA"],
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/GLCLUC/CRI-San_Jose-LSTmean2021-0305.tif",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
@@ -563,7 +430,7 @@
     "city": "San Jose",
     "country": "Costa Rica",
     "city_id": "CRI-San_Jose",
-    "description": "This dataset depict estimated number of people residing in each grid cell in 2020. Full details on the methods and datasets used in constructing the data, along with open access publications, are provided on the WorldPop website. In brief, recent census-based population counts matched to their associated administrative units are disaggregated to ~100x100m grid cells through machine learning approaches that exploit the relationships between population densities and a range of geospatial covariate layers. The mapping approach is Random Forest-based dasymetric redistribution.",
+    "description": "This dataset depicts estimated number of people residing in each grid cell in 2020. Full details on the methods and datasets used in constructing the data, along with open access publications, are provided on the WorldPop website. In brief, recent census-based population counts matched to their associated administrative units are disaggregated to ~100x100m grid cells through machine learning approaches that exploit the relationships between population densities and a range of geospatial covariate layers. The mapping approach is Random Forest-based dasymetric redistribution.",
     "snippet": "Gridded population estimates for CRI-San_Jose 2020",
     "tags": ["CRI-San_Jose", "Population", "Demography", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020", "Biodiversity", "Land_Use"],
     "year": 2020,
@@ -585,6 +452,213 @@
     "provider": "WorldPop Global Project Population Data",
     "url": " ",
     "license": "CC BY 4.0",
+    "crs": "ESPG:4326"
+  },
+    {
+    "title": "Impervious surfaces in CRI-San_Jose 2018",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "This layer presents land classified as impervious to water infiltration in year 2018. It is derived from a dataset that contains annual change information of global impervious surface area from 1985 to 2018 at a 30m resolution. Change from pervious to impervious was determined using a combined approach of supervised classification and temporal consistency checking. Impervious pixels are defined as above 50% impervious. The dataset is temporally consistent, following the conversion from pervious (e.g., non-urban) to impervious (e.g., urban) monotonically.",
+    "snippet": "Impervious surfaces in CRI-San_Jose 2018",
+    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2018", "Biodiversity", "Built-up"],
+    "year": 2018,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "data_source": "FROM-GLC Year of Change to Impervious Surface",
+    "source_url": ["https://doi.org/10.1016/j.rse.2019.111510","https://developers.google.com/earth-engine/datasets/catalog/Tsinghua_FROM-GLC_GAIA_v10"]
+    "provider": ["Tsinghua University"],
+    "url": " ",
+    "license": "CC BY 4.0",
+    "crs": "ESPG:4326"
+    "legend": [
+      {
+        "value": 1,
+        "class": "impervious area in 2018"
+      }
+    ]
+  },
+  {
+    "title": "Urban Land Use extract for CRI-San_Jose",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "The ULU data provides land use and land cover information of urban areas based on the application of supervised classification model trained on high resolution Sentinel-2 stallite imagery data. Urban land classes include: open space,non residential area,residential atomistic,residential informal,residential forma,housing project, and roads.",
+    "snippet": "Urban Land Use data for San Jose, Costa Rica (2020)",
+    "tags": ["CRI-San_Jose", "Land Use", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020"],
+    "year": 2020,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6465,
+        10.4137
+      ]
+    ],
+    "format": "raster",
+    "data_source": "Urban Land Use",
+    "source_url": "https://www.wri.org/research/spatial-characterization-urban-land-use-through-machine-learning",
+    "provider": "World Resources Institute (WRI)",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/urban_land_use/CRI-San_Jose-urbanlanduse2020.tif",
+    "license": "CC BY 4.0",
+    "crs": "ESPG:4326"
+  },
+  {
+    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2016",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
+    "snippet": "Dynamic World Land cover data for San Jose, Costa Rica (2016)",
+    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2016"],
+    "year": 2016,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "data_source": "Dynamic World Land Cover",
+    "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
+    "provider": "World Resources Institute (WRI) / University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2016.tif",
+    "license": " ",
+    "crs": "ESPG:4326"
+  },
+  {
+    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2017",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
+    "snippet": "Dynamic World Land cover data for San Jose, Costa Rica (2017)",
+    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2017"],
+    "year": 2017,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "data_source": "Dynamic World Land Cover",
+    "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
+    "provider": "World Resources Institute (WRI) / University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2017.tif",
+    "license": " ",
+    "crs": "ESPG:4326"
+  },
+  {
+    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2018",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
+    "snippet": "Dynamic World Land cover data for San Jose, Costa Rica (2018)",
+    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2018"],
+    "year": 2018,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "data_source": "Dynamic World Land Cover",
+    "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
+    "provider": "World Resources Institute (WRI) / University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2018.tif",
+    "license": " ",
+    "crs": "ESPG:4326"
+  },
+  {
+    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2019",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
+    "snippet": "Dynamic World Land cover data for San Jose, Costa Rica (2019)",
+    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2019"],
+    "year": 2019,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "data_source": "Dynamic World Land Cover",
+    "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
+    "provider": "World Resources Institute (WRI) / University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2019.tif",
+    "license": " ",
+    "crs": "ESPG:4326"
+  },
+  {
+    "title": "Dynamic World Land Cover extract for CRI-San_Jose 2020",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "The Dynamic World Land Cover product displays a global map of land use/land cover (LULC) provided from ESA Sentinel-2 imagery at 10m resolution. It is composed of 10 land use classes: water, trees,grass,flooded vegetation,crops,scrub/shrub, built area,bare ground, and snow/ice. ",
+    "snippet": "Dynamic World Land cover data for San Jose, Costa Rica (2020)",
+    "tags": ["CRI-San_Jose", "Land Cover", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020"],
+    "year": 2020,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "30m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "data_source": "Dynamic World Land Cover",
+    "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
+    "provider": "World Resources Institute (WRI) / University of Maryland",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2020.tif",
+    "license": " ",
     "crs": "ESPG:4326"
   }
 ]
