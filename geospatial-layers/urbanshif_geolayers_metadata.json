@@ -123,23 +123,6 @@
     "crs": "ESPG:4326"
   },
   {
-    "title": "Urban amenities extract for CRI-San_Jose",
-    "city": "San Jose",
-    "country": "Costa Rica",
-    "city_id": "CRI-San_Jose",
-    "description": "OpenStreetMap (OSM) provides a free access to the different geographical features mapped by OSM contributors. Amenity data represents physical features on the ground with their corresponding geographic attributes.",
-    "snippet": "Amenity data for San Jose, Costa Rica (2022)",
-    "tags": ["CRI-San_Jose", "Amenity", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2022"],
-    "year": 2022,
-    "format": "geojson",
-    "data_source": "OpenStreetMap",
-    "source_url": "https://wiki.openstreetmap.org/wiki/Elements",
-    "provider": "OpenStreetMap",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/biodiversity/amenity_CRI-San_Jose.geojson",
-    "license": "ODbL",
-    "crs": "ESPG:4326"
-  },
-  {
     "title": "Trees in Mosaic Landscapes extract for CRI-San_Jose",
     "city": "San Jose",
     "country": "Costa Rica",
@@ -488,6 +471,23 @@
         "class": "impervious area in 2018"
       }
     ]
+  },
+  {
+    "title": "Urban amenities extract for CRI-San_Jose",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "OpenStreetMap (OSM) provides a free access to the different geographical features mapped by OSM contributors. Amenity data represents physical features on the ground with their corresponding geographic attributes.",
+    "snippet": "Amenity data for San Jose, Costa Rica (2022)",
+    "tags": ["CRI-San_Jose", "Amenity", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2022"],
+    "year": 2022,
+    "format": "geojson",
+    "data_source": "OpenStreetMap",
+    "source_url": "https://wiki.openstreetmap.org/wiki/Elements",
+    "provider": "OpenStreetMap",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/biodiversity/amenity_CRI-San_Jose.geojson",
+    "license": "ODbL",
+    "crs": "ESPG:4326"
   },
   {
     "title": "Urban Land Use extract for CRI-San_Jose",
