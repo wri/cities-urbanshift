@@ -555,7 +555,36 @@
     "source_url": ["https://doi.org/10.3390/rs12091471","https://developers.google.com/earth-engine/datasets/catalog/landsat-8"]
     "provider": "USGS & NASA",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/GLCLUC/CRI-San_Jose-LSTmean2021-0305.tif",
-    "license": " ",
+    "license": "CC BY 4.0",
+    "crs": "ESPG:4326"
+  },
+    {
+    "title": "Gridded population estimates for CRI-San_Jose 2020",
+    "city": "San Jose",
+    "country": "Costa Rica",
+    "city_id": "CRI-San_Jose",
+    "description": "This dataset depict estimated number of people residing in each grid cell in 2020. Full details on the methods and datasets used in constructing the data, along with open access publications, are provided on the WorldPop website. In brief, recent census-based population counts matched to their associated administrative units are disaggregated to ~100x100m grid cells through machine learning approaches that exploit the relationships between population densities and a range of geospatial covariate layers. The mapping approach is Random Forest-based dasymetric redistribution.",
+    "snippet": "Gridded population estimates for CRI-San_Jose 2020",
+    "tags": ["CRI-San_Jose", "Population", "Demography", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020", "Biodiversity", "Land_Use"],
+    "year": 2020,
+    "extent": [
+      [
+        -84.4689,
+        9.5511
+      ],
+      [
+        -83.6464,
+        10.4137
+      ]
+    ],
+    "spatial_resolution": "100m",
+    "temporal_resolution": "yearly",
+    "format": "raster",
+    "data_source": "Estimated Residential Population per 100x100m Grid Square",
+    "source_url": ["https://hub.worldpop.org/","https://developers.google.com/earth-engine/datasets/catalog/WorldPop_GP_100m_pop"]
+    "provider": "WorldPop Global Project Population Data",
+    "url": " ",
+    "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   }
 ]
