@@ -200,7 +200,7 @@
     "provider": "University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GLAD-landclasses-2000.tif",
     "status": "published",
-    "license": " ",
+    "license": "CC BY 4.0",
     "crs": "ESPG:4326",
     "legend": [
       {
@@ -287,7 +287,7 @@
     "provider": "University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GLAD-landclasses-2020.tif",
     "status": "published",
-    "license": " ",
+    "license": "CC BY 4.0",
     "crs": "ESPG:4326",
     "legend": [
       {
