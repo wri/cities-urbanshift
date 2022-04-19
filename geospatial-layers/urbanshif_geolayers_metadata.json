@@ -279,7 +279,7 @@
     "data_source": "GLAD Global Land Cover and Land Use Change",
     "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/","https://doi.org/10.3389/frsen.2022.856903","https://iopscience.iop.org/article/10.1088/1748-9326/ac46ec/meta"]
     "provider": "University of Maryland",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/GLCLUC/CRI-San_Jose-GLADlandcover2020.tif",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GLAD-landclasses-2020.tif",
     "license": " ",
     "crs": "ESPG:4326",
     "legend": [
@@ -347,7 +347,7 @@
     "city_id": "CRI-San_Jose",
     "description": "This dataset presents change in land use between 2000 and 2020 as aggregated into changes between habitat and non-habitat classes. Land cover classes for each year are derived from GLAD Global Land Cover and Land Use Change. Aquatic or non-cropland vegetated classes are aggregated as habitat classes. Urban, cropland and bare classes are aggregated as nonhabitat.  The resulting map presents changes in land classification from nonhabitat to habitat (habitat gain) and from habitat to nonhabitat (habitat loss).",
     "snippet": "Change in land cover to and from habitat classes for CRI-San_Jose between 2000 and 2020 (GLAD Global Land Cover and Land Use Change)",
-    "tags": ["CRI-San_Jose", "Land Cover", "Land_Use", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2020", "Biodiversity", "Land_Restoration", "Habitat"],
+    "tags": ["CRI-San_Jose", "Land Cover", "Land_Use", "Geography:America", "Geography:America:Costa_Rica", "Geography:America:Costa_Rica:San_Jose", "Time:2000", "Time:2020", "Biodiversity", "Land_Restoration", "Habitat"],
     "year": 2020,
     "extent": [
       [
@@ -404,7 +404,7 @@
     "data_source": "Landsat 8",
     "source_url": ["https://doi.org/10.3390/rs12091471","https://developers.google.com/earth-engine/datasets/catalog/landsat-8"]
     "provider": ["USGS","NASA"],
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/GLCLUC/CRI-San_Jose-LSTmean2021-0305.tif",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-LSTmean-20210305.tif",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
@@ -433,7 +433,7 @@
     "data_source": "Estimated Residential Population per 100x100m Grid Square",
     "source_url": ["https://hub.worldpop.org/","https://developers.google.com/earth-engine/datasets/catalog/WorldPop_GP_100m_pop"]
     "provider": "WorldPop Global Project Population Data",
-    "url": " ",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-WorldPop-population-2020.tif",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
@@ -462,7 +462,7 @@
     "data_source": "FROM-GLC Year of Change to Impervious Surface",
     "source_url": ["https://doi.org/10.1016/j.rse.2019.111510","https://developers.google.com/earth-engine/datasets/catalog/Tsinghua_FROM-GLC_GAIA_v10"]
     "provider": ["Tsinghua University"],
-    "url": " ",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GAIA_impervious_surfaces-2018.tif",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
     "legend": [
