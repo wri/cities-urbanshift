@@ -285,7 +285,7 @@
     "data_source": "GLAD Global Land Cover and Land Use Change",
     "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/","https://doi.org/10.3389/frsen.2022.856903","https://iopscience.iop.org/article/10.1088/1748-9326/ac46ec/meta"]
     "provider": "University of Maryland",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GLAD-landclasses-2020.tif",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GLAD-landclasses-2020.tif", 
     "status": "published",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326",
