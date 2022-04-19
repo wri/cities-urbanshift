@@ -13,6 +13,7 @@
     "source_url": "https://www.geoboundaries.org/",
     "provider": "geoBoundaries",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/boundaries/CRI-San_Jose-boundary.geojson",
+    "status": "published",
     "license": "ODbL",
     "crs": "ESPG:4326"
   },
@@ -44,6 +45,7 @@
     "source_url": "https://esa-worldcover.org/en",
     "provider": "European Space Agency (ESA)",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-ESA-landcover-2020.tif",
+    "status": "published",
     "license": "CC BY 4.0",
     "snippet.1": "Land cover data for San Jose, Costa Rica (2020)",
     "crs": "ESPG:4326",
@@ -119,6 +121,7 @@
     "source_url": "https://www.gbif.org/en/",
     "provider": "Global Biodiversity Information Facility",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/biodiversity/GBIF-CRI-San_Jose.geojson",
+    "status": "published",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
@@ -148,6 +151,7 @@
     "source_url": ["https://arxiv.org/abs/2005.08702","https://www.landcarbonlab.org/data/#trees-in-mosaic-landscapes"],
     "provider": "World Resources Institute (WRI)",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-TML-trees-2020.tif",
+    "status": "published",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
@@ -165,6 +169,7 @@
     "source_url": "https://www.protectedplanet.net/en",
     "provider": "Protected Planet",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/biodiversity/WDPA/WDPA_CRI-San_Jose.geojson",
+    "status": "published",
     "license": "ODbL",
     "crs": "ESPG:4326"
   },
@@ -194,6 +199,7 @@
     "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/","https://doi.org/10.3389/frsen.2022.856903","https://iopscience.iop.org/article/10.1088/1748-9326/ac46ec/meta"]
     "provider": "University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GLAD-landclasses-2000.tif",
+    "status": "published",
     "license": " ",
     "crs": "ESPG:4326",
     "legend": [
@@ -280,6 +286,7 @@
     "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/","https://doi.org/10.3389/frsen.2022.856903","https://iopscience.iop.org/article/10.1088/1748-9326/ac46ec/meta"]
     "provider": "University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GLAD-landclasses-2020.tif",
+    "status": "published",
     "license": " ",
     "crs": "ESPG:4326",
     "legend": [
@@ -366,6 +373,7 @@
     "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/","https://doi.org/10.3389/frsen.2022.856903","https://iopscience.iop.org/article/10.1088/1748-9326/ac46ec/meta"]
     "provider": ["World Resources Institute","University of Maryland"],
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GLAD_habitat_changes-2000_2020.tif",
+    "status": "published",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
     "legend": [
@@ -405,6 +413,7 @@
     "source_url": ["https://doi.org/10.3390/rs12091471","https://developers.google.com/earth-engine/datasets/catalog/landsat-8"]
     "provider": ["USGS","NASA"],
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-LSTmean-20210305.tif",
+    "status": "published",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
@@ -434,6 +443,7 @@
     "source_url": ["https://hub.worldpop.org/","https://developers.google.com/earth-engine/datasets/catalog/WorldPop_GP_100m_pop"]
     "provider": "WorldPop Global Project Population Data",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-WorldPop-population-2020.tif",
+    "status": "published",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
@@ -463,6 +473,7 @@
     "source_url": ["https://doi.org/10.1016/j.rse.2019.111510","https://developers.google.com/earth-engine/datasets/catalog/Tsinghua_FROM-GLC_GAIA_v10"]
     "provider": ["Tsinghua University"],
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GAIA_impervious_surfaces-2018.tif",
+    "status": "published",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
     "legend": [
@@ -486,6 +497,7 @@
     "source_url": "https://wiki.openstreetmap.org/wiki/Elements",
     "provider": "OpenStreetMap",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/biodiversity/amenity_CRI-San_Jose.geojson",
+    "status": "integrated",
     "license": "ODbL",
     "crs": "ESPG:4326"
   },
@@ -513,6 +525,7 @@
     "source_url": "https://www.wri.org/research/spatial-characterization-urban-land-use-through-machine-learning",
     "provider": "World Resources Institute (WRI)",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/urban_land_use/CRI-San_Jose-urbanlanduse2020.tif",
+    "status": "integrated",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
@@ -542,7 +555,8 @@
     "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
     "provider": "World Resources Institute (WRI) / University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2016.tif",
-    "license": " ",
+    "status": "integrated",
+    "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
   {
@@ -571,7 +585,8 @@
     "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
     "provider": "World Resources Institute (WRI) / University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2017.tif",
-    "license": " ",
+    "status": "integrated",
+    "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
   {
@@ -600,7 +615,8 @@
     "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
     "provider": "World Resources Institute (WRI) / University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2018.tif",
-    "license": " ",
+    "status": "integrated",
+    "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
   {
@@ -629,7 +645,8 @@
     "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
     "provider": "World Resources Institute (WRI) / University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2019.tif",
-    "license": " ",
+    "status": "integrated",
+    "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
   {
@@ -658,7 +675,8 @@
     "source_url": "https://www.landcarbonlab.org/data/#global-land-cover-change",
     "provider": "World Resources Institute (WRI) / University of Maryland",
     "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/dynamic_world/CRI-San_Jose-landcover2020.tif",
-    "license": " ",
+    "status": "integrated",
+    "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   }
 ]
