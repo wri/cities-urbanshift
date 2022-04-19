@@ -43,7 +43,7 @@
     "data_source": "ESA World cover",
     "source_url": "https://esa-worldcover.org/en",
     "provider": "European Space Agency (ESA)",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/world_cover_CRI-San_Jose.tif",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-ESA-landcover-2020.tif",
     "license": "CC BY 4.0",
     "snippet.1": "Land cover data for San Jose, Costa Rica (2020)",
     "crs": "ESPG:4326",
@@ -147,7 +147,7 @@
     "data_source": "Trees in Mosaic Landscapes",
     "source_url": ["https://arxiv.org/abs/2005.08702","https://www.landcarbonlab.org/data/#trees-in-mosaic-landscapes"],
     "provider": "World Resources Institute (WRI)",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/trees_outside_forest/CRI-San_Jose-treecover2020.tif",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-TML-trees-2020.tif",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
   },
@@ -193,7 +193,7 @@
     "data_source": "GLAD Global Land Cover and Land Use Change",
     "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/","https://doi.org/10.3389/frsen.2022.856903","https://iopscience.iop.org/article/10.1088/1748-9326/ac46ec/meta"]
     "provider": "University of Maryland",
-    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/GLCLUC/CRI-San_Jose-GLADlandcover2000.tif",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GLAD-landclasses-2000.tif",
     "license": " ",
     "crs": "ESPG:4326",
     "legend": [
@@ -365,7 +365,7 @@
     "data_source": "Calculated by WRI from GLAD Global Land Cover and Land Use Change",
     "source_url": ["https://www.landcarbonlab.org/data/#global-land-cover-change","https://glad.umd.edu/dataset/GLCLUC2020/","https://doi.org/10.3389/frsen.2022.856903","https://iopscience.iop.org/article/10.1088/1748-9326/ac46ec/meta"]
     "provider": ["World Resources Institute","University of Maryland"],
-    "url": " ",
+    "url": "https://cities-urbanshift.s3.eu-west-3.amazonaws.com/baseline-indicators/biodiversity/data/CRI-San_Jose/CRI-San_Jose-GLAD_habitat_changes-2000_2020.tif",
     "license": "CC BY 4.0",
     "crs": "ESPG:4326"
     "legend": [
