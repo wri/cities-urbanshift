@@ -1,0 +1,13 @@
+name: UrbanShift-dashboard
+title: UrbanShift-dashboard
+username:
+account: wri-cities
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6600805
+bundleId: 6074792
+url: https://wri-cities.shinyapps.io/UrbanShift-dashboard/
+when: 1657114937.94872
+lastSyncTime: 1657114937.94872
+asMultiple: FALSE
+asStatic: FALSE

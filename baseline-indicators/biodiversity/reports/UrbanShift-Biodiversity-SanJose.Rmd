@@ -751,7 +751,7 @@ biodiversity_baseline_indicators_geo %>%
 ```{r I1, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
 
 
-# I-1. Porportion of natural areas
+# I-1. Proportion of natural areas
 
 # prepare map
 
