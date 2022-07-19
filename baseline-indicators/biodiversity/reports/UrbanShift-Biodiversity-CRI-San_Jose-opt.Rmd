@@ -1,5 +1,5 @@
 ---
-title: "Biodiversity Indicators: Mendoza, Argentina "
+title: "Biodiversity Indicators: Metropolitan San José, Costa Rica "
 date: "`r format (Sys.time(), '%B %Y')`"
 output: 
   html_document:
@@ -37,6 +37,7 @@ library(downloadthis)
 library(leaflet.multiopacity)
 library(leaflet.extras)
 library(DT)
+library(leafem)
 
 col_BoldRiverBlue = "#242456"
 col_BoldSunYellow = "#FFD450"
@@ -80,7 +81,7 @@ boundary_georef = read.csv("https://cities-urbanshift.s3.eu-west-3.amazonaws.com
 
 # read boundaries ------------
 
-geo_name = "ARG-Mendoza" 
+geo_name = "CRI-San_Jose" 
 
 aoi_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "aoi_boundary_name"]
 units_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "units_boundary_name"]
@@ -179,17 +180,17 @@ aoi_indicators %>%
 # esa world cover data
 
 
-worldcoverc_data_path = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/v_0/",
+worldcoverc_data_path = paste("/vsicurl/https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/v_0/",
                               geo_name,
                               "-",
                               aoi_boundary_name,
                               "-ESA-world_cover-2000.tif",
                               sep = "")
 
-city_worldcover_raster = raster(worldcoverc_data_path)
-
-city_worldcover  = raster::mask(city_worldcover_raster,
-                                boundary_aoi)
+# city_worldcover_raster = raster(worldcoverc_data_path)
+# 
+# city_worldcover  = raster::mask(city_worldcover_raster,
+#                                 boundary_aoi)
 
 # define color palette for WOrld cover
 Trees_10_green = "#006400"
@@ -230,17 +231,17 @@ pal_worldcover <- colorFactor(palette = worldcover_col,
 # raster natural-area-layer
 
 
-worldcover_natural_data_path = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/v_0/",
+worldcover_natural_data_path = paste("/vsicurl/https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/v_0/",
                               geo_name,
                               "-",
                               aoi_boundary_name,
                               "-ESA-world_cover-2000-natural_areas.tif",
                               sep = "")
 
-city_worldcover_raster_natural = raster(worldcover_natural_data_path)
-
-city_worldcover_raster_natural  = raster::mask(city_worldcover_raster_natural,
-                                               boundary_aoi)
+# city_worldcover_raster_natural = raster(worldcover_natural_data_path)
+# 
+# city_worldcover_raster_natural  = raster::mask(city_worldcover_raster_natural,
+#                                                boundary_aoi)
 
 ```
 
@@ -336,15 +337,15 @@ leaflet(boundary_aoi, height = 700, width = "100%") %>%
             group = "Porportion of natural areas - score",
             position = "bottomright",
             labFormat = labelFormat(suffix = "")) %>%
-  # Raster of natural areas
-  addRasterImage(city_worldcover_raster_natural,
-                 colors = "#65B96B",
-                 opacity = 1,
-                 maxBytes = 100 * 1024 * 1024,
-                 project=FALSE,
-                 group = "Natural land cover",
-                 layerId = "Natural Areas") %>%
-  # # Raster of world cover
+  # # Raster of natural areas
+  # addRasterImage(city_worldcover_raster_natural,
+  #                colors = "#65B96B",
+  #                opacity = 1,
+  #                maxBytes = 100 * 1024 * 1024,
+  #                project=FALSE,
+  #                group = "Natural land cover",
+  #                layerId = "Natural Areas") %>%
+  # Raster of world cover
   # addRasterImage(city_worldcover,
   #                colors = pal_worldcover,
   #                opacity = 1,
@@ -352,12 +353,20 @@ leaflet(boundary_aoi, height = 700, width = "100%") %>%
   #                project=FALSE,
   #                group = "Land cover types",
   #                layerId = "WorldCover") %>%
-  # addLegend(colors = worldcover_col,
-  #           labels = worldcover_labels,
-  #           title = "World Cover",
-  #           group = "Land cover types",
-  #           position = "bottomleft",
-  #           opacity = 1) %>%
+  addGeotiff(file = worldcover_natural_data_path,
+             opacity = 0.7,
+             colorOptions = colorOptions(palette = c("Green","white"), na.color = "transparent"),
+             group = "Natural land cover") %>%
+  addGeotiff(file = worldcoverc_data_path,
+                       opacity = 0.9,
+                       colorOptions = colorOptions(palette = worldcover_col, na.color = "transparent"),
+                       group = "Land cover types") %>% 
+  addLegend(colors = worldcover_col,
+            labels = worldcover_labels,
+            title = "World Cover",
+            group = "Land cover types",
+            position = "bottomleft",
+            opacity = 1) %>%
   # Layers control
   addLayersControl(
     overlayGroups = c("Porportion of natural areas - value",

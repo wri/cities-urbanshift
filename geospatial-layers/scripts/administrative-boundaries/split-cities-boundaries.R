@@ -1,6 +1,7 @@
 
 # Split the administrative boundaries by cities
 
+setwd("C:/Users/Saif.Shabou/OneDrive - World Resources Institute/Documents/UrbanShift")
 
 # read all boundaries
 urbanshift_boundaries = st_read("./github/cities-urbanshift/geospatial-layers/data/boundaries/administrative_boundaries.geojson",
@@ -20,9 +21,9 @@ for(i in 1:length(urbanshift_cities)){
   
   urbanshift_boundaries_city = urbanshift_boundaries[urbanshift_boundaries$city_name == city_name, ]
   
-  export_file_name = paste("./github/cities-urbanshift/geospatial-layers/data/boundaries/admin_boundaries_",
+  export_file_name = paste("./github/cities-urbanshift/geospatial-layers/data/boundaries/boundary-",
                            city_name,
-                           ".geojson",
+                           "-ADM1.geojson",
                            sep = "")
   
   st_write(urbanshift_boundaries_city,
