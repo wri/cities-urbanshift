@@ -130,3 +130,6 @@ dmypy.json
 
 # html generated files
 *.html
+
+# credentials
+test.csv
