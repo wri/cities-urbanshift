@@ -133,3 +133,7 @@ dmypy.json
 
 # credentials
 test.csv
+
+# geotiff rasters
+*.geotiff
+*.tif
