@@ -1,5 +1,5 @@
 ---
-title: "Biodiversity Indicators: Surat, India"
+title: "Biodiversity Indicators: Florianopolis, Brazil"
 date: "`r format (Sys.time(), '%B %Y')`"
 output: 
   html_document:
@@ -79,7 +79,7 @@ boundary_georef = read.csv("https://cities-urbanshift.s3.eu-west-3.amazonaws.com
 
 # read boundaries ------------
 
-geo_name = "IND-Surat" 
+geo_name = "BRA-Florianopolis" 
 
 aoi_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "aoi_boundary_name"]
 units_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "units_boundary_name"]
@@ -182,7 +182,7 @@ aoi_indicators %>%
 
 ```
 
-```{r esa-data, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+```{r esa-data, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 # esa world cover data -----
 
 
@@ -233,7 +233,7 @@ pal_worldcover <- colorFactor(palette = worldcover_col,
                               na.color = "transparent")
 ```
 
-```{r natural-area-layer, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+```{r natural-area-layer, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 # raster natural-area-layer ----
 
 
@@ -343,255 +343,41 @@ leaflet(boundary_aoi, height = 700, width = "100%") %>%
             group = "Porportion of natural areas - score",
             position = "bottomright",
             labFormat = labelFormat(suffix = "")) %>%
-  # # Raster of natural areas
-  # addRasterImage(city_worldcover_raster_natural,
-  #                colors = "#65B96B",
-  #                opacity = 1,
-  #                maxBytes = 100 * 1024 * 1024,
-  #                project=FALSE,
-  #                group = "Natural land cover",
-  #                layerId = "Natural Areas") %>%
-  # # Raster of world cover
-  # addRasterImage(city_worldcover,
-  #                colors = pal_worldcover,
-  #                opacity = 1,
-  #                maxBytes = 100 * 1024 * 1024,
-  #                project=FALSE,
-  #                group = "Land cover types",
-  #                layerId = "WorldCover") %>%
-  # addLegend(colors = worldcover_col,
-  #           labels = worldcover_labels,
-  #           title = "World Cover",
-  #           group = "Land cover types",
-  #           position = "bottomleft",
-  #           opacity = 1) %>%
+  # Raster of natural areas
+  addRasterImage(city_worldcover_raster_natural,
+                 colors = "#65B96B",
+                 opacity = 1,
+                 maxBytes = 100 * 1024 * 1024,
+                 project=FALSE,
+                 group = "Natural land cover",
+                 layerId = "Natural Areas") %>%
+  # Raster of world cover
+  addRasterImage(city_worldcover,
+                 colors = pal_worldcover,
+                 opacity = 1,
+                 maxBytes = 100 * 1024 * 1024,
+                 project=FALSE,
+                 group = "Land cover types",
+                 layerId = "WorldCover") %>%
+  addLegend(colors = worldcover_col,
+            labels = worldcover_labels,
+            title = "World Cover",
+            group = "Land cover types",
+            position = "bottomleft",
+            opacity = 1) %>%
   # Layers control
   addLayersControl(
     overlayGroups = c("Porportion of natural areas - value",
                       "Porportion of natural areas - score",
+                      "Land cover types",
+                      "Natural land cover",
                       "Administrative boundaries"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup(c("Porportion of natural areas - score",
+              "Land cover types",
               "Administrative boundaries")) %>% 
   addFullscreenControl()
 
 ```
 
-## Climate regulation: carbon storage and cooling effect of vegetation (SICB-11)
-
-Trees provide numerous services to cities: they provide cooling, improve air quality, store carbon, reduce noise pollution, and regulate the water cycle. Trees also provide habitat for birds, insects and mammals, and generally improve local ecosystem health.
-
-This indicator is based on tree canopy cover. The trees included may be planted or naturally occurring. The formula is: *(Land area under tree canopy) ÷ (Total terrestrial area of the city)*
-
-```{r tml-data, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
-tml_data_path = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/tree_cover/tree_mosaic_land/v_0/",
-                                     geo_name,
-                                     "-",
-                                     aoi_boundary_name,
-                                     "-TML-tree_cover-2000.tif",
-                                     sep = "")
-
-city_tml = raster(tml_data_path)
-
-city_tml  = raster::mask(city_tml,
-                         boundary_aoi)
-
-city_tml[city_tml<11] = NA
-
-```
-
-```{r SCIB-11-table, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
-# get indicator ----
-indicators_df = indicators %>% 
-  mutate(`SICB-11-value` = round(SICB_11_percent_of_tree_cover,2)) %>% 
-  mutate(`SICB-11-score`=
-           case_when(`SICB-11-value` <10 ~ "0",
-                     `SICB-11-value` <  25 ~ "1",
-                     `SICB-11-value` < 40 ~ "2",
-                     `SICB-11-value` < 55 ~ "3",
-                     `SICB-11-value` >= 55 ~ "4")) %>% 
-  dplyr::select(geo_id,`SICB-11-value`,`SICB-11-score`)
-
-# join ----------------
-
-aoi_indicators = boundary_aoi %>% 
-  # dplyr::select(geo_id) %>% 
-  left_join(indicators_df, by = "geo_id")
-
-unit_indicators = boundary_unit %>% 
-  # dplyr::select(geo_id) %>% 
-  left_join(indicators_df, by = "geo_id")
-
-# SCIB-11-table-Region ----
-
-aoi_indicators %>% 
-  as.data.frame() %>% 
-  dplyr::select( `Name`= `geo_name`,
-                 `SICB-11-value`,
-                 `SICB-11-score`) %>% 
-  mutate_at(vars(`SICB-11-score`), ~ cell_spec(
-    ., "html", 
-    bold = TRUE,
-    color = "white",
-    background = ifelse(. == "4", "#145A32", ifelse(. ==  "3", "#2ECC71", ifelse(. == "2", "#F4D03F", ifelse(. == "2", "#E67E22", "#C0392B"))))
-  )) %>% 
-  kable(format = "html", escape = FALSE) %>%
-  kable_styling("striped", full_width = FALSE) 
-```
-
-```{r SCIB-11-map, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
-# SCIB-11-map ----
-
-# # define color for tree cover
-# pal_tml <- colorNumeric(palette = "Greens",
-#                         domain = values(city_tml), #values(city_tml_aggregate)
-#                         na.color = "transparent")
-
-# define color palette for SICB-11 values
-pal_SCIB_11 <- colorNumeric(palette = "Greens", 
-                           domain = unit_indicators$`SICB-11-value`,
-                           na.color = "transparent",
-                           revers = FALSE)
-
-
-
-# define labels
-labels_SCIB_11 <- sprintf("<strong>%s</strong><br/>%s: %s %s<br/>%s: %s",
-                         unit_indicators$geo_name,
-                         "Proportion of natural areas",
-                         round(unit_indicators$`SICB-11-value`, 2), "",
-                         "Score",unit_indicators$`SICB-11-score`) %>% 
-  lapply(htmltools::HTML)
-
-
-
-# plot map
-leaflet(boundary_aoi, height = 700, width = "100%") %>%
-  addTiles() %>%
-  addProviderTiles(providers$CartoDB.DarkMatter , group = "CartoDB") %>%
-  addProviderTiles("OpenStreetMap.France", group = "OSM") %>%
-  addPolygons(data = boundary_unit,
-              group = "Administrative boundaries",
-              stroke = TRUE, color = "black", weight = 2,dashArray = "3",
-              smoothFactor = 0.5, fill = FALSE, fillOpacity = 0.5,
-              highlight = highlightOptions(
-                weight = 5,
-                color = "#666",
-                dashArray = "",
-                fillOpacity = 0.3,
-                bringToFront = TRUE),
-              label = boundary_unit$geo_name,
-              labelOptions = labelOptions(
-                style = list("font-weight" = "normal", padding = "3px 8px"),
-                textsize = "15px",
-                direction = "auto")) %>%
-  # # LST raster subset
-  # addRasterImage(city_lst_subset,
-  #                colors = pal_lst_subset,
-  #                opacity = 0.5,
-  #                project=FALSE,
-  #                group = "Land Surface Temperature",
-  #                maxBytes = 8 * 1024 * 1024) %>%
-  # # Legend for LST raster
-  # addLegend(pal = pal_lst_subset_legend,
-  #           values = city_lst_subset_values,
-  #           opacity = 0.6,
-  #           title = "Land Surface Temperature (°C)",
-  #           group = "Land Surface Temperature",
-  #           position = "bottomleft") %>%
-  # # Raster of tree cover
-  # addRasterImage(city_tml, #city_tml_aggregate
-  #                colors = pal_tml,
-  #                opacity = 0.9,
-  #                maxBytes = 20 * 1024 * 1024,
-  #                project=FALSE,
-  #                group = "Tree cover") %>%
-  # addLegend(pal = pal_tml,
-  #           values = values(city_tml), #values(city_tml_aggregate),
-  #           title = "Tree cover percent",
-  #           group = "Tree cover",
-  #           position = "bottomleft") %>%
-  # # SICB-11B-value
-  # addPolygons(data = biodiversity_baseline_indicators_geo,
-  #             group = "Tree cover in urban areas",
-  #             fillColor = ~pal_SCIB_11B(`SICB-11B-value`),
-  #             weight = 1,
-  #             opacity = 1,
-  #             color = "grey",
-  #             fillOpacity = 0.8,
-  #             label = labels_SCIB_11B,
-  #             highlightOptions = highlightOptions(color = "black", weight = 2,
-  #                                                 bringToFront = FALSE),
-  #             labelOptions = labelOptions(
-  #               style = list("font-weight" = "normal", padding = "3px 6px"),
-  #               textsize = "15px",
-  #               direction = "auto")) %>%
-  # addLegend(pal = pal_SCIB_11B,
-  #           values = biodiversity_baseline_indicators_geo$`SICB-11B-value`,
-  #           opacity = 0.9,
-  #           title = "Tree cover in urban areas (%)",
-  #           group = "Tree cover in urban areas",
-  #           position = "topright",
-  #           labFormat = labelFormat(suffix = "")) %>%
-  # `SICB-11-value`
-  addPolygons(data = unit_indicators,
-              group = "Percent of tree cover - value",
-              fillColor = ~pal_SCIB_11(`SICB-11-value`),
-              weight = 1,
-              opacity = 1,
-              color = "grey",
-              fillOpacity = 0.8,
-              label = labels_SCIB_11,
-              highlightOptions = highlightOptions(color = "black", weight = 2,
-                                                  bringToFront = FALSE),
-              labelOptions = labelOptions(
-                style = list("font-weight" = "normal", padding = "3px 6px"),
-                textsize = "15px",
-                direction = "auto")) %>%
-  addLegend(pal = pal_SCIB_11,
-            values = unit_indicators$`SICB-11-value`,
-            opacity = 0.9,
-            title = "Percent of tree cover",
-            group = "Percent of tree cover - value",
-            position = "topright",
-            labFormat = labelFormat(suffix = "")) %>%
-  # SICB-11-score
-  addPolygons(data = unit_indicators,
-              group = "Percent of tree cover - score",
-              fillColor = ~pal_score(`SICB-11-score`),
-              weight = 1,
-              opacity = 1,
-              color = "grey",
-              fillOpacity = 0.8,
-              label = labels_SCIB_11,
-              highlightOptions = highlightOptions(color = "black", weight = 2,
-                                                  bringToFront = FALSE),
-              labelOptions = labelOptions(
-                style = list("font-weight" = "normal", padding = "3px 6px"),
-                textsize = "15px",
-                direction = "auto")) %>%
-  addLegend(colors = c("#145A32","#2ECC71","#F4D03F","#E67E22","#C0392B"),
-            labels = c("4 (> 55 %)",
-                       "3 (40% – 54.9%)",
-                       "2 (25% – 39.9)",
-                       "1 (10.1% – 24.9%)",
-                       "0 (< 10%)"),
-            opacity = 0.9,
-            title = "Percent of tree cover (score)",
-            group = "Percent of tree cover - score",
-            position = "bottomright",
-            labFormat = labelFormat(suffix = "")) %>%
-  # Layers control
-  addLayersControl(
-    overlayGroups = c("Administrative boundaries",
-                      "Percent of tree cover - value",
-                      "Percent of tree cover - score"),
-    options = layersControlOptions(collapsed = FALSE)
-  ) %>% 
-  hideGroup(c("Percent of tree cover - score",
-              "Administrative boundaries")) %>% 
-  addFullscreenControl()
-
-
-```

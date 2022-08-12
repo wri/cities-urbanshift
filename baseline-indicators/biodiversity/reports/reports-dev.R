@@ -1,20 +1,3 @@
----
-title: "Biodiversity Indicators: Surat, India"
-date: "`r format (Sys.time(), '%B %Y')`"
-output: 
-  html_document:
-    toc: true
-    toc_depth: 4
-    theme: spacelab
-    highlight: tango
-    number_sections: yes
-    code_folding: hide
----
-
-
-```{r Libraries, warning=FALSE, message=FALSE, echo = FALSE,  eval = TRUE}
-
-# library(shiny)
 library(plotly)
 library(leaflet)
 library(plyr)
@@ -37,6 +20,8 @@ library(downloadthis)
 library(leaflet.extras)
 library(DT)
 
+# define colors -----------
+
 col_BoldRiverBlue = "#242456"
 col_BoldSunYellow = "#FFD450"
 col_BoldGrassGreen = "#2A553E"
@@ -57,21 +42,6 @@ color_score_yellow_2 = "#F4D03F"
 color_score_green_3 = "#E67E22"
 color_score_green_4 = "#C0392B"
 
-```
-
-
-![](./imgs/logo.png)
-
-# Overview{#overview}
-
-This report provides data and indicators to support city-level decision-making on protecting and improving biodiversity. It is part of the [UrbanShift](https://shiftcities.org) project, and similar reports for all UrbanShift cities will be available onthe UrbanShift website and the data used in them available on the UrbanShift [Data Hub](https://urbanshift-data-hub-worldresources.hub.arcgis.com/). As described in the geospatial analysis framework for UrbanShift [link], baseline indicator reports are also being completed for these cities on the themes of greenhouse gas emissions and land degradation.
-
-
-# Biodiversity indicators{#biodiversity-indicators}
-
-Most of the indicators below are described in the [Singapore Index on Cities’ Biodiversity](#singapore-index) and can be used for assessment of current efforts and to identify areas of action to prioritize in future efforts. The data are drawn from [public, global datasets](#data-sources) published by reputable organizations. In many cases, cities will have access to local data that are of higher quality or are more specifically suited to local contexts and needs than what we can provide from global data.
-
-```{r read-input-data, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 # read georef ------------
 
 boundary_georef = read.csv("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/boundaries/v_0/boundary_georef.csv",
@@ -79,7 +49,7 @@ boundary_georef = read.csv("https://cities-urbanshift.s3.eu-west-3.amazonaws.com
 
 # read boundaries ------------
 
-geo_name = "IND-Surat" 
+geo_name = "IDN-Semarang" 
 
 aoi_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "aoi_boundary_name"]
 units_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "units_boundary_name"]
@@ -94,16 +64,16 @@ boundary_aoi = st_read(paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.c
                              ".geojson",
                              sep = ""),
                        quiet = TRUE
-                       )
+)
 
 boundary_unit = st_read(paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/boundaries/v_0/boundary-",
-                             geo_name,
-                             "-",
-                             units_boundary_name,
-                             ".geojson",
-                             sep = ""),
+                              geo_name,
+                              "-",
+                              units_boundary_name,
+                              ".geojson",
+                              sep = ""),
                         quiet = TRUE
-                        )
+)
 
 # read indicator ------------
 
@@ -111,29 +81,13 @@ boundary_unit = st_read(paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.
 indicators = read.csv("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/indicators/cities_indicators.csv",
                       encoding="UTF-8")
 
+indicators_test = indicators[indicators$geo_parent_name == geo_name, ]
+
 indicators = indicators %>% 
-  mutate(SICB_1_percent_of_natural_areas = 100 * SICB_1_percent_of_natural_areas)     
+  mutate(SICB_1_percent_of_natural_areas = 100 * SICB_1_percent_of_natural_areas)  
 
+# SICB_1_percent_of_natural_areas ------------
 
-# define color palette for scores -----
-pal_score <- colorFactor(palette = c("#145A32","#2ECC71","#F4D03F","#E67E22","#C0392B"), 
-                         levels = c("0","1","2","3","4"),
-                         na.color = "transparent",
-                         revers = TRUE)
-```
-
-## Proportion of Natural Areas (SICB-1){#SICB-1}
-
-Natural areas support biodiversity by providing habitat. They also provide human beings with ecosystem services. The portion of the total city area that is close to a natural state thus provides information both about a city’s biodiversity and about the benefits provided by biodiversity.
-
-Natural ecosystems are defined as all areas that are natural and not highly disturbed or completely human-altered landscapes. Examples of natural ecosystems include forests, mangroves, freshwater swamps, natural grasslands, streams, lakes, etc. Parks, golf courses, cropland, and roadside plantings are not considered natural.
-
-This indicator is calculated as the percent of natural area within the city boundary: *(Total area of natural, restored and naturalized areas) ÷ (Area of city) × 100%*
-
-We calculated this indicator using the ESA WorldCover 10 m 2020 V100 land-classification map. We included as natural area all land classified as trees, shrubland, grassland, herbaceous wetland, mangrove, or moss and lichen.
-
-```{r SCIB-1-indicator, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
-indicator_name = "SICB_1_percent_of_natural_areas"
 
 indicators_df = indicators %>% 
   mutate(`SICB-1-value` = round(SICB_1_percent_of_natural_areas,2)) %>% 
@@ -154,23 +108,30 @@ aoi_indicators = boundary_aoi %>%
 unit_indicators = boundary_unit %>% 
   # dplyr::select(geo_id) %>% 
   left_join(indicators_df, by = "geo_id")
-```
 
-```{r SCIB-1-table, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+# define color palette for scores -----
+pal_score <- colorFactor(palette = c("#145A32","#2ECC71","#F4D03F","#E67E22","#C0392B"), 
+                         levels = c("0","1","2","3","4"),
+                         na.color = "transparent",
+                         revers = TRUE)
+
+
+######################################################
+# Proportion of Natural Areas (SICB-1) ---------
+######################################################
+
+
 # SCIB-1-table units -----
 SCIB_1_table = unit_indicators %>% 
   as.data.frame() 
 
-```
-
-```{r SCIB-1-table-region, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 # SCIB-1-table-Region ----
 
 aoi_indicators %>% 
   as.data.frame() %>% 
   dplyr::select( `Name`= `geo_name`,
-                `SICB-1-value`,
-                `SICB-1-score`) %>% 
+                 `SICB-1-value`,
+                 `SICB-1-score`) %>% 
   mutate_at(vars(`SICB-1-score`), ~ cell_spec(
     ., "html", 
     bold = TRUE,
@@ -180,9 +141,7 @@ aoi_indicators %>%
   kable(format = "html", escape = FALSE) %>%
   kable_styling("striped", full_width = FALSE) 
 
-```
 
-```{r esa-data, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
 # esa world cover data -----
 
 
@@ -231,27 +190,23 @@ pal_worldcover <- colorFactor(palette = worldcover_col,
                               levels = c("10","20","30","40","50","60",
                                          "70","80","90","95","100"),
                               na.color = "transparent")
-```
 
-```{r natural-area-layer, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+
 # raster natural-area-layer ----
 
 
 worldcover_natural_data_path = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/v_0/",
-                              geo_name,
-                              "-",
-                              aoi_boundary_name,
-                              "-ESA-world_cover-2000-natural_areas.tif",
-                              sep = "")
+                                     geo_name,
+                                     "-",
+                                     aoi_boundary_name,
+                                     "-ESA-world_cover-2000-natural_areas.tif",
+                                     sep = "")
 
 city_worldcover_raster_natural = raster(worldcover_natural_data_path)
 
 city_worldcover_raster_natural  = raster::mask(city_worldcover_raster_natural,
                                                boundary_aoi)
 
-```
-
-```{r SCIB-1-map, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 # SCIB-1-map ----
 
 # prepare map
@@ -359,32 +314,34 @@ leaflet(boundary_aoi, height = 700, width = "100%") %>%
   #                project=FALSE,
   #                group = "Land cover types",
   #                layerId = "WorldCover") %>%
-  # addLegend(colors = worldcover_col,
-  #           labels = worldcover_labels,
-  #           title = "World Cover",
-  #           group = "Land cover types",
-  #           position = "bottomleft",
-  #           opacity = 1) %>%
+  addLegend(colors = worldcover_col,
+            labels = worldcover_labels,
+            title = "World Cover",
+            group = "Land cover types",
+            position = "bottomleft",
+            opacity = 1) %>%
   # Layers control
   addLayersControl(
     overlayGroups = c("Porportion of natural areas - value",
                       "Porportion of natural areas - score",
+                      "Land cover types",
+                      "Natural land cover",
                       "Administrative boundaries"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup(c("Porportion of natural areas - score",
+              "Land cover types",
               "Administrative boundaries")) %>% 
   addFullscreenControl()
 
-```
 
-## Climate regulation: carbon storage and cooling effect of vegetation (SICB-11)
 
-Trees provide numerous services to cities: they provide cooling, improve air quality, store carbon, reduce noise pollution, and regulate the water cycle. Trees also provide habitat for birds, insects and mammals, and generally improve local ecosystem health.
+######################################################
+# Proportion of Tree cover (SICB-11) ---------
+######################################################
 
-This indicator is based on tree canopy cover. The trees included may be planted or naturally occurring. The formula is: *(Land area under tree canopy) ÷ (Total terrestrial area of the city)*
+# TML data -----
 
-```{r tml-data, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
 tml_data_path = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/tree_cover/tree_mosaic_land/v_0/",
                                      geo_name,
                                      "-",
@@ -399,9 +356,9 @@ city_tml  = raster::mask(city_tml,
 
 city_tml[city_tml<11] = NA
 
-```
 
-```{r SCIB-11-table, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+# SCIB-11-table----
+
 # get indicator ----
 indicators_df = indicators %>% 
   mutate(`SICB-11-value` = round(SICB_11_percent_of_tree_cover,2)) %>% 
@@ -423,6 +380,8 @@ unit_indicators = boundary_unit %>%
   # dplyr::select(geo_id) %>% 
   left_join(indicators_df, by = "geo_id")
 
+
+
 # SCIB-11-table-Region ----
 
 aoi_indicators %>% 
@@ -438,15 +397,14 @@ aoi_indicators %>%
   )) %>% 
   kable(format = "html", escape = FALSE) %>%
   kable_styling("striped", full_width = FALSE) 
-```
 
-```{r SCIB-11-map, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+
 # SCIB-11-map ----
 
-# # define color for tree cover
-# pal_tml <- colorNumeric(palette = "Greens",
-#                         domain = values(city_tml), #values(city_tml_aggregate)
-#                         na.color = "transparent")
+# define color for tree cover
+pal_tml <- colorNumeric(palette = "Greens",
+                        domain = values(city_tml), #values(city_tml_aggregate)
+                        na.color = "transparent")
 
 # define color palette for SICB-11 values
 pal_SCIB_11 <- colorNumeric(palette = "Greens", 
@@ -500,18 +458,18 @@ leaflet(boundary_aoi, height = 700, width = "100%") %>%
   #           title = "Land Surface Temperature (°C)",
   #           group = "Land Surface Temperature",
   #           position = "bottomleft") %>%
-  # # Raster of tree cover
-  # addRasterImage(city_tml, #city_tml_aggregate
-  #                colors = pal_tml,
-  #                opacity = 0.9,
-  #                maxBytes = 20 * 1024 * 1024,
-  #                project=FALSE,
-  #                group = "Tree cover") %>%
-  # addLegend(pal = pal_tml,
-  #           values = values(city_tml), #values(city_tml_aggregate),
-  #           title = "Tree cover percent",
-  #           group = "Tree cover",
-  #           position = "bottomleft") %>%
+  # Raster of tree cover
+  addRasterImage(city_tml, #city_tml_aggregate
+                 colors = pal_tml,
+                 opacity = 0.9,
+                 maxBytes = 20 * 1024 * 1024,
+                 project=FALSE,
+                 group = "Tree cover") %>%
+  addLegend(pal = pal_tml,
+            values = values(city_tml), #values(city_tml_aggregate),
+            title = "Tree cover percent",
+            group = "Tree cover",
+            position = "bottomleft") %>%
   # # SICB-11B-value
   # addPolygons(data = biodiversity_baseline_indicators_geo,
   #             group = "Tree cover in urban areas",
@@ -586,12 +544,14 @@ leaflet(boundary_aoi, height = 700, width = "100%") %>%
   addLayersControl(
     overlayGroups = c("Administrative boundaries",
                       "Percent of tree cover - value",
-                      "Percent of tree cover - score"),
+                      "Percent of tree cover - score",
+                      "Tree cover in urban areas",
+                      "Land Surface Temperature",
+                      "Tree cover"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup(c("Percent of tree cover - score",
+              "Tree cover in urban areas",
+              "Land Surface Temperature",
               "Administrative boundaries")) %>% 
   addFullscreenControl()
-
-
-```

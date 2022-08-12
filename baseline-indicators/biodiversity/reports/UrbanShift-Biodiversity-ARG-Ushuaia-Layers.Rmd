@@ -1,5 +1,5 @@
 ---
-title: "Biodiversity Indicators: Metropolitan San José, Costa Rica "
+title: "Biodiversity Indicators: Ushuaia, Argentina"
 date: "`r format (Sys.time(), '%B %Y')`"
 output: 
   html_document:
@@ -31,13 +31,11 @@ library(data.table)
 library(leaflet.providers)
 library(knitr)
 library(kableExtra)
-library(reactable)
+# library(reactable)
 library(readxl)
 library(downloadthis)
-library(leaflet.multiopacity)
 library(leaflet.extras)
 library(DT)
-library(leafem)
 
 col_BoldRiverBlue = "#242456"
 col_BoldSunYellow = "#FFD450"
@@ -62,7 +60,7 @@ color_score_green_4 = "#C0392B"
 ```
 
 
-![](./data/SanJose/logo.png)
+![](./imgs/logo.png)
 
 # Overview{#overview}
 
@@ -81,7 +79,7 @@ boundary_georef = read.csv("https://cities-urbanshift.s3.eu-west-3.amazonaws.com
 
 # read boundaries ------------
 
-geo_name = "CRI-San_Jose" 
+geo_name = "ARG-Ushuaia" 
 
 aoi_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "aoi_boundary_name"]
 units_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "units_boundary_name"]
@@ -110,28 +108,11 @@ boundary_unit = st_read(paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.
 # read indicator ------------
 
 
-indicators = read.csv("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/indicators/cities_indicators_df.csv",
+indicators = read.csv("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/indicators/cities_indicators.csv",
                       encoding="UTF-8")
 
-indicators_df = indicators %>% 
-  mutate(`SICB-1-value` = round(`SICB.1_percent_natural_areas`,2)) %>% 
-  mutate(`SICB-1-score`=
-           case_when(`SICB-1-value` < 1 ~ "0",
-                     `SICB-1-value` <7 ~ "1",
-                     `SICB-1-value` <14 ~ "2",
-                     `SICB-1-value` <20 ~ "3",
-                     `SICB-1-value` >= 20 ~ "4")) %>% 
-  dplyr::select(geo_id,`SICB-1-value`,`SICB-1-score`)
-
-# join ----------------
-
-aoi_indicators = boundary_aoi %>% 
-  # dplyr::select(geo_id) %>% 
-  left_join(indicators_df, by = "geo_id")
-
-unit_indicators = boundary_unit %>% 
-  # dplyr::select(geo_id) %>% 
-  left_join(indicators_df, by = "geo_id")
+indicators = indicators %>% 
+  mutate(SICB_1_percent_of_natural_areas = 100 * SICB_1_percent_of_natural_areas)     
 
 
 # define color palette for scores -----
@@ -151,7 +132,32 @@ This indicator is calculated as the percent of natural area within the city boun
 
 We calculated this indicator using the ESA WorldCover 10 m 2020 V100 land-classification map. We included as natural area all land classified as trees, shrubland, grassland, herbaceous wetland, mangrove, or moss and lichen.
 
+```{r SCIB-1-indicator, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+indicator_name = "SICB_1_percent_of_natural_areas"
+
+indicators_df = indicators %>% 
+  mutate(`SICB-1-value` = round(SICB_1_percent_of_natural_areas,2)) %>% 
+  mutate(`SICB-1-score`=
+           case_when(`SICB-1-value` < 1 ~ "0",
+                     `SICB-1-value` <7 ~ "1",
+                     `SICB-1-value` <14 ~ "2",
+                     `SICB-1-value` <20 ~ "3",
+                     `SICB-1-value` >= 20 ~ "4")) %>% 
+  dplyr::select(geo_id,`SICB-1-value`,`SICB-1-score`)
+
+# join ----------------
+
+aoi_indicators = boundary_aoi %>% 
+  # dplyr::select(geo_id) %>% 
+  left_join(indicators_df, by = "geo_id")
+
+unit_indicators = boundary_unit %>% 
+  # dplyr::select(geo_id) %>% 
+  left_join(indicators_df, by = "geo_id")
+```
+
 ```{r SCIB-1-table, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+# SCIB-1-table units -----
 SCIB_1_table = unit_indicators %>% 
   as.data.frame() 
 
@@ -177,20 +183,20 @@ aoi_indicators %>%
 ```
 
 ```{r esa-data, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
-# esa world cover data
+# esa world cover data -----
 
 
-worldcoverc_data_path = paste("/vsicurl/https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/v_0/",
+worldcoverc_data_path = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/v_0/",
                               geo_name,
                               "-",
                               aoi_boundary_name,
                               "-ESA-world_cover-2000.tif",
                               sep = "")
 
-# city_worldcover_raster = raster(worldcoverc_data_path)
-# 
-# city_worldcover  = raster::mask(city_worldcover_raster,
-#                                 boundary_aoi)
+city_worldcover_raster = raster(worldcoverc_data_path)
+
+city_worldcover  = raster::mask(city_worldcover_raster,
+                                boundary_aoi)
 
 # define color palette for WOrld cover
 Trees_10_green = "#006400"
@@ -228,20 +234,20 @@ pal_worldcover <- colorFactor(palette = worldcover_col,
 ```
 
 ```{r natural-area-layer, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
-# raster natural-area-layer
+# raster natural-area-layer ----
 
 
-worldcover_natural_data_path = paste("/vsicurl/https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/v_0/",
+worldcover_natural_data_path = paste("https://cities-urbanshift.s3.eu-west-3.amazonaws.com/data/land_use/esa_world_cover/v_0/",
                               geo_name,
                               "-",
                               aoi_boundary_name,
                               "-ESA-world_cover-2000-natural_areas.tif",
                               sep = "")
 
-# city_worldcover_raster_natural = raster(worldcover_natural_data_path)
-# 
-# city_worldcover_raster_natural  = raster::mask(city_worldcover_raster_natural,
-#                                                boundary_aoi)
+city_worldcover_raster_natural = raster(worldcover_natural_data_path)
+
+city_worldcover_raster_natural  = raster::mask(city_worldcover_raster_natural,
+                                               boundary_aoi)
 
 ```
 
@@ -337,30 +343,22 @@ leaflet(boundary_aoi, height = 700, width = "100%") %>%
             group = "Porportion of natural areas - score",
             position = "bottomright",
             labFormat = labelFormat(suffix = "")) %>%
-  # # Raster of natural areas
-  # addRasterImage(city_worldcover_raster_natural,
-  #                colors = "#65B96B",
-  #                opacity = 1,
-  #                maxBytes = 100 * 1024 * 1024,
-  #                project=FALSE,
-  #                group = "Natural land cover",
-  #                layerId = "Natural Areas") %>%
+  # Raster of natural areas
+  addRasterImage(city_worldcover_raster_natural,
+                 colors = "#65B96B",
+                 opacity = 1,
+                 maxBytes = 100 * 1024 * 1024,
+                 project=FALSE,
+                 group = "Natural land cover",
+                 layerId = "Natural Areas") %>%
   # Raster of world cover
-  # addRasterImage(city_worldcover,
-  #                colors = pal_worldcover,
-  #                opacity = 1,
-  #                maxBytes = 100 * 1024 * 1024,
-  #                project=FALSE,
-  #                group = "Land cover types",
-  #                layerId = "WorldCover") %>%
-  addGeotiff(file = worldcover_natural_data_path,
-             opacity = 0.7,
-             colorOptions = colorOptions(palette = c("Green","white"), na.color = "transparent"),
-             group = "Natural land cover") %>%
-  addGeotiff(file = worldcoverc_data_path,
-                       opacity = 0.9,
-                       colorOptions = colorOptions(palette = worldcover_col, na.color = "transparent"),
-                       group = "Land cover types") %>% 
+  addRasterImage(city_worldcover,
+                 colors = pal_worldcover,
+                 opacity = 1,
+                 maxBytes = 100 * 1024 * 1024,
+                 project=FALSE,
+                 group = "Land cover types",
+                 layerId = "WorldCover") %>%
   addLegend(colors = worldcover_col,
             labels = worldcover_labels,
             title = "World Cover",
@@ -382,3 +380,4 @@ leaflet(boundary_aoi, height = 700, width = "100%") %>%
   addFullscreenControl()
 
 ```
+

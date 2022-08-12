@@ -1,5 +1,5 @@
 ---
-title: "Biodiversity Indicators: Surat, India"
+title: "Biodiversity Indicators: Freetown, Sierra Leone"
 date: "`r format (Sys.time(), '%B %Y')`"
 output: 
   html_document:
@@ -79,7 +79,7 @@ boundary_georef = read.csv("https://cities-urbanshift.s3.eu-west-3.amazonaws.com
 
 # read boundaries ------------
 
-geo_name = "IND-Surat" 
+geo_name = "SLE-Freetown" 
 
 aoi_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "aoi_boundary_name"]
 units_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "units_boundary_name"]
