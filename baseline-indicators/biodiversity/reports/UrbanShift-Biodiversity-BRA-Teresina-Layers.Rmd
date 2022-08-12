@@ -1,5 +1,5 @@
 ---
-title: "Biodiversity Indicators: Surat, India"
+title: "Biodiversity Indicators: Teresina, Brazil"
 date: "`r format (Sys.time(), '%B %Y')`"
 output: 
   html_document:
@@ -79,7 +79,7 @@ boundary_georef = read.csv("https://cities-urbanshift.s3.eu-west-3.amazonaws.com
 
 # read boundaries ------------
 
-geo_name = "IND-Surat" 
+geo_name = "BRA-Teresina" 
 
 aoi_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "aoi_boundary_name"]
 units_boundary_name = boundary_georef[boundary_georef$geo_name == geo_name, "units_boundary_name"]
@@ -182,7 +182,7 @@ aoi_indicators %>%
 
 ```
 
-```{r esa-data, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+```{r esa-data, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 # esa world cover data -----
 
 
@@ -233,7 +233,7 @@ pal_worldcover <- colorFactor(palette = worldcover_col,
                               na.color = "transparent")
 ```
 
-```{r natural-area-layer, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+```{r natural-area-layer, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 # raster natural-area-layer ----
 
 
@@ -343,36 +343,39 @@ leaflet(boundary_aoi, height = 700, width = "100%") %>%
             group = "Porportion of natural areas - score",
             position = "bottomright",
             labFormat = labelFormat(suffix = "")) %>%
-  # # Raster of natural areas
-  # addRasterImage(city_worldcover_raster_natural,
-  #                colors = "#65B96B",
-  #                opacity = 1,
-  #                maxBytes = 100 * 1024 * 1024,
-  #                project=FALSE,
-  #                group = "Natural land cover",
-  #                layerId = "Natural Areas") %>%
-  # # Raster of world cover
-  # addRasterImage(city_worldcover,
-  #                colors = pal_worldcover,
-  #                opacity = 1,
-  #                maxBytes = 100 * 1024 * 1024,
-  #                project=FALSE,
-  #                group = "Land cover types",
-  #                layerId = "WorldCover") %>%
-  # addLegend(colors = worldcover_col,
-  #           labels = worldcover_labels,
-  #           title = "World Cover",
-  #           group = "Land cover types",
-  #           position = "bottomleft",
-  #           opacity = 1) %>%
+  # Raster of natural areas
+  addRasterImage(city_worldcover_raster_natural,
+                 colors = "#65B96B",
+                 opacity = 1,
+                 maxBytes = 100 * 1024 * 1024,
+                 project=FALSE,
+                 group = "Natural land cover",
+                 layerId = "Natural Areas") %>%
+  # Raster of world cover
+  addRasterImage(city_worldcover,
+                 colors = pal_worldcover,
+                 opacity = 1,
+                 maxBytes = 100 * 1024 * 1024,
+                 project=FALSE,
+                 group = "Land cover types",
+                 layerId = "WorldCover") %>%
+  addLegend(colors = worldcover_col,
+            labels = worldcover_labels,
+            title = "World Cover",
+            group = "Land cover types",
+            position = "bottomleft",
+            opacity = 1) %>%
   # Layers control
   addLayersControl(
     overlayGroups = c("Porportion of natural areas - value",
                       "Porportion of natural areas - score",
+                      "Land cover types",
+                      "Natural land cover",
                       "Administrative boundaries"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>% 
   hideGroup(c("Porportion of natural areas - score",
+              "Land cover types",
               "Administrative boundaries")) %>% 
   addFullscreenControl()
 
